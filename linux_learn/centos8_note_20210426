@@ -1,0 +1,405 @@
+查看发行版本
+cat /etc/redhat-release
+
+查找包的版本
+dnf list | grep vim
+dnf list available |grep vim
+
+查看已经安装的版本
+rpm -qa | grep vim
+
+# 列出已启用(enabled=1)、已禁用或所有已配置仓库
+dnf repolist
+dnf repolist --enabled
+dnf repolist --disabled 
+dnf repolist --all
+
+# 查看某个或所有仓库的详细信息
+dnf repolist -v
+dnf repolist BaseOS -v
+
+
+************************************************** 添加源
+# 安装 epel
+dnf install https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm
+# 安装 remi
+dnf install https://rpms.remirepo.net/enterprise/remi-release-8.rpm
+yum clean all
+yum makecache
+
+yum -y install htop vim make dnf bzip2
+dnf groupinstall 'Development tools'
+
+************************************************** 升级内核(指定版本不方便弃用)
+内核官网
+https://www.kernel.org/
+
+
+使用 elrepo 仓库, 方便, 但不一定有自己想要的版本
+可以解决 wifi 和 触控板问题, 不一定每次都成功, 不起做用就换一个内核版本, 装多了以后可能会有冲突
+目前的 5.12 触控板不能用, 5.4.114 开机进入不了图形页面
+
+
+内核软件包介绍
+    kernel: Linux 内核软件包，包含单、多核和多处理器系统的内核，是任何 Linux 操作系统的核心，单处理器的系统仅需安装内核包。内核处理操作系统的基本功能: 内存分配、进程分配、设备输入和输出等
+    kernel-devel: 包含提供足够的针对内核软件包构建模块的内核头文件和 makefile 文件
+    kernel-headers: 包含指定 Linux 内核、用户空间库文件和程序之间指定接口的 C 头文件。头文件定义了构建大多数标准程序所需的结构和常量，也是重建 glibc 软件包所必需的
+    kernel-doc: 包含来自内核源代码的文档文件。各种关于 Linux 内核和设备以及驱动程序的信息都记录在这些文件当中
+    kernel-firmware: 包含对于某些设备及其操作的固件信息文件
+    kernel-debug: 包含许多对于内核 debug 诊断和调试的启用选项，只有当我们需要尝试收集额外的内核错误信息时才应该安装它。它是以牺牲性能为代价
+    kernel-debug-devel: 包含内核 debug 诊断和调试的启用选项，以牺牲性能为代价
+
+
+0. 查看系统中已安装的内核
+rpm -qa | grep kernel
+
+1. 首先导入public key
+rpm --import https://www.elrepo.org/RPM-GPG-KEY-elrepo.org
+yum install https://www.elrepo.org/elrepo-release-8.el8.elrepo.noarch.rpm
+
+2. 列出可用的内核相关包
+yum --disablerepo="*" --enablerepo="elrepo-kernel" list availableLoaded plugins: fastestmirror, langpacks
+
+3. 可用的系统内核安装包：
+yum --disablerepo="*" --enablerepo="elrepo-kernel" list available
+
+4. 安装最新版内核
+ml 版本
+sudo dnf --enablerepo=elrepo-kernel install kernel-ml
+sudo dnf --enablerepo=elrepo-kernel install kernel-ml-{devel,headers}
+或 lt 版本
+sudo dnf --enablerepo=elrepo-kernel install kernel-lt
+sudo dnf --enablerepo=elrepo-kernel install kernel-lt-{devel,headers}
+
+5. 设置以新的内核启动. 0 表示最新安装的内核，设置为 0 表示以新版本内核启动：
+grub2-set-default 0
+
+6. 生成grub配置文件并重启系统
+grub2-mkconfig -o /boot/grub2/grub.cfg
+reboot 
+
+7. 删除旧内核
+dnf remove (要删除的内核版本)
+
+************************************************** 手动安装内核(可以安装任务支持的版本)
+拯救者这台电脑目前对驱动支持最好的内核
+    kernel-ml-5.11.16-1.el8.elrepo.x86_64
+    kernel-ml-devel-5.11.16-1.el8.elrepo.x86_64
+    kernel-ml-headers-5.11.16-1.el8.elrepo.x86_64
+    kernel-ml-modules-5.11.16-1.el8.elrepo.x86_64
+    kernel-ml-core-5.11.16-1.el8.elrepo.x86_64
+    kernel-ml-tools-5.11.16-1.el8.elrepo.x86_64
+    kernel-ml-tools-libs-5.11.16-1.el8.elrepo.x86_64
+    kernel-ml-modules-extra-5.11.16-1.el8.elrepo.x86_64
+
+1. 下载需要安装的内核, 需要系统支持, 按照这个目录一层层往下找
+https://mirror.rc.usf.edu/
+例如: https://mirror.rc.usf.edu/elrepo/kernel/el8/x86_64/RPMS/
+
+2. 将这个版本号的所有文件都下载了
+    教程只安装了这三个, 目前没有实验
+    wget https://mirror.rc.usf.edu/elrepo/kernel/el7/x86_64/RPMS/kernel-ml-headers-5.10.7-1.el7.elrepo.x86_64.rpm
+    wget https://mirror.rc.usf.edu/elrepo/kernel/el7/x86_64/RPMS/kernel-ml-devel-5.10.7-1.el7.elrepo.x86_64.rpm
+    wget https://mirror.rc.usf.edu/elrepo/kernel/el7/x86_64/RPMS/kernel-ml-5.10.7-1.el7.elrepo.x86_64.rpm
+
+3.  安装
+dnf localinstall kernel-ml*
+
+4. 其他操作
+
+************************************************** 安装 centos 默认提供的内核版本
+https://pkgs.org/download/kernel
+
+dnf install kernel
+
+************************************************** gcc
+gcc Developer Toolset 7 地址
+https://www.softwarecollections.org/en/scls/rhscl/devtoolset-7/
+
+GCC rpm 下载地址
+http://www.rpmfind.net/linux/rpm2html/search.php?query=gcc(x86-64)
+http://rpm.pbone.net/index.php3?stat=3&search=gcc&srodzaj=3
+
+
+(这种方式安装的是 centos 默认内核的版本)
+gcc 包的地址, 看看不用下载
+https://centos.pkgs.org/8-stream/centos-appstream-x86_64/gcc-toolset-10-toolchain-10.1-0.el8.x86_64.rpm.html
+
+安装
+dnf install gcc-toolset-10-gcc
+
+
+(编译安装最新内核gcc)
+0. 源代码下载地址
+http://mirror.hust.edu.cn/gnu/gcc/
+https://mirrors.aliyun.com/gnu/gcc/
+gcc-10.3.0.tar.gz
+
+1. 创建安装的目录
+/usr/lib/gcc/x86_64-redhat-linux/10.3.0
+
+2. 安装依赖
+$ yum install -y gcc gcc-c++ bzip2
+
+
+3. 进入gcc源码目录, 保证其确实是将 gmp、mpfr、mpc 等依赖包成功下载下
+$ ./contrib/download_prerequisites
+
+4. 配置 GCC 支持编译 C 和 C++ 语言
+$ ./configure --prefix=/usr/lib/gcc/x86_64-redhat-linux/10.3.0/ --enable-checking=release --enable-languages=c,c++ --disable-multilib
+
+5. 
+$ make
+
+6. 
+$ make install
+
+ 
+7. 查看系统当前的gcc版本
+$ gcc --version
+
+8. 配置多本本 gcc 
+$ mv /usr/bin/gcc /usr/bin/gcc-8.4.1
+$ mv /usr/bin/g++ /usr/bin/g++-8.4.1
+$ alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-8.4.1 80 --slave /usr/bin/g++ g++ /usr/bin/g++-8.4.1
+$ alternatives --install /usr/bin/gcc gcc /usr/lib/gcc/x86_64-redhat-linux/10.3.0/bin/x86_64-pc-linux-gnu-gcc 99 --slave /usr/bin/g++ g++ /usr/lib/gcc/x86_64-redhat-linux/10.3.0/bin/x86_64-pc-linux-gnu-g++
+
+9. 切换 gcc 版本
+$ alternatives --config gcc
+
+10. 查看版本
+gcc -v
+g++ -v
+
+************************************************** nvidia
+1. 查看显卡型号
+
+2. 添加ELPepo源
+
+3. 安装NVIDIA驱动检测
+yum install nvidia-detect
+
+4. 禁用 nouveau 驱动
+(1)打开 /lib/modprobe.d/dist-blacklist.conf
+  将nvidiafb注释掉
+
+  然后添加以下语句
+  blacklist nouveau  
+  options nouveau modeset=0 
+
+(2)重建initramfs image
+mv /boot/initramfs-$(uname -r).img /boot/initramfs-$(uname -r).img.bak  
+dracut /boot/initramfs-$(uname -r).img $(uname -r)  
+
+5. 验证是否成功禁用nouveau，重启后执行如下命令没有输出则没有启用nouveau
+lsmod | grep nouveau
+
+systemctl disable gdm
+
+6. 
+./NVIDIA-Linux-x86_64-384.69.run
+
+7.
+nvidia-xconfig 
+New X configuration file written to '/etc/X11/xorg.conf'
+
+8. 
+systemctl enable gdm
+
+9.
+reboot
+
+
+
+安装检查显卡程序
+
+
+问题: 
+The CC version check failed:
+  The kernel was built with gcc (GCC) 8.3.1 20191121 (Red Hat 8.3.1-5), GNU ld version 2.30-79.el8, but the current compiler version is cc (GCC) 8.4.1 20200928 (Red Hat 8.4.1-1).
+  This may lead to subtle problems; if you are not certain whether the mismatched compiler will be compatible with your kernel, you may wish to abort installation, set the CC
+  environment variable to the name of the compiler used to compile your kernel, and restart installation.
+解决办法:
+安装指定版本的 gcc
+
+
+
+ERROR: An error occurred while performing the step: "Building kernel modules". See /var/log/nvidia-installer.log for details.
+ERROR: An error occurred while performing the step: "Checking to see whether the nvidia kernel module was successfully built". See /var/log/nvidia-installer.log for details.
+
+************************************************** docker ce
+sudo yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
+sudo yum install docker-ce
+# 尝试在命令行中添加 '--allowerasing' 来替换冲突的软件包
+sudo dnf install docker-ce allowerasing
+
+systemctl start docker
+systemctl enable docker
+systemctl restart docker
+systemctl status docker
+
+# 普通用户使用 docker
+
+
+************************************************** 美化
+扩展工具安装在文件下
+/home/gladd/.local/share/gnome-shell/extensions
+
+dnf install gnome-tweaks
+
+浏览器安装插件, 点击开关可以安装
+
+# 把主题放置在user/share/themes
+User Themes
+# 应用窗口的菜单项放置在了桌面顶部栏中
+Gnome Global Application Menu
+# 任务栏
+dash-to-panel
+# 屏幕截图工具
+Screenshot Tool 
+# 在顶栏显示应用图标
+TopIcons Plus
+# 在顶栏显示移动盘图标
+Removable Drive Menu
+# 最近查看过的文件
+Recent Items
+# 顶栏显示应用图标，输入法切换的时候特别有用
+TopIcons Plus 
+# 顶栏显示网速
+Netspeed
+# 在顶栏显示当前工作区号
+WorkSpace indicator
+# 剪切版
+Clipboard Indicator
+
+************************************************** 输入法
+使用系统的 ibus
+
+ibus-rime 装不上, 暂时不用
+
+************************************************** vscode
+sudo rpm --import https://packages.microsoft.com/keys/microsoft.asc
+sudo sh -c 'echo -e "[code]\nname=Visual Studio Code\nbaseurl=https://packages.microsoft.com/yumrepos/vscode\nenabled=1\ngpgcheck=1\ngpgkey=https://packages.microsoft.com/keys/microsoft.asc" > /etc/yum.repos.d/vscode.repo'
+sudo dnf check-update
+sudo dnf install code
+
+************************************************** 普通用户无法使用 sudo 命令
+gladd is not in the sudoers file.  This incident will be reported
+
+添加sudoers文件的写权限
+/etc/sudoers文件默认是只读的
+chmod u+w /etc/sudoers
+vim /etc/sudoers
+
+找到这行 root ALL=(ALL) ALL,在他下面添加xxx ALL=(ALL) ALL (这里的xxx是你的用户名)
+
+撤销sudoers文件写权限,命令:
+chmod u-w /etc/sudoers
+
+************************************************** oh my zsh
+sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+
+************************************************** typora 
+1. 下载源代码
+
+2. 移动到 /opt 目录下
+
+3. 运行(需要图形页面的用户才能执行)
+
+4. 配置环境变量(没有实验)
+export PATH=$PATH:/opt/Typora-linux-x64
+
+5. 运行软件
+Typora
+
+
+************************************************** google chrome
+vim /etc/yum.repos.d/google-chrome.repo
+[google-chrome]
+name=google-chrome
+baseurl=http://dl.google.com/linux/chrome/rpm/stable/$basearch
+enabled=1
+gpgcheck=1
+gpgkey=https://dl-ssl.google.com/linux/linux_signing_key.pub
+
+
+sudo dnf install google-chrome-stable        
+
+************************************************** 关闭 swap
+
+
+
+************************************************** 优化
+centos 更新 grub
+grub2-mkconfig -o /boot/grub2/grub.cfg
+
+************************************************** flash plugin
+dnf install http://linuxdownload.adobe.com/adobe-release/adobe-release-x86_64-1.0-1.noarch.rpm
+dnf install libcurl flash-plugin alsa-plugins-pulseaudio
+
+************************************************** ked桌面
+0. 允许 PowerTools (包含其他程序包的依赖包)
+直接安装会有依赖问题, 需要 PowerTools 源, 网直接用 "dnf config-manager --enable PowerTools" 这个命令对当前系统无效
+到 /etc/yum.repos.d 中, 找到 CentOS-Stream-PowerTools.repo , 将 enabled 设为 1
+
+1. 列出网络源中可以使用的Groups
+dnf grouplist
+
+2. 安装
+dnf groupinstall "KDE Plasma Workspaces"
+dnf groupremove Workstation
+
+3. 如果出现黑屏，请在KDE登录屏幕上按Ctrl + Alt + F2，然后键入： startx
+
+安装完所有组件后，您需要对系统进行快速更改，然后才能启动到KDE Plasma桌面：
+
+exec "/usr/bin/startkde" >> ~/.xinitrc
+startx
+
+https://blog.csdn.net/allway2/article/details/108582768
+
+************************************************** 错误
+This system is not registered to Red Hat Subscription Management. You can use subscription-manager to register.
+解决办法: 
+(1)禁用注册插件. 修改 /etc/yum/pluginconf.d/subscription-manager.conf 的 enabled
+enabled=0
+(2)重新安装
+dnf install install yum-utils
+
+
+
+
+************************************************** 编译内核
+https://blog.csdn.net/ibless/article/details/82349507
+
+
+
+0. 安装依赖
+dnf install libncurses-dev
+
+1. 官网下载内核驱动
+
+2. 设置内核
+make menuconfig
+
+3. 
+
+
+
+************************************************** amd 驱动安装
+https://blog.csdn.net/RayMonD_D/article/details/104411444
+
+
+1. 官网下载驱动
+https://www.amd.com/en/support/kb/release-notes/rn-rad-lin-19-20-unified
+
+2. 
+tar -xvf amdgpu-pro-19.20-812932-rhel-8.tar.xz
+
+3. 
+
+
+WARNING: amdgpu dkms failed for running kernel
+WARNING: kernel sources for running kernel may not be installed
+
+kernel-devel-5.11.16-1.el8.elrepo.x86_64

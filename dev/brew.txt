@@ -1,0 +1,136 @@
+Homebrew安装的软件会默认在 /opt/homebrew/Cellar 路径下
+
+************************************************* redis
+安装
+ $ brew install redis
+==> Downloading https://homebrew.bintray.com/bottles/redis-6.2.1.arm64_big_sur.bottle.tar.gz
+==> Downloading from https://d29vzk4ow07wi7.cloudfront.net/44b680e722560b6e189c2ea5626d59a013e8935f973c1e78133e11db8128f0f6?response-content-disposition=attachment%3Bfilename%3D%22redis-6.2.1.arm64_big_sur.bottle.tar.gz%22&Policy=eyJTdGF0ZW1lbnQiOiBbeyJSZXNvdXJjZSI6Imh0dHAqOi8vZDI5dnprNG93MDd3aTcuY2xvdWRmcm9udC5uZXQvNDRiNjgwZTcyMjU2MGI2ZTE4OWMyZWE1NjI2
+######################################################################## 100.0%
+==> Pouring redis-6.2.1.arm64_big_sur.bottle.tar.gz
+==> Caveats
+To have launchd start redis now and restart at login:
+  brew services start redis
+Or, if you don't want/need a background service you can just run:
+  redis-server /opt/homebrew/etc/redis.conf
+==> Summary
+🍺  /opt/homebrew/Cellar/redis/6.2.1: 13 files, 2MB
+
+
+设置
+vim /opt/homebrew/etc/redis.conf
+    redis默认是前台启动, 改为守护进程方式启动, 将 daemonize no 改成yes
+    注释掉 bind 127.0.0.1 ::1
+    requirepass 设置密码
+
+
+命令
+    启动服务
+        brew services start redis
+        redis-server /opt/homebrew/etc/redis.conf
+    启动客户端(可以用于停止服务)
+        redis-cli
+    停止服务
+        redis-cli shutdown      (正确方式)
+        sudo pkill redis-server (强制停止, 会对数据)
+
+
+
+************************************************* redis
+查看下版本信息
+brew info mysql
+
+
+1. 安装 $ brew install mysql
+==> Downloading https://homebrew.bintray.com/bottles/protobuf-3.15.6.arm64_big_sur.bottle.tar.gz
+==> Downloading from https://d29vzk4ow07wi7.cloudfront.net/9796999e817e40e4fffeb8db15a5a33f636f04513e4bc70d4f4a09aa5a30951b?response-content-disposition=attachment%3Bfilename%3D%22protobuf-3.15.6.arm64_big_sur.bottle.tar.gz%22&Policy=eyJTdGF0ZW1lbnQiOiBbeyJSZXNvdXJjZSI6Imh0dHAqOi8vZDI5dnprNG93MDd3aTcuY2xvdWRmcm9udC5uZXQvOTc5Njk5OWU4MTdlNDBlNGZmZmViOGRi
+######################################################################## 100.0%
+==> Downloading https://homebrew.bintray.com/bottles/mysql-8.0.23_1.arm64_big_sur.bottle.tar.gz
+==> Downloading from https://d29vzk4ow07wi7.cloudfront.net/813a67f5351719ddd2cd6977e842c1cf35880e9a2bc51095f37cb628d97282eb?response-content-disposition=attachment%3Bfilename%3D%22mysql-8.0.23_1.arm64_big_sur.bottle.tar.gz%22&Policy=eyJTdGF0ZW1lbnQiOiBbeyJSZXNvdXJjZSI6Imh0dHAqOi8vZDI5dnprNG93MDd3aTcuY2xvdWRmcm9udC5uZXQvODEzYTY3ZjUzNTE3MTlkZGQyY2Q2OTc3Z
+######################################################################## 100.0%
+==> Installing dependencies for mysql: protobuf
+==> Installing mysql dependency: protobuf
+==> Pouring protobuf-3.15.6.arm64_big_sur.bottle.tar.gz
+==> Caveats
+Emacs Lisp files have been installed to:
+  /opt/homebrew/share/emacs/site-lisp/protobuf
+==> Summary
+🍺  /opt/homebrew/Cellar/protobuf/3.15.6: 211 files, 17.8MB
+==> Installing mysql
+==> Pouring mysql-8.0.23_1.arm64_big_sur.bottle.tar.gz
+==> /opt/homebrew/Cellar/mysql/8.0.23_1/bin/mysqld --initialize-insecure --user=glfadd --basedir=/opt/homebrew/Cellar/mysql/8.0.23_1 --datadir=/opt/homebrew/var/mysql --tmpdir=/tmp
+==> Caveats
+We've installed your MySQL database without a root password. To secure it run:
+    mysql_secure_installation
+
+MySQL is configured to only allow connections from localhost by default
+
+To connect run:
+    mysql -uroot
+
+To have launchd start mysql now and restart at login:
+  brew services start mysql
+Or, if you don't want/need a background service you can just run:
+  mysql.server start
+==> Summary
+🍺  /opt/homebrew/Cellar/mysql/8.0.23_1: 298 files, 297.4MB
+==> Caveats
+==> protobuf
+Emacs Lisp files have been installed to:
+  /opt/homebrew/share/emacs/site-lisp/protobuf
+==> mysql
+We've installed your MySQL database without a root password. To secure it run:
+    mysql_secure_installation
+
+MySQL is configured to only allow connections from localhost by default
+
+To connect run:
+    mysql -uroot
+
+To have launchd start mysql now and restart at login:
+  brew services start mysql
+Or, if you don't want/need a background service you can just run:
+  mysql.server start
+
+
+2. 设置
+    初始化配置 mysql_secure_installation (需要先启动服务)
+    密码 12345678
+
+
+3. 命令
+    启动：sudo mysql.server start
+    关闭：sudo mysql.server stop
+    重启：sudo mysql.server restart
+    连接：mysql -u root -p
+    开机启动：brew services start mysql
+
+
+************************************************* redis
+1. 安装
+brew install rabbitmq
+
+2. 安装RabiitMQ的可视化监控插件
+/opt/homebrew/Cellar/rabbitmq/3.8.14
+sudo sbin/rabbitmq-plugins enable rabbitmq_management
+
+3. 命令
+    brew services start rabbitmq
+
+    // 后台启动
+    rabbitmq-server -detached
+    rabbitmq-server
+    rabbitmqctl status
+    // 访问可视化监控插件的界面,默认的用户名密码都是guest,登录后可以在Admin那一列菜单内添加自己的用户
+    http://localhost:15672
+    rabbitmqctl stop 关闭
+
+
+************************************************* zookeeper
+无法直接安装, 需要增加参数, 如下:
+brew install --build-from-source zookeeper
+
+
+
+
+
+

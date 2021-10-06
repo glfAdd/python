@@ -1,0 +1,58 @@
+----------------------------- 插件
+汉化包: Chinese (Simplified) Language Pack for Visual Studio Code
+括号匹配: Bracket Pair Colorizer
+图标: Vscode-icons
+todo和FIXME高亮: TODO Highlight
+x 单词拼写错误检查: Code Spell Checker
+运行选中代码段: Code Runner
+成本提示(提示 import 命令导入包的大小): Improt Cost
+x git 插件: GitLens — Git supercharged
+x 统计写代码用的时间: WakaTime
+x docker扩展插件: Docker
+x markdown: markdownlint
+主题: Material Theme
+
+远程 ssh 编辑代码: Remote - SSH
+----------------------------- 快捷键
+c + s + N           打开新窗口
+
+
+
+c + B               打开/关闭边栏
+
+
+
+
+
+
+代码格式化工具对比: autopep8 < yapf < black
+安装方式: pip install black 
+
+
+
+
+
+
+----------------------------- vim 插件设置
+
+
+----------------------------- vscode设置 java 版本 
+1. c + s + P 输入 Configure Java Runtime 查看安装的 jdk 版本
+2. 设置 Code Runner 的 java 版本
+
+"java.configuration.runtimes": [
+	{
+	"name": "JavaSE-1.8",
+	"path": "/path/to/jdk-8",
+	},
+	{
+	"name": "JavaSE-11",
+	"path": "/path/to/jdk-11",
+	},
+	{
+      "name": "JavaSE-1.8",
+      "path": "/Users/glfadd/.sdkman/candidates/java/current",
+      "default": true
+    },
+]
+
