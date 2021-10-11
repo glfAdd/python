@@ -1,4 +1,4 @@
-##### bois 升级
+##### 联想笔记本 bois 升级
 
 ```
 官网下载地址
@@ -271,28 +271,68 @@ PAUSE
 
 ```
 
-#####
+## 效率软件
+
+##### wox
 
 ```
+快速启动
 
+github: https://github.com/Wox-launcher/Wox/releases
+
+使用: https://zhuanlan.zhihu.com/p/68383315/
 ```
 
-#####
+##### LoveString
 
 ```
-
+字符编码转换，在Text段输入文字，各种编码就都能看到了。各个编码框也可以输入，用来调试乱码问题很方便。比如你看到一段乱码 浣犲ソ锛屼笘鐣? ，把它拷到Text输入框，你发现Ansi段的编码不像GBK，倒像是utf-8，然后把Ansi里的内容拷出来粘到utf-8，马上就能发现这段乱码的错误原因。要是用python查这个乱码，还要写好几行呢，用LoveString，拷一拷，粘一粘，搞定   
 ```
 
-#####
+##### rapidee
 
 ```
+环境变量管理工具
 
+官网: https://www.rapidee.com/en/about
+
+RapidEEx64.zip
 ```
 
-#####
+##### Procmon
 
 ```
+监视Windows系统里程序的运行情况
 
+官网: https://docs.microsoft.com/en-us/sysinternals/downloads/procmon
+
+ProcessMonitor.zip
 ```
 
-#####
+##### OpenedFilesView
+
+```
+列出所有被操作系统或是应用程序打开的文件
+
+下载地址: 
+https://www.nirsoft.net/
+https://www.nirsoft.net/utils/opened_files_view.html
+
+ofview-x64.zip
+```
+
+##### FastStoneImageViewer
+
+```
+图片查看工具
+
+下载地址: https://faststone-image-viewer.en.softonic.com/
+```
+
+##### 浏览器插件
+
+```
+Website IP 
+查看访问网页的ip
+```
+
