@@ -69,7 +69,7 @@ dnf repolist BaseOS -v
 dnf install epel-release
 ```
 
-##### xfce
+##### xfce(不好用)
 
 ```
 查看是否有xfce组：
@@ -83,7 +83,12 @@ dnf install xfce4* --skip-broken
 ##### 常用软件
 
 ```
-dnf install -y htop ntfs-3g terminator zsh vim openvpn
+dnf install -y htop ntfs-3g terminator zsh vim openvpn gcc gcc-c++ bzip2
+
+
+# 硬盘 unknown filesystem type exfat 问题
+dnf install http://download1.rpmfusion.org/free/el/updates/8/x86_64/f/fuse-exfat-1.3.0-3.el8.x86_64.rpm
+dnf install http://download1.rpmfusion.org/free/el/updates/8/x86_64/e/exfat-utils-1.3.0-3.el8.x86_64.rpm
 ```
 
 ##### 查看发行版本
@@ -311,6 +316,34 @@ sudo dnf config-manager --add-repo https://download.sublimetext.com/rpm/stable/x
 sudo dnf install sublime-text
 ```
 
+##### vlc
+
+```
+yum install https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm
+yum install https://download1.rpmfusion.org/free/el/rpmfusion-free-release-8.noarch.rpm
+dnf install vlc
+```
+
+##### smplayer
+
+```
+官网: https://www.smplayer.info/zh/downloads
+github 地址: https://github.com/smplayer-dev/smplayer
+
+依赖:
+dnf install subversion rpm-build
+
+
+git clone https://github.com/smplayer-dev/smplayer.git
+```
+
+##### vmware
+
+```
+```
+
+
+
 ##### google chrome
 
 ```
@@ -323,7 +356,7 @@ gpgcheck=1
 gpgkey=https://dl-ssl.google.com/linux/linux_signing_key.pub
 
 
-dnf install google-chrome-stable    
+dnf install google-chrome-stable
 ```
 
 ##### flash plugin(未使用)
