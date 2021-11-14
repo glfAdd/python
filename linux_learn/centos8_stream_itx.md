@@ -83,7 +83,7 @@ dnf install xfce4* --skip-broken
 ##### 常用软件
 
 ```
-dnf install -y htop ntfs-3g terminator zsh
+dnf install -y htop ntfs-3g terminator zsh vim openvpn
 ```
 
 ##### 查看发行版本
@@ -227,10 +227,10 @@ g++ -v
 ##### docker ce
 
 ```
-sudo yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
-sudo yum install docker-ce
+yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
+yum install docker-ce
 # 尝试在命令行中添加 '--allowerasing' 来替换冲突的软件包
-sudo dnf install docker-ce allowerasing
+dnf install docker-ce allowerasing
 
 systemctl start docker
 systemctl enable docker
@@ -287,7 +287,7 @@ ibus-rime 装不上, 暂时不用
 ```
 https://www.typora.io/
 
-wget https://typora.io/linux/Typora-linux-x64.tar.gz
+wget https://typora.io/li	nux/Typora-linux-x64.tar.gz
 
 1. 下载源代码
 
@@ -303,6 +303,14 @@ Typora
 
 ```
 
+##### sublime-text
+
+```
+sudo rpm -v --import https://download.sublimetext.com/sublimehq-rpm-pub.gpg
+sudo dnf config-manager --add-repo https://download.sublimetext.com/rpm/stable/x86_64/sublime-text.repo
+sudo dnf install sublime-text
+```
+
 ##### google chrome
 
 ```
@@ -315,7 +323,7 @@ gpgcheck=1
 gpgkey=https://dl-ssl.google.com/linux/linux_signing_key.pub
 
 
-sudo dnf install google-chrome-stable    
+dnf install google-chrome-stable    
 ```
 
 ##### flash plugin(未使用)
