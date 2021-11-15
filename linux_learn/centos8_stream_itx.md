@@ -413,6 +413,20 @@ https://www.ipaddress.com/
 
 ```
 
+##### 制作启动 U 盘
+
+```
+查看磁盘路径
+sudo fdisk -l
+
+dd if=镜像路径 of=磁盘路径
+dd if=/run/media/glfadd/新加卷/mirror/CentOS-7-x86_64-DVD-1708.iso of=/dev/sdb
+
+
+```
+
+
+
 ##### 错误 1
 
 ```
