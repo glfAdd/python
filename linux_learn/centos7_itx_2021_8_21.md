@@ -32,7 +32,7 @@ PasswordAuthentication yes
 $ service sshd start
 ```
 
-##### ibus 输入法
+##### ibus
 
 ```bash
 0. 主要需要安装如下包
@@ -49,6 +49,18 @@ $ yum -y install ibus ibus-libpinyin ibus-gtk3 im-chooser gtk3-immodule-xim
 
 2. 选择输入法平台和输入法
 $ im-chooser
+
+
+3. 启动设置
+ibus-setup
+
+
+4.
+
+
+无法启动
+
+ 
 ```
 
 ##### 升级内核
@@ -87,15 +99,7 @@ $ yum remove kernel-3.10.0-693.el7.x86_64
 ##### 必备软件
 
 ```
-yum install net-tools dnf gcc-c++ terminator mock cmake ntfs-3g
-yum install yum-fastestmirror
-
-yum install fcitx*
-yum install screenfetch
-yum install jq
-yum install flash-plugin
-yum install ncurses-devel
-yum install yum-utils
+yum install net-tools dnf gcc-c++ terminator mock cmake ntfs-3g htop vim tree zsh
 ```
 
 ##### RPM 命令
@@ -132,19 +136,24 @@ rpm -e --nodeps crossover-18.0.5-1.i386
 
 - 
 
-##### gcc 8.2(未使用)
+##### gcc 9
 
 ```
+yum install centos-release-scl scl-utils-build -y
+yum install devtoolset-9-toolchain -y
 
-vim /etc/yum.repos.d/slc6-devtoolset-8.repo
-[devtoolset-8-rh-release]
-name=devtoolset 8 rh release
-baseurl=https://cbs.centos.org/repos/sclo$releasever-devtoolset-8-rh-release/x86_64/os/
-gpgcheck=0
-enabled=1
 
-yum remove gcc
-yum install devtoolset-8-gcc  devtoolset-8-gcc-c++
+查看 scl 安装的软件包
+scl --list
+
+
+临时启动启动环境
+scl enable devtoolset-9 bash
+gcc --version
+
+
+永久环境
+echo "source /opt/rh/devtoolset-9/enable" >>/etc/profile
 ```
 
 ##### 普通用户 sudo 命令
@@ -451,42 +460,58 @@ export XMODIFIERS=@im=ibus
 
   
 
-##### 软件运行错误
+##### libstdc++.so.6
 
 - 错误描述
 
   ```
-  /usr/lib/libstdc++.so.6: version `CXXABI_1.3.9' not found
-  
-  
-  
-  A JavaScript error occurred in the main process
   Uncaught Exception:
-  Error: /lib64/libstdc++.so.6: version `CXXABI_1.3.8' not found (required by /opt/Typora-linux-x64/resources/app.asar.unpacked/main.node)
+  Error: /lib64/libstdc++.so.6: version `CXXABI_1.3.8' not found
+  ```
   
+- 原因
+
+  ```
+  升级 gcc 后 libstdc++.so.6 没有更新, 还是就版本
+  ```
   
-  
+- 解决办法
+
+  ```
+  省级 libstdc++.so.6 版本
   ```
 
-- 
+- 步骤
 
-```
+  ```
+  1. 确认自己的动态库是否支持CXXABI_1.3.8
+  [root@gong ~]# strings /usr/lib64/libstdc++.so.6|grep CXXABI
+  CXXABI_1.3
+  CXXABI_1.3.1
+  CXXABI_1.3.2
+  CXXABI_1.3.3
+  CXXABI_1.3.4
+  CXXABI_1.3.5
+  CXXABI_1.3.6
+  CXXABI_1.3.7
+  CXXABI_TM_1
+  
+  2. 查看 libstdc++.so.6 的版本
+  [root@gong lib64]# ls /usr/lib64|grep libstdc++
+  libstdc++.so.6
+  libstdc++.so.6.0.19
+  
+  3. 下载 libstdc++.so.6
+  （如果没有可以安装 miniconda， 将这里面新版本的复制到 /usr/lib64）
+  
+  4. 删除旧的链接
+  rm -rf libstdc++.so.6.0.26
+  
+  5. 生成软软链接
+  ln -s libstdc++.so.6.0.26 libstdc++.so.6
+  ```
 
- 源码编译升级安装了gcc后，编译程序或运行其它程序时，有时会出现类似
-1. 检查动态库
-strings /usr/lib64/libstdc++.so.6 | grep GLIBC
-2. 查找编译gcc时生成的最新动态库
-find / -name "libstdc++.so*"
-3. 将上面的最新动态库libstdc++.so.6.0.21复制到/usr/lib64目录下
-cp /home/gladd/anaconda2/x86_64-conda_cos6-linux-gnu/sysroot/lib/libstdc++.so.6.0.25 /usr/lib64
-4. cd /usr/lib64
-5. 删除原来软连接
-rm -rf libstdc++.so.6
-6. 将默认库的软连接指向最新动态库
-ln -s libstdc++.so.6.0.21 libstdc++.so.6
-7. 重新运行以下命令检查动态库
-strings /usr/lib64/libstdc++.so.6 | grep GLIBC
-```
+  
 
 ## 优化
 
