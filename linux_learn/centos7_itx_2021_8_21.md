@@ -114,6 +114,7 @@ $ yum groupinstall xfce
 $ yum install xfce*
 
 $ yum groupremove xfce
+$ yum remove xfce*
 ```
 
 ##### xfce 快捷键文件
