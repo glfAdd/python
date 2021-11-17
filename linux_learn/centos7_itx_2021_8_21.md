@@ -53,14 +53,6 @@ $ im-chooser
 
 3. 启动设置
 ibus-setup
-
-
-4.
-
-
-无法启动
-
- 
 ```
 
 ##### 升级内核
@@ -102,7 +94,7 @@ $ yum remove kernel-3.10.0-693.el7.x86_64
 yum install net-tools dnf gcc-c++ terminator mock cmake ntfs-3g htop vim tree zsh
 ```
 
-##### RPM 命令
+##### rpm 命令
 
 ```
 # 安装rpm
@@ -114,27 +106,61 @@ rpm -qa | grep -i crosso
 rpm -e --nodeps crossover-18.0.5-1.i386
 ```
 
-##### xfce
+##### xfce 安装
 
-- 安装
+```
+$ yum grouplist
+$ yum groupinstall xfce
+$ yum install xfce*
 
-  ```bash
-  $ yum grouplist
-  $ yum groupinstall xfce
-  $ yum install xfce*
-  
-  $ yum groupremove xfce
-  ```
+$ yum groupremove xfce
+```
 
-- 美化
+##### xfce 快捷键文件
 
-  ```
-  下载主题，图标样式：http://xfce-look.org/
-  将下载的主题，移动到桌面主题目录：/usr/share/themes
-  将下载的图标，移动到图标主题目录，/usr/share/icons
-  ```
+```
+~/.config/xfce4/xfconf/xfce-perchannel-xml
+```
 
-- 
+##### xfce 菜单快捷键
+
+```
+yum install xfce4-whiskermenu-plugin
+```
+
+##### xfce 设置默认应用程序
+
+```
+Settings -> MIME Type Editor
+1. 如果能直接找到应用程序就直接选
+2. 如果找不到应用程序可以使用 "Use a custom comand" 输入命令选择应用程序
+```
+
+##### xfce 快捷方式
+
+```
+存放目录
+/usr/share/applications
+```
+
+##### xfce 美化
+
+```
+下载主题，图标样式：http://xfce-look.org/
+将下载的主题，移动到桌面主题目录：/usr/share/themes
+将下载的图标，移动到图标主题目录：/usr/share/icons
+```
+
+##### 蓝牙
+
+```
+bluedevil4 bluetooth blueman
+
+
+bluez bluez-tools
+```
+
+
 
 ##### gcc 9
 
@@ -180,7 +206,6 @@ gong    ALL=(ALL)       NOPASSWD: ALL
 ##### teamviewer
 
 ```
-
 教程地址
 https://blog.csdn.net/changgongzhao/article/details/52299314
 
@@ -234,8 +259,8 @@ Chrono Download Manager
 ##### gnome创建快捷方式
 
 ```
-
 vim pycharm.desktop
+
 #!/usr/bin/env xdg-open
 [Desktop Entry]
 Version=1.0
@@ -282,11 +307,23 @@ $ yum-config-manager --add-repo https://download.sublimetext.com/rpm/stable/x86_
 $ yum install sublime-text
 ```
 
+##### vlc
+
+```
+yum install vlc
+```
+
 ##### smplayer
 
 ```bash
 $ yum install http://li.nux.ro/download/nux/dextop/el7/x86_64/nux-dextop-release-0-5.el7.nux.noarch.rpm
 $ yum install smplayer
+```
+
+##### 视频解码器
+
+```
+yum install libdvdcss gstreamer{,1}-plugins-ugly gstreamer-plugins-bad-nonfree gstreamer1-plugins-bad-freeworld libde265 x265
 ```
 
 ##### shadowsocks
@@ -361,15 +398,6 @@ chmod 755 crossover.bin
 安装以后用root权限执行
 ```
 
-
-
-##### pycharm host
-
-```
-编辑 /etc/hosts 中添加
-0.0.0.0 account.jetbrains.com
-```
-
 ##### 常用软件
 
 ```
@@ -391,10 +419,6 @@ flashplayer
 
 https://get.adobe.com/cn/flashplayer/
 ```
-
-
-
-
 
 ## 问题
 
@@ -440,25 +464,6 @@ export GTK_IM_MODULE=ibus
 export QT_IM_MODULE=ibus
 export XMODIFIERS=@im=ibus
 ```
-
-
-
-##### 问题 2
-
-- 错误描述
-
-  ```
-  user mockbuild does not exist - using root
-  ```
-
-- 解决办法
-
-  ```
-  yum install mock
-  useradd -s /sbin/nologin mockbuild
-  ```
-
-  
 
 ##### libstdc++.so.6
 
