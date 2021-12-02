@@ -92,7 +92,7 @@ $ nmtui
 ##### 必备软件
 
 ```bash
-$ yum install ntfs-3g wget htop vim net-tools zsh git
+$ yum install ntfs-3g wget htop vim net-tools zsh git tree
 
 
 $ yum install dnf gcc-c++  mock cmake 
@@ -108,12 +108,16 @@ $ yum install yum-utils
 
 ```
 # 安装rpm
-yum localinstall xxxxx.rpm
-rpm -Uvh mysql80-community-release-el6-n.noarch.rpm
+$ yum localinstall xxxxx.rpm
+$ rpm -Uvh mysql80-community-release-el6-n.noarch.rpm
+
+
 # 查找所有的rpm
-rpm -qa | grep -i crosso
+$ rpm -qa | grep -i crosso
+
+
 # 卸载rpm
-rpm -e --nodeps crossover-18.0.5-1.i386
+$ rpm -e --nodeps crossover-18.0.5-1.i386
 ```
 
 ##### 普通用户 sudo 命令
