@@ -78,7 +78,7 @@ $ yum remove kernel-3.10.0-693.el7.x86_64
 
 ##### wifi 无法使用
 
-```
+```bash
 1. 安装 wifi 管理工具
 $ yum install NetworkManager-wifi
 
@@ -91,9 +91,8 @@ $ nmtui
 
 ##### 必备软件
 
-```
-$ yum install ntfs-3g wget htop vim net-tools
-
+```bash
+$ yum install ntfs-3g wget htop vim net-tools zsh git
 
 
 $ yum install dnf gcc-c++  mock cmake 
@@ -119,24 +118,45 @@ rpm -e --nodeps crossover-18.0.5-1.i386
 
 ##### 普通用户 sudo 命令
 
-```
-gladd is not in the sudoers file.  This incident will be reported
+```bash
+1. 添加 /etc/sudoers 文件的写权限
+$ chmod u+w /etc/sudoers
 
-添加sudoers文件的写权限
-/etc/sudoers文件默认是只读的
-chmod u+w /etc/sudoers
-vim /etc/sudoers
-
+2. 编辑 /etc/sudoers
 找到这行 root ALL=(ALL) ALL,在他下面添加xxx ALL=(ALL) ALL (这里的xxx是你的用户名)
 
-撤销sudoers文件写权限,命令:
-chmod u-w /etc/sudoers
+3. 撤销sudoers文件写权限,
+$ chmod u-w /etc/sudoers
 
-切换用户免密码
+4. 切换用户免密码
 ## Same thing without a password
 # %wheel        ALL=(ALL)       NOPASSWD: ALL
 gong    ALL=(ALL)       NOPASSWD: ALL
 ```
+
+##### oh my zsh
+
+- 安装
+
+  ```bash
+  $ sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+  ```
+
+- 错误解决办法
+
+  ```
+  描述
+  curl: (7) Failed to connect to raw.github.com port 443: No route to host
+  
+  
+  解决办法
+  1. 打开 https://www.ipaddress.com/ 输入需要访问的域名，查到该域名 ip 地址
+  
+  2. 查询 raw.githubusercontent.com 对应的IP 地址
+  
+  3. 修改 hosts 添加
+  185.199.108.133 raw.githubusercontent.com
+  ```
 
 ##### git 设置
 
@@ -162,25 +182,11 @@ $ yum install docker-ce
 
 ```
 
-vim /etc/yum.repos.d/shadowsocks-qt5.repo
-[librehat-shadowsocks]
-name=Copr repo for shadowsocks owned by librehat
-baseurl=https://copr-be.cloud.fedoraproject.org/results/librehat/shadowsocks/epel-7-$basearch/
-type=rpm-md
-skip_if_unavailable=True
-gpgcheck=1
-gpgkey=https://copr-be.cloud.fedoraproject.org/results/librehat/shadowsocks/pubkey.gpg
-repo_gpgcheck=0
-enabled=1
-enabled_metadata=1
-
-yum install shadowsocks-qt5
 ```
 
 ##### openvpn
 
-```
-
+```bash
 $ yum install openvpn
 复制文件到/etc/openvpn
 运行
@@ -192,9 +198,6 @@ openvpn glf.ovpn
     3. 在XXXX.ovpn最后增加配置 auth-user-pass pass.txt
     4. 在同目录下创建XXXX.ovpn的配置文件名 pass.txt将写入用户和密码
     (第一行用户名, 第二行密码)
-
-
-
 ```
 
 ## 问题
