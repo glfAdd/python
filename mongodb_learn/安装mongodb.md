@@ -171,11 +171,11 @@ dbAdminAnyDatabase
 
 - 命令
 
-  ```
+  ```bash
   $ /opt/mongodb-linux-x86_64-ubuntu2004-5.0.4/bin/mongod --help
   $ /opt/mongodb-linux-x86_64-ubuntu2004-5.0.4/bin/mongod  --version
   
-  命令行进入数据库
+  # 命令行进入数据库
   $ /opt/mongodb-linux-x86_64-ubuntu2004-5.0.4/bin/mongo
   ```
 
