@@ -92,7 +92,7 @@ $ nmtui
 ##### 必备软件
 
 ```bash
-$ yum install ntfs-3g wget htop vim net-tools zsh git tree
+$ yum install ntfs-3g wget htop vim net-tools zsh git tree openvpn yum-utils
 
 
 $ yum install dnf gcc-c++  mock cmake 
@@ -204,6 +204,53 @@ openvpn glf.ovpn
     (第一行用户名, 第二行密码)
 ```
 
+##### gitlab
+
+```
+下载地址: https://mirrors.tuna.tsinghua.edu.cn/
+$ wget https://mirrors.tuna.tsinghua.edu.cn/gitlab-ce/yum/el7/gitlab-ce-14.5.1-ce.0.el7.x86_64.rpm
+
+
+```
+
+##### docker ce
+
+- 安装
+
+  ```bash
+  $ sudo yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
+  $ sudo yum install docker-ce
+  ```
+
+- 国内源
+
+  ```json
+  编辑 /etc/docker/daemon.json
+  
+  {
+    "registry-mirrors": ["https://docker.mirrors.ustc.edu.cn/"]
+  }
+  ```
+
+- 普通用于可以运行docker
+
+  ```bash
+  sudo groupadd docker
+  #将当前登录用户加入到docker用户组中
+  sudo usermod -aG docker $USER
+  #更新用户组
+  newgrp docker
+  ```
+
+##### java 11
+
+```
+
+
+```
+
+
+
 ## 问题
 
 ##### yum 安装软件时错误
@@ -231,8 +278,6 @@ openvpn glf.ovpn
   ```bash
   $ rm -rf /var/run/yum.pid
   ```
-
-
 
 ##### 软件运行错误
 
@@ -266,7 +311,45 @@ openvpn glf.ovpn
   strings /usr/lib64/libstdc++.so.6 | grep GLIBC
   ```
 
+##### ssh 登录 1
+
+- 错误描述
+
+  ```
+  ssh 登录提示：
+  WARNING! The remote SSH server rejected X11 forwarding request
+  ```
+
+- 解决办法
+
+  ```
+  yum install xorg-x11-xauth
+  ```
+
+##### ssh 登录 2
+
+- 错误描述
+
+  ```
+  /usr/bin/xauth:  file /home/glfadd/.Xauthority does not exist
+  ```
+
+- 解决办法
+
+  ```
+  第二次登录自动消失了， 文件存在了
+  -rw-------.  1 glfadd glfadd   50 Dec  6 12:27 .Xauthority
+  ```
+
   
+
+```
+
+```
+
+
+
+
 
 ## 优化
 
@@ -275,6 +358,22 @@ openvpn glf.ovpn
 ```
 systemd-analyze blame|head
 systemd-analyze blame
+```
+
+##### 关闭自带 postfix 邮件服务
+
+```bash
+邮件服务
+
+$ systemctl stop postfix
+$ yum remove postfix
+```
+
+##### 
+
+```
+
+
 ```
 
 
