@@ -162,6 +162,39 @@ gong    ALL=(ALL)       NOPASSWD: ALL
   185.199.108.133 raw.githubusercontent.com
   ```
 
+##### bash(失败)
+
+```
+1. 安装
+$ wget http://ftp.gnu.org/gnu/bash/bash-5.1.8.tar.gz
+$ tar zxvf bash-5.1.8.tar.gz
+$ cd bash-5.1.8
+$ sudo ./configure && make && make install
+
+
+2. 创建软连接
+mv /bin/bash /bin/bash.bak
+ln -s /usr/local/bin/bash /bin/bash
+
+
+3. 重启服务器配置即可生效
+```
+
+##### bashtop
+
+> [github](https://github.com/aristocratos/bashtop)
+
+```bash
+1. 安装
+$ git clone https://github.com/aristocratos/bashtop.git
+$ cd bashtop
+$ sudo make install
+
+
+2. 运行命令
+$ bashtop
+```
+
 ##### git 设置
 
 ```bash
