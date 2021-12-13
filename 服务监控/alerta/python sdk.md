@@ -33,7 +33,7 @@ $ alerta --endpoint-url http://127.0.0.1:8000/api send --resource 来源003 --ev
 https://github.com/alerta/alerta-contrib/blob/master/plugins/dingtalk/dingtalkchatbot/chatbot.py
 ```
 
-## alerta command line tool (CLI)
+## command line tool (CLI)
 
 ##### 安装
 
