@@ -8,7 +8,7 @@ https://www.cnblogs.com/wwchihiro/p/9261607.html
 ##### 是什么
 
 ```
-Kubernetes 是用来管理容器集群的平台
+Kubernetes 是一个docker集群的管理工具, 在Docker技术的基础上，为容器化的应用提供部署运行、资源调度、服务发现和动态伸缩、高可用等一系列完整功能，提高了大规模容器集群管理的便捷性
 ```
 
 ##### 特点
@@ -26,15 +26,38 @@ Kubernetes 是用来管理容器集群的平台
 
 ![Kubernetes架构图](./image/Kubernetes架构图.png)
 
-```
-1. Master Node: 作为控制节点，对集群进行调度管理, 由API Server、Scheduler、Cluster State Store和Controller-Manger Server所组成
-2. Worker Node: 作为真正的工作节点，运行业务应用的容器, 包含kubelet、kube proxy和Container Runtime；
-3. kubectl: 用于对 Kubernetes 下命令, 它通过 APIServer 去调用各个进程来完成对 Node 的部署和控制
-4. Add-on: 是对Kubernetes核心功能的扩展
-5. repliceation: 用于伸缩副本数量
-6. endpoint: 用于管理网络请求
-7. scheduler: 调度器
-```
+##### k8s node
+
+![k8s node](./image/k8s node.png)
+
+| 组件               | 说明                                                         |
+| ------------------ | ------------------------------------------------------------ |
+| etcd               | 存储集群状态                                                 |
+| apiserver          | 提供了资源操作的唯一入口，并提供认证、授权、访问控制、API注册和发现等机制 |
+| controller manager | 负责维护集群的状态，比如故障检测、自动扩展、滚动更新等       |
+| scheduler          | 负责资源的调度，按照预定的调度策略将Pod调度到相应的机器上    |
+| kubelet            | 负责维护容器的生命周期，同时也负责Volume（CVI）和网络（CNI）的管理 |
+| Container runtime  | 负责镜像管理以及Pod和容器的真正运行（CRI）                   |
+| kube-proxy         | 负责为Service提供cluster内部的服务发现和负载均衡             |
+| node               | 职责是运行容器应用。Node 由 Master 管理，Node 负责监控并汇报容器的状态，并根据 Master 的要求管理容器的生命周期。Node 运行在 Linux 操作系统，可以是物理机或者是虚拟机 |
+| pod                | 是 Kubernetes 的最小工作单元。每个 Pod 包含一个或多个容器。Pod 中的容器会作为一个整体被 Master 调度到一个 Node 上运行。pod为docker创建的一个容器 |
+| kubectl            | 用于对 Kubernetes 下命令, 它通过 APIServer 去调用各个进程来完成对 Node 的部署和控制 |
+| Add-on             | 是对Kubernetes核心功能的扩展                                 |
+| endpoint           | 用于管理网络请求                                             |
+| repliceation       | 用于伸缩副本数量                                             |
+
+##### Add-ons
+
+| 插件                  | 说明                         |
+| --------------------- | ---------------------------- |
+| kube-dns              | 负责为整个集群提供DNS服务    |
+| Ingress Controller    | 为服务提供外网入口           |
+| Heapster              | 提供资源监控                 |
+| Dashboard             | 提供GUI                      |
+| Federation            | 提供跨可用区的集群           |
+| Fluentd-elasticsearch | 提供集群日志采集、存储与查询 |
+
+
 
 
 
@@ -47,6 +70,14 @@ Node 可以是一台机器或者一台虚拟机。
 Pod 是 Kubernetes 管理的最小单位，
 每个 Pod 可以包含多个容器（Docker）
 
+
+
+```
+
+##### Kubernetes Master
+
+```
+1. 集群控制节点, 每个 K8s 集群里需要有一个 master 节点负责整个集群的管理和控制
 
 
 ```
