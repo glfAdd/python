@@ -282,6 +282,65 @@ $ wget https://mirrors.tuna.tsinghua.edu.cn/gitlab-ce/yum/el7/gitlab-ce-14.5.1-c
 
 ```
 
+##### kvm
+
+- 安装
+
+  ```bash
+  1. 验证CPU是否支持KVM, 结果中有vmx（Intel）或svm(AMD)字样，就说明CPU的支持的。
+  $ egrep '(vmx|svm)' /proc/cpuinfo
+  
+  
+  2. 安装KVM及其依赖项
+  $ yum install qemu-kvm libvirt virt-install bridge-utils
+  
+  
+  3. 验证安装结果, 如下结果表示成功
+  $ lsmod | grep kvm
+  kvm_intel             299008  0
+  kvm                   892928  1 kvm_intel
+  irqbypass              16384  1 kvm
+  
+  
+  4. 启动
+  $ systemctl start libvirtd
+  $ systemctl enable libvirtd
+  ```
+
+- 查看网络设置
+
+  ```bash
+  1. 查看网络连接如果有 virbr0 则表示安装成功
+  $ ifconfig
+  virbr0: flags=4099<UP,BROADCAST,MULTICAST>  mtu 1500
+          inet 192.168.122.1  netmask 255.255.255.0  broadcast 192.168.122.255
+          ether 52:54:00:be:42:ec  txqueuelen 1000  (Ethernet)
+          RX packets 0  bytes 0 (0.0 B)
+          RX errors 0  dropped 0  overruns 0  frame 0
+          TX packets 0  bytes 0 (0.0 B)
+          TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+          
+          
+  2. 使用网桥管理
+  $ brctl show
+  bridge name	bridge id		STP enabled	interfaces
+  virbr0		8000.525400be42ec	yes		virbr0-nic
+  ```
+
+  
+
+- 
+
+```bash
+
+
+
+
+
+
+
+```
+
 
 
 ## 问题
