@@ -92,7 +92,7 @@ $ nmtui
 ##### 必备软件
 
 ```bash
-$ yum install ntfs-3g wget htop vim net-tools zsh git tree openvpn yum-utils
+$ yum install ntfs-3g wget htop vim net-tools zsh git tree openvpn yum-utils neovim
 
 
 $ yum install dnf gcc-c++  mock cmake 

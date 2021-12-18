@@ -153,14 +153,6 @@ docker run -it 9342f2b6c135 /bin/bash
 docker run -itd 9342f2b6c135 /bin/bash
 ```
 
-```
-docker commit 使用
-
-
-```
-
-
-
 # 镜像
 
 ##### apt-get
@@ -363,16 +355,6 @@ docker run --name jms_all -d -p 8030:80 -p 8020:2222 jumpserver/jms_all:latest
 默认帐号： Admin  密码：admin
 ```
 
-##### tensorflow serving
-
-```
-
-
-
-
-
-```
-
 ##### hbase
 
 ```
@@ -400,9 +382,11 @@ http://localhost:8983/solr/#/
 
 ```
 
-##### centos7
 
-```
-docker run -itd --name centos7 centos:centos7
-```
+
+
+
+
+
+
 
