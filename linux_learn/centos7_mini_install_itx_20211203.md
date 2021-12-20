@@ -179,7 +179,13 @@ PasswordAuthentication yes
 $ service sshd start
 ```
 
+##### 设置 DNS 服务器
 
+```
+编辑 /etc/resolv.conf 添加
+nameserver 8.8.8.8
+nameserver 114.114.114.114
+```
 
 ##### bash(失败)
 

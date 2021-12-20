@@ -293,19 +293,25 @@ let g:python3_host_prog='/home/glfadd/miniconda3/bin/python'
 
 ##### debug
 
+> https://github.com/sillybun/vim-repl
+
 - install
 
   ```
+  Plug 'sillybun/vim-repl'
+  ```
+  
+- ```
+  https://blog.csdn.net/weixin_39608509/article/details/112233472
   ```
 
-  
+- 
 
 
 
 ## 完整例子
 
 ```
-"基础设置
 set number
 
 "行都为相对于该行的相对行号
