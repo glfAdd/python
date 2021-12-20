@@ -162,6 +162,25 @@ gong    ALL=(ALL)       NOPASSWD: ALL
   185.199.108.133 raw.githubusercontent.com
   ```
 
+##### ssh
+
+```bash
+1. 重新安装
+$ yum reinstall openssh-server
+
+
+2. 编辑 /etc/ssh/sshd_config 文件修改为如下
+Port 22
+PermitRootLogin yes
+PasswordAuthentication yes
+
+
+3. 重启动服务
+$ service sshd start
+```
+
+
+
 ##### bash(失败)
 
 ```
@@ -445,28 +464,67 @@ $ wget https://mirrors.tuna.tsinghua.edu.cn/gitlab-ce/yum/el7/gitlab-ce-14.5.1-c
 
 ## 优化
 
-##### 查看开机时间
+##### 开机优化
+
+- 查看开机时间
+
+  ```bash
+  $ systemd-analyze blame|head
+  $ systemd-analyze blame
+  ```
+
+- 关闭 postfix 
+
+  ```bash
+  $ systemctl stop postfix
+  $ yum remove postfix
+  ```
+
+-  开启 NetworkManager
+
+  ```bash
+  $ systemctl start NetworkManager
+  $ systemctl enable NetworkManager
+  ```
+
+- 关闭 selinux
+
+  ```bash
+  1. 查看 selinux 状态
+  $ sestatus
+  SELinux status:                 enabled
+  SELinuxfs mount:                /sys/fs/selinux
+  SELinux root directory:         /etc/selinux
+  Loaded policy name:             targeted
+  Current mode:                   enforcing
+  Mode from config file:          enforcing
+  Policy MLS status:              enabled
+  Policy deny_unknown status:     allowed
+  Max kernel policy version:      33
+  
+  
+  2. 编辑 /etc/sysconfig/selinux
+      将
+      SELINUX=enforcing
+      替换为
+      SELINUX=disabled
+  
+  
+  3. 重启
+  ```
+
+- 修改 grub 启动菜单等待时间
+
+  ```bash
+  
+  
+  
+  
+  ```
+
+  
 
 ```
-systemd-analyze blame|head
-systemd-analyze blame
-```
-
-##### 关闭自带 postfix 邮件服务
-
-```bash
-邮件服务
-
-$ systemctl stop postfix
-$ yum remove postfix
-```
-
-##### 
 
 ```
-
-
-```
-
-
 
