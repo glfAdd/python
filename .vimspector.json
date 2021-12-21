@@ -1,0 +1,11 @@
+{
+  "adapters": {
+    "vscode-python": {
+      "command": [
+        "node",
+        "${gadgetDir}/vscode-python/out/client/debugger/debugAdapter/main.js"
+      ],
+      "name": "vscode-python"
+    }
+  }
+}

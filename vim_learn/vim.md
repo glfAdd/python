@@ -3,33 +3,20 @@
 ##### install
 
 ```bash
-$ yum install neovim
 
-$ apt-get install neovim
 ```
 
 ##### 配置文件
 
 ```
-/home/glfadd/.config/nvim/init.vim
+Vim 的全局配置一般在/etc/vim/vimrc或者/etc/vimrc，对所有用户生效
+用户个人的配置在 ~/.vimrc
 ```
 
 ##### 支持 python2 / python3
 
 ```
-1. 查看是否支持 python
-:checkhealth
-
-
-2. 安装插件
-$ pip install neovim
-
-
-3. (可选)设置 python3_host_prog 如果没有设置就使用当前虚拟环境的
-let g:python3_host_prog='/home/glfadd/miniconda3/bin/python'
-
-
-4. (可选)设置 python_host_prog
+vim --version
 ```
 
 ##### 插件管理
@@ -39,16 +26,13 @@ let g:python3_host_prog='/home/glfadd/miniconda3/bin/python'
 - 安装 vim-plug
 
   ```bash
-  $ mkdir -p  ~/.config/nvim/autoload
-  $ mkdir -p  ~/.config/nvim/plugged
-  $ cd ~/.config/nvim/autoload
-  $ wget https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+  $ curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
   ```
 
 - 安装插件
 
   ```bash
-  call plug#begin('~/.config/nvim/plugged')
+  call plug#begin('~/.vim/plugged')
   
   call plug#end()
   ```
@@ -104,12 +88,6 @@ let g:python3_host_prog='/home/glfadd/miniconda3/bin/python'
   Plug 'skywind3000/vim-auto-popmenu'
   ```
 
-- uninstall
-
-  ```
-  
-  ```
-
 - setting
 
   ```
@@ -137,6 +115,7 @@ let g:python3_host_prog='/home/glfadd/miniconda3/bin/python'
 
   ```
   nnoremap <F3> :NERDTreeToggle<CR>
+  autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
   ```
 
 ##### 模糊查询
@@ -245,17 +224,12 @@ let g:python3_host_prog='/home/glfadd/miniconda3/bin/python'
     let g:autoformat_remove_trailing_spaces = 0
     ```
 
-    
-
-  
-
 - use
 
   ```
   :Autoformat
   ```
 
-  
 
 ##### 语法检测
 
@@ -275,7 +249,51 @@ let g:python3_host_prog='/home/glfadd/miniconda3/bin/python'
     pip install flake8
     ```
 
-    
+
+##### 运行代码
+
+> https://github.com/skywind3000/asyncrun.vim [文档](https://github.com/skywind3000/asyncrun.vim/blob/master/README-cn.md)
+>
+> https://github.com/skywind3000/asynctasks.vim [文档](https://github.com/skywind3000/asynctasks.vim/blob/master/README-cn.md)
+>
+
+- install
+
+  ```
+  Plug 'skywind3000/asyncrun.vim'
+  " asyncrun 任务管理插件
+  Plug 'skywind3000/asynctasks.vim'
+  ```
+
+- setting
+
+  ```
+  " asyncrun 运行时自动打开高度为 6 的 quickfix 窗口, 不然你看不到任何输出                 
+  let g:asyncrun_open = 10    
+  ```
+
+- use
+
+  ```
+  运行 python
+  :AsyncRun -cwd=$(VIM_FILEDIR) python "$(VIM_FILEPATH)"
+  
+  :AsyncRun python code_test.py
+  ```
+
+##### 性能测试
+
+- install
+
+  ```
+  ```
+
+- setting
+
+  ```
+  ```
+
+- use
 
   ```
   ```
@@ -287,54 +305,99 @@ let g:python3_host_prog='/home/glfadd/miniconda3/bin/python'
 - install
 
   ```
+  
   ```
-
   
 
-##### debug
+##### 交互式编程
+
+- install
+
+  ```
+  
+  
+  ```
+
+- setting
+
+  ```
+  ```
+
+- use
+
+  ```
+  ```
+
+##### 断点调试
 
 > https://github.com/sillybun/vim-repl
+>
+> 使用
+>
+> ​	https://blog.csdn.net/weixin_39608509/article/details/112233472
+>
+> 
 
 - install
 
   ```
   Plug 'sillybun/vim-repl'
   ```
+
+- 添加 python 和 java 支持
+
+  ```
   
-- ```
-  https://blog.csdn.net/weixin_39608509/article/details/112233472
+  ```
+  
+- setting
+
+  ```
+  
+  ```
+  
+- use
+
+  ```
+  打开 / 关闭
+  :REPLToggle
+  
+  关闭
+  :REPLHide
   ```
 
-- 
+
+## pip
+
+##### 性能测试
+
+```
+pip install line_profiler
+```
 
 
 
 ## 完整例子
 
+> 参考https://zhuanlan.zhihu.com/p/30022074
+
 ```
 set number
-
-"行都为相对于该行的相对行号
+"行号都为相对于该行的相对行号
 set relativenumber
-
 set encoding=utf-8
-
 "括号匹配
 set showmatch
-
 "设置Tab长度为4空格
 set tabstop=4
 "设置自动缩进长度为4空格
 set shiftwidth=4
 "继承前一行的缩进方式，适用于多行注释
 set autoindent
-
 "关闭与vi的兼容模式
-set nocompatible 
-
+set nocompatible
 "不自动折行
 set nowrap
-
 "高亮行
 set cursorline
 "高亮列
@@ -342,12 +405,16 @@ set cursorcolumn
 "设置高亮的颜色
 "highlight CursorLine   cterm=NONE ctermbg=gray ctermfg=green guibg=NONE guifg=NONE
 "highlight CursorColumn cterm=NONE ctermbg=gray ctermfg=green guibg=NONE guifg=NONE
-
 "尺寸线
-set cc=80
+set cc=120
+
+"nnoremap <C-J> <C-W><C-J>
+"nnoremap <C-K> <C-W><C-K>
+"nnoremap <C-L> <C-W><C-L>
+"nnoremap <C-H> <C-W><C-H>
 
 
-call plug#begin('~/.config/nvim/plugged')
+call plug#begin('~/.vim/plugged')
 " 状态栏
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
@@ -369,17 +436,24 @@ Plug 'preservim/nerdcommenter'
 Plug 'Chiel92/vim-autoformat'
 
 " 语法检测
-"Plug 'vim-syntastic/syntastic'
 Plug 'dense-analysis/ale'
+
+
+" 代码运行
+Plug 'skywind3000/asyncrun.vim'
+Plug 'skywind3000/asynctasks.vim'
+
+" debug
+Plug 'sillybun/vim-repl'
 
 call plug#end()
 
+" --------------------------------- setting
+" python3 支持
+"let g:python3_host_prog='/home/glfadd/miniconda3/bin/python'
 
-" ------------- setting
-let g:python3_host_prog='/home/glfadd/miniconda3/bin/python'
 
-
-" ------------- skywind3000/vim-auto-popmenu
+" --------------------------------- skywind3000/vim-auto-popmenu
 " 设定需要生效的文件类型，如果是 "*" 的话，代表所有类型
 let g:apc_enable_ft = {'*':1}
 " 设定从字典文件以及当前打开的文件里收集补全单词，详情看 ':help cpt'
@@ -390,17 +464,49 @@ set completeopt=menu,menuone,noselect
 set shortmess+=c
 
 
-" ------------- Yggdroot/LeaderF
+" --------------------------------- Yggdroot/LeaderF
 let g:Lf_ShowDevIcons = 0
 
 
-" ------------- preservim/nerdcommenter
+" --------------------------------- preservim/nerdcommenter
 let g:NERDDefaultAlign = 'left'
 let g:NERDTrimTrailingWhitespace = 1
 
 
-" ------------- Chiel92/vim-autoforma
+" --------------------------------- Chiel92/vim-autoforma
 nnoremap <F3> :Autoformat<CR>
+
+
+
+" --------------------------------- skywind3000/asyncrun.vim
+" asyncrun 运行时自动打开高度为 6 的 quickfix 窗口, 不然你看不到任何输出                 
+let g:asyncrun_open = 10    
+
+
+" --------------------------------- preservim/nerdtree
+nnoremap <F3> :NERDTreeToggle<CR>
+autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
+
+
+" --------------------------------- sillybun/vim-repl
+let g:repl_program = {
+            \   'python': 'ipython',
+            \   'default': 'zsh',
+            \   'r': 'R',
+            \   'lua': 'lua',
+            \   }
+let g:repl_predefine_python = {
+            \   'numpy': 'import numpy as np',
+            \   'matplotlib': 'from matplotlib import pyplot as plt'
+            \   }
+let g:repl_cursor_down = 1
+let g:repl_python_automerge = 1
+let g:repl_ipython_version = '7'
+nnoremap <leader>r :REPLToggle<Cr>
+autocmd Filetype python nnoremap <F12> <Esc>:REPLDebugStopAtCurrentLine<Cr>
+autocmd Filetype python nnoremap <F10> <Esc>:REPLPDBN<Cr>
+autocmd Filetype python nnoremap <F11> <Esc>:REPLPDBS<Cr>
+let g:repl_position = 3
 
 ```
 
