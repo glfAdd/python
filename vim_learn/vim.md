@@ -2,8 +2,25 @@
 
 ##### install
 
-```bash
+> [官网](https://www.vim.org/)
+>
+> [github](https://github.com/vim/vim)
 
+```bash
+卸载编译安装的 vim
+$ sudo make uninstall
+
+安装依赖
+$ yum install python36 python36-devel ncurses-devel
+
+$ yum remove vim
+$ git clone https://github.com/vim/vim.git
+$ cd vim/src
+$ ./configure --with-features=huge --enable-multibyte --enable-rubyinterp=yes --enable-python3interp=yes --disable-selinux --enable-cscope --with-python3-command=python3.6
+$ make clean
+$ make
+$ sudo make install
+$ ln -s /usr/local/bin/vim /usr/bin/vim
 ```
 
 ##### 配置文件
@@ -13,10 +30,12 @@ Vim 的全局配置一般在/etc/vim/vimrc或者/etc/vimrc，对所有用户生�
 用户个人的配置在 ~/.vimrc
 ```
 
-##### 支持 python2 / python3
+##### 查看是否支持 python2 / python3
+
+> python2 和 python3 不能同时支持
 
 ```
-vim --version
+$ vim --version
 ```
 
 ##### 插件管理
