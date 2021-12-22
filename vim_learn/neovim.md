@@ -11,7 +11,7 @@ $ apt-get install neovim
 ##### 配置文件
 
 ```
-/home/glfadd/.config/nvim/init.vim
+~/.config/nvim/init.vim
 ```
 
 ##### 支持 python2 / python3
@@ -39,16 +39,13 @@ let g:python3_host_prog='/home/glfadd/miniconda3/bin/python'
 - 安装 vim-plug
 
   ```bash
-  $ mkdir -p  ~/.config/nvim/autoload
-  $ mkdir -p  ~/.config/nvim/plugged
-  $ cd ~/.config/nvim/autoload
-  $ wget https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+  $ sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
   ```
 
 - 安装插件
 
   ```bash
-  call plug#begin('~/.config/nvim/plugged')
+  call plug#begin('~/.vim/plugged')
   
   call plug#end()
   ```
@@ -312,25 +309,6 @@ let g:python3_host_prog='/home/glfadd/miniconda3/bin/python'
   :AsyncRun python code_test.py
   ```
 
-##### 性能测试
-
-- install
-
-  ```
-  ```
-
-- setting
-
-  ```
-  ```
-
-- use
-
-  ```
-  ```
-
-  
-
 ##### git
 
 - install
@@ -339,25 +317,6 @@ let g:python3_host_prog='/home/glfadd/miniconda3/bin/python'
   
   ```
   
-
-##### 交互式编程
-
-- install
-
-  ```
-  
-  
-  ```
-
-- setting
-
-  ```
-  ```
-
-- use
-
-  ```
-  ```
 
 ##### debug
 
@@ -416,8 +375,6 @@ let g:python3_host_prog='/home/glfadd/miniconda3/bin/python'
   /home/glfadd/.config/nvim/plugged/vimspector/gadgets/linux/.gadgets.d
   ```
 
-  
-
 ## pip
 
 ##### 性能测试
@@ -466,7 +423,7 @@ set cursorcolumn
 set cc=80
 
 
-call plug#begin('~/.config/nvim/plugged')
+call plug#begin('~/.vim/plugged')
 " 状态栏
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
@@ -539,6 +496,7 @@ let g:asyncrun_open = 10
 let g:vimspector_enable_mappings = 'HUMAN'
 nmap <LocalLeader><F11> <Plug>VimspectorRestart
 nmap <F7> <Plug>VimspectorRestart
+
 
 ```
 

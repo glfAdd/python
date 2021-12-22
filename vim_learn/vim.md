@@ -300,90 +300,163 @@ $ vim --version
   :AsyncRun python code_test.py
   ```
 
-##### 性能测试
-
-- install
-
-  ```
-  ```
-
-- setting
-
-  ```
-  ```
-
-- use
-
-  ```
-  ```
-
-  
-
-##### git
-
-- install
-
-  ```
-  
-  ```
-  
-
-##### 交互式编程
-
-- install
-
-  ```
-  
-  
-  ```
-
-- setting
-
-  ```
-  ```
-
-- use
-
-  ```
-  ```
-
 ##### 断点调试
 
-> https://github.com/sillybun/vim-repl
+> [github](https://github.com/puremourning/vimspector)
 >
-> 使用
+> https://www.bbsmax.com/A/lk5a13l051/
 >
-> ​	https://blog.csdn.net/weixin_39608509/article/details/112233472
+> https://www.5axxw.com/wiki/content/jifl0q
 >
-> 
 
 - install
 
   ```
-  Plug 'sillybun/vim-repl'
-  ```
-
-- 添加 python 和 java 支持
-
-  ```
-  
+  Plug 'puremourning/vimspector'
   ```
   
 - setting
 
-  ```
+  - 语言支持
   
-  ```
+    ```bash
+    $ cd /home/glfadd/.vim/plugged/vimspector
+    $ ./install_gadget.py --help
+    $ ./install_gadget.py --enable-python
+    
+    # 会自动生成 /home/glfadd/.vim/plugged/vimspector/gadgets/linux/.gadgets.json
+    # ${gadgetDir} 代表着存放.gadgets.json的目录
+    ```
   
-- use
+  - 快捷键设置
+  
+    ```
+    # vimspector预设了vscode mode和human mode两套键盘映射
+    
+    let g:vimspector_enable_mappings = 'HUMAN'
+    或
+    let g:vimspector_enable_mappings = 'VISUAL_STUDIO'
+    ```
+  
+- 示例代码
 
   ```
-  打开 / 关闭
-  :REPLToggle
-  
-  关闭
-  :REPLHide
+  /home/glfadd/.vim/plugged/vimspector/support/test
   ```
+  
+- .vimspector.json 文件参数
+
+  | 参数           | 说明                                                        | 是否必填 |
+  | -------------- | :---------------------------------------------------------- | -------- |
+  | adapters       | 调试适配器配置，如果不是进行远程调试，一般不需要设置        |          |
+  | configurations | 配置字段字典                                                |          |
+  | adapter        | 使用的调试配置器名称                                        | 是       |
+  | variables      | 用户定义的变量                                              |          |
+  | configuration  | 配置名字                                                    | 是       |
+  | remote-request | 远程调试使用                                                |          |
+  | remote-cmdLine | 远程调试使用                                                |          |
+  | request        | 调试的类型，lauch或attach                                   |          |
+  | type           | cppdgb(GDB/LLDB)或cppvsdbg(Visutal Studio Windows debugger) |          |
+  
+- 自定义变量
+
+  ```
+  可以在variable中定义变量。
+  
+      {
+        "configurations": {
+          "some-configuration": {
+            "variables": {
+              "gdbserver-version": {
+                "shell": [ "/path/to/my/scripts/get-gdbserver-version" ],
+                "env": {
+                  "SOME_ENV_VAR": "Value used when running above command"
+                }
+              },
+              "some-other-variable": "some value"
+            }
+          }
+        }
+      }
+  
+  其中gdbserver-version和some-other-variable都是用户定义的变量，可以像预定义变量一样使用。
+  
+  可以调用外部命令，将外部命令的输出赋给变量。gdbserver-version的值就是/path/to/my/scripts/get-gdbserver-version的输出。
+  
+  还可以在运行vimspector时输入变量的值。最典型的运例子是程序参数的传递，vimspector调试的程序的参数以数组的形式传递，在配置文件中将args设置为一个在运行时用户输入的变量，就可以模拟命令行的效果。
+  
+  用户输入值的变量用"*${variable-neme}表示，比如以下配置：
+  
+        "args": [ "*${CommandLineArgs}" ]
+  
+  在运行时vimspector会要求用户输入值，如果用户输入1、2、3,args就会被拓展成["1", "2", "3"]传递给程序。
+  
+  ```
+
+- 预定义变量
+
+  ```
+  ```
+
+- use
+
+  >  在每个项目目录中创建 .vimspector.json 用来设置调试的参数
+
+  - python
+
+    ```json
+    {
+      "configurations": {
+        "run": {
+          "adapter": "debugpy",
+          "default": true,
+          "configuration": {
+            "request": "launch",
+            "program": "${workspaceRoot}/moo.py",
+            "cwd": "${workspaceRoot}",
+            "stopOnEntry": true
+          },
+          "breakpoints": {
+            "exception": {
+              "raised": "N",
+              "uncaught": "",
+              "userUnhandled": ""
+            }
+          }
+        }
+      }
+    }
+    ```
+
+- HUMAN
+
+  | Key          | Function                     | API                                                          |
+  | ------------ | ---------------------------- | ------------------------------------------------------------ |
+  | `F5`         | 调试时，继续。否则启动调试。 | `vimspector#Continue()`                                      |
+  | `F3`         | Stop debugging.              | `vimspector#Stop()`                                          |
+  | `F4`         | 使用相同的配置重新启动调试。 | `vimspector#Restart()`                                       |
+  | `F6`         | Pause debugee.               | `vimspector#Pause()`                                         |
+  | `F9`         | 切换当前行上的行断点。       | `vimspector#ToggleBreakpoint()`                              |
+  | `<leader>F9` | 切换当前行上的条件行断点。   | `vimspector#ToggleBreakpoint( { trigger expr, hit count expr } )` |
+  | `F8`         | 为游标下的表达式添加函数断点 | `vimspector#AddFunctionBreakpoint( '<cexpr>' )`              |
+  | `F10`        | Step Over                    | `vimspector#StepOver()`                                      |
+  | `F11`        | Step Into                    | `vimspector#StepInto()`                                      |
+  | `F12`        | 跳出当前功能范围             | `vimspector#StepOut()`                                       |
+
+- VISUAL_STUDIO
+
+  | Key             | Function                     | API                                             |
+  | --------------- | ---------------------------- | ----------------------------------------------- |
+  | `F5`            | 调试时，继续。否则启动调试。 | `vimspector#Continue()`                         |
+  | `Shift F5`      | Stop debugging.              | `vimspector#Stop()`                             |
+  | `Ctrl Shift F5` | 使用相同的配置重新启动调试。 | `vimspector#Restart()`                          |
+  | `F6`            | Pause debugee.               | `vimspector#Pause()`                            |
+  | `F9`            | 切换当前行上的行断点。       | `vimspector#ToggleBreakpoint()`                 |
+  | `Shift F9`      | 为游标下的表达式添加函数断点 | `vimspector#AddFunctionBreakpoint( '<cexpr>' )` |
+  | `F10`           | Step Over                    | `vimspector#StepOver()`                         |
+  | `F11`           | Step Into                    | `vimspector#StepInto()`                         |
+  | `Shift F11`     | 跳出当前功能范围             | `vimspector#StepOut()`                          |
+
 
 
 ## pip
@@ -402,6 +475,8 @@ pip install line_profiler
 
 ```
 set number
+" 鼠标支持
+set mouse=a
 "行号都为相对于该行的相对行号
 set relativenumber
 set encoding=utf-8
@@ -463,13 +538,12 @@ Plug 'skywind3000/asyncrun.vim'
 Plug 'skywind3000/asynctasks.vim'
 
 " debug
-Plug 'sillybun/vim-repl'
+Plug 'puremourning/vimspector'
+
 
 call plug#end()
 
 " --------------------------------- setting
-" python3 支持
-"let g:python3_host_prog='/home/glfadd/miniconda3/bin/python'
 
 
 " --------------------------------- skywind3000/vim-auto-popmenu
@@ -493,8 +567,7 @@ let g:NERDTrimTrailingWhitespace = 1
 
 
 " --------------------------------- Chiel92/vim-autoforma
-nnoremap <F3> :Autoformat<CR>
-
+nnoremap <C-l> :Autoformat <CR>
 
 
 " --------------------------------- skywind3000/asyncrun.vim
@@ -507,25 +580,11 @@ nnoremap <F3> :NERDTreeToggle<CR>
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
 
 
-" --------------------------------- sillybun/vim-repl
-let g:repl_program = {
-            \   'python': 'ipython',
-            \   'default': 'zsh',
-            \   'r': 'R',
-            \   'lua': 'lua',
-            \   }
-let g:repl_predefine_python = {
-            \   'numpy': 'import numpy as np',
-            \   'matplotlib': 'from matplotlib import pyplot as plt'
-            \   }
-let g:repl_cursor_down = 1
-let g:repl_python_automerge = 1
-let g:repl_ipython_version = '7'
-nnoremap <leader>r :REPLToggle<Cr>
-autocmd Filetype python nnoremap <F12> <Esc>:REPLDebugStopAtCurrentLine<Cr>
-autocmd Filetype python nnoremap <F10> <Esc>:REPLPDBN<Cr>
-autocmd Filetype python nnoremap <F11> <Esc>:REPLPDBS<Cr>
-let g:repl_position = 3
+" --------------------------------- puremourning/vimspector
+let g:vimspector_enable_mappings = 'HUMAN'
+"syntax enable
+
+
 
 ```
 
