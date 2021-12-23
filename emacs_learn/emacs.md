@@ -50,23 +50,8 @@ $ emacs
 
 ```
 ~/.emacs
+~/.emacs.d/init.el
 ```
-
-##### 
-
-```
-emacs中输入M-x customize-variable RET package-archives，
-进入之后可以看到当前的package源
-```
-
-##### 设置
-
-```
-;; 字符编码
-
-```
-
-
 
 ##### 配置扩展仓库
 
@@ -95,6 +80,8 @@ d - 选择要删除的包
 
 ```
 ~/.emacs.d/package
+
+
 ```
 
 ##### 代码补全
@@ -199,24 +186,64 @@ S = Shift
 |         |            |
 |         |            |
 
-## 配置文件
-
-> ~/.emacs
-
 ```
-;;用来改默认路径的
-(setq default-directory "E:/Sangber/cpp")
+C-o 光标下插入空白行
+C-e 回车
+C-x C-o 删除1个 / 删除多个只剩1个
+
+C-y 粘贴
+
+C-a 行首
+C-e 行尾
+C-k 删除光标后所有
+C-/ 撤销
 
 
- 
- 
- 
- 
- 
- 
- 
- 
 ```
 
 
+
+## 示例
+
+```
+					; ================== 源 ==================
+(setq package-archives '(
+    ("melpa" . "http://mirrors.tuna.tsinghua.edu.cn/elpa/melpa/")
+    ("gnu" . "http://mirrors.tuna.tsinghua.edu.cn/elpa/gnu/")
+    ("org" . "http://mirrors.tuna.tsinghua.edu.cn/elpa/org/")))
+
+;; 个别时候会出现签名校验失败
+(setq package-check-signature nil)
+;; 初始化包管理器
+(require 'package)
+;; 刷新软件源索引
+(unless (bound-and-true-p package--initialized)
+    (package-initialize))
+(unless package-archive-contents
+    (package-refresh-contents))
+
+					; ================== 基础设置 ==================
+;; 行号类型: relative(相对行号), visual, t
+(setq display-line-numbers-type 'relative)
+(global-display-line-numbers-mode t)
+
+;; 自动补全括号
+(electric-pair-mode t)
+;; 括号匹配高亮
+(show-paren-mode t)
+
+;; 设置系统的编码,避免各处的乱码
+(prefer-coding-system 'utf-8)
+(set-default-coding-systems 'utf-8)
+(set-terminal-coding-system 'utf-8)
+(set-keyboard-coding-system 'utf-8)
+(setq default-buffer-file-coding-system 'utf-8)
+;; 设置垃圾回收阈值, 加速启动速度
+(setq gc-cons-threshold most-positive-fixnum)
+
+					; ================== use-package ==================
+(unless (package-installed-p 'use-package)
+    (package-refresh-contents)
+    (package-install 'use-package))
+```
 
