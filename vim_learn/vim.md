@@ -21,6 +21,13 @@ $ make clean
 $ make
 $ sudo make install
 $ ln -s /usr/local/bin/vim /usr/bin/vim
+
+
+$ ln -s /opt/vim/bin/vim /usr/bin/vim
+
+
+查看是否支持 python2 / python3
+$ vim --version
 ```
 
 ##### 配置文件
@@ -28,14 +35,6 @@ $ ln -s /usr/local/bin/vim /usr/bin/vim
 ```
 Vim 的全局配置一般在/etc/vim/vimrc或者/etc/vimrc，对所有用户生效
 用户个人的配置在 ~/.vimrc
-```
-
-##### 查看是否支持 python2 / python3
-
-> python2 和 python3 不能同时支持
-
-```
-$ vim --version
 ```
 
 ##### 插件管理
@@ -268,6 +267,29 @@ $ vim --version
     pip install flake8
     ```
 
+##### 词典
+
+> [github](https://github.com/voldikss/vim-translator)
+
+- install
+
+  ```
+  Plug 'voldikss/vim-translator'
+  ```
+
+- setting
+
+  ```
+  ```
+
+  
+
+```
+
+
+```
+
+
 
 ##### 运行代码
 
@@ -303,8 +325,6 @@ $ vim --version
 ##### 断点调试
 
 > [github](https://github.com/puremourning/vimspector)
->
-> https://www.bbsmax.com/A/lk5a13l051/
 >
 > https://www.5axxw.com/wiki/content/jifl0q
 >
@@ -395,8 +415,7 @@ $ vim --version
 
 - 预定义变量
 
-  ```
-  ```
+  ![预定义变量](./image/预定义变量.png)
 
 - use
 
@@ -412,7 +431,7 @@ $ vim --version
           "default": true,
           "configuration": {
             "request": "launch",
-            "program": "${workspaceRoot}/moo.py",
+            "program": "${workspaceRoot}/${file}",
             "cwd": "${workspaceRoot}",
             "stopOnEntry": true
           },
@@ -427,6 +446,18 @@ $ vim --version
       }
     }
     ```
+
+- 自定义按键
+
+  ```
+  nmap <F5> <Plug>VimspectorContinue
+  
+  
+  
+  
+  ```
+
+  
 
 - HUMAN
 
@@ -477,29 +508,29 @@ pip install line_profiler
 set number
 " 鼠标支持
 set mouse=a
-"行号都为相对于该行的相对行号
+" 行号都为相对于该行的相对行号
 set relativenumber
 set encoding=utf-8
-"括号匹配
+" 括号匹配
 set showmatch
-"设置Tab长度为4空格
+" 设置Tab长度为4空格
 set tabstop=4
-"设置自动缩进长度为4空格
+" 设置自动缩进长度为4空格
 set shiftwidth=4
-"继承前一行的缩进方式，适用于多行注释
+" 继承前一行的缩进方式，适用于多行注释
 set autoindent
-"关闭与vi的兼容模式
+" 关闭与vi的兼容模式
 set nocompatible
-"不自动折行
+" 不自动折行
 set nowrap
-"高亮行
+" 高亮行
 set cursorline
-"高亮列
+" 高亮列
 set cursorcolumn
-"设置高亮的颜色
+" 设置高亮的颜色
 "highlight CursorLine   cterm=NONE ctermbg=gray ctermfg=green guibg=NONE guifg=NONE
 "highlight CursorColumn cterm=NONE ctermbg=gray ctermfg=green guibg=NONE guifg=NONE
-"尺寸线
+" 尺寸线
 set cc=120
 
 "nnoremap <C-J> <C-W><C-J>
@@ -540,10 +571,15 @@ Plug 'skywind3000/asynctasks.vim'
 " debug
 Plug 'puremourning/vimspector'
 
+" 词典
+Plug 'voldikss/vim-translator'
+
 
 call plug#end()
 
 " --------------------------------- setting
+" 设置 leader 键, 默认 /
+let mapleader=" "
 
 
 " --------------------------------- skywind3000/vim-auto-popmenu
@@ -567,7 +603,8 @@ let g:NERDTrimTrailingWhitespace = 1
 
 
 " --------------------------------- Chiel92/vim-autoforma
-nnoremap <C-l> :Autoformat <CR>
+"nnoremap <M-F3> :Autoformat <CR>
+map <M-F3> :Autoformat <CR>
 
 
 " --------------------------------- skywind3000/asyncrun.vim
@@ -585,6 +622,33 @@ let g:vimspector_enable_mappings = 'HUMAN'
 "syntax enable
 
 
+" --------------------------------- voldikss/vim-translator
+"弹出窗口中显示
+let g:translator_window_type = 'popup'
+"目标语言为中文。
+let g:translator_target_lang = 'zh'
+"源语言自动识别                     
+let g:translator_source_lang = 'auto'
+"使用的翻译工具。
+let g:translator_default_engines = ['bing', 'google', 'haici', 'youdao']
+
+"翻译Window的高亮配置
+hi def link TranslatorQuery             Identifier
+hi def link TranslatorDelimiter         Special
+hi def link TranslatorExplain           Statement
+
+"窗口背景
+hi def link Translator                  Normal
+hi def link TranslatorBorder            NormalFloat
+
+"普通模式下翻译光标下英文字符串，在命令行显示翻译结果
+nmap <silent> <Leader>tt <Plug>Translate
+"可视模式下翻译选中英文字符串，在命令行显示翻译结果
+vmap <silent> <Leader>tt <Plug>TranslateV
+"普通模式下翻译光标下英文字符串，在窗口显示翻译结果
+nmap <silent> <Leader>tw <Plug>TranslateW
+"可视模式下翻译光标下英文字符串，在窗口显示翻译结果
+vmap <silent> <Leader>tw <Plug>TranslateWV
 
 ```
 

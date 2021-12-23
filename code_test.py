@@ -1,6 +1,10 @@
 
+def aaa():
+    {}
+
 
 def test():
+
     a = 1
     print(1111)
     a = a + 1

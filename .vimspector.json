@@ -1,11 +1,21 @@
 {
-  "adapters": {
-    "vscode-python": {
-      "command": [
-        "node",
-        "${gadgetDir}/vscode-python/out/client/debugger/debugAdapter/main.js"
-      ],
-      "name": "vscode-python"
+  "configurations": {
+    "run": {
+      "adapter": "debugpy",
+      "default": true,
+      "configuration": {
+        "request": "launch",
+        "program": "${workspaceRoot}/${file}",
+        "cwd": "${workspaceRoot}",
+        "stopOnEntry": true
+      },
+      "breakpoints": {
+        "exception": {
+          "raised": "N",
+          "uncaught": "",
+          "userUnhandled": ""
+        }
+      }
     }
   }
 }
