@@ -1,4 +1,4 @@
-## 安装
+## 安装 - vim
 
 ##### install
 
@@ -7,27 +7,27 @@
 > [github](https://github.com/vim/vim)
 
 ```bash
-卸载编译安装的 vim
+# 1. 卸载编译安装的 vim
 $ sudo make uninstall
 
-安装依赖
+# 2. 安装依赖
 $ yum install python36 python36-devel ncurses-devel
-
 $ yum remove vim
+
+# 3. clone
 $ git clone https://github.com/vim/vim.git
+如果 github clone 速度慢使用国内镜像下载
+$ git clone https://github.com.cnpmjs.org/vim/vim.git
+
+# 4. 编译
 $ cd vim/src
-$ ./configure --with-features=huge --enable-multibyte --enable-rubyinterp=yes --enable-python3interp=yes --disable-selinux --enable-cscope --with-python3-command=python3.6
+$ ./configure --with-features=huge --enable-multibyte --enable-rubyinterp=yes --enable-python3interp=yes --disable-selinux --enable-cscope --with-python3-command=python3.6 --prefix=/opt/vim
 $ make clean
 $ make
 $ sudo make install
-$ ln -s /usr/local/bin/vim /usr/bin/vim
 
-
+# 5. 软连接
 $ ln -s /opt/vim/bin/vim /usr/bin/vim
-
-
-查看是否支持 python2 / python3
-$ vim --version
 ```
 
 ##### 配置文件
@@ -37,37 +37,98 @@ Vim 的全局配置一般在/etc/vim/vimrc或者/etc/vimrc，对所有用户生�
 用户个人的配置在 ~/.vimrc
 ```
 
-##### 插件管理
+##### 是否支持 python2 / python3
 
-> https://github.com/junegunn/vim-plug
+```
+$ vim --version
+```
 
-- 安装 vim-plug
+## 安装 - neovim
 
-  ```bash
-  $ curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-  ```
+##### install
 
-- 安装插件
+```bash
+$ yum install neovim
+$ apt-get install neovim
+```
 
-  ```bash
-  call plug#begin('~/.vim/plugged')
-  
-  call plug#end()
-  ```
+##### 配置文件
 
-- 插件命令
+```
+~/.config/nvim/init.vim
+```
 
-  | Command                             | Description                                                  |
-  | ----------------------------------- | ------------------------------------------------------------ |
-  | `PlugInstall [name ...] [#threads]` | Install plugins                                              |
-  | `PlugUpdate [name ...] [#threads]`  | Install or update plugins                                    |
-  | `PlugClean[!]`                      | Remove unlisted plugins (bang version will clean without prompt) |
-  | `PlugUpgrade`                       | Upgrade vim-plug itself                                      |
-  | `PlugStatus`                        | Check the status of plugins                                  |
-  | `PlugDiff`                          | Examine changes from the previous update and the pending changes |
-  | `PlugSnapshot[!] [output path]`     | Generate script for restoring the current snapshot of the plugins |
+##### 是否支持 python2 / python3
 
-## 插件
+```
+1. 查看是否支持 python
+:checkhealth
+
+
+2. 安装插件
+$ pip install neovim
+
+
+3. (可选)设置 python3_host_prog 如果没有设置就使用当前虚拟环境的
+let g:python3_host_prog='/home/glfadd/miniconda3/bin/python'
+
+
+4. (可选)设置 python_host_prog
+```
+
+## install vim plug
+
+> [github](https://github.com/junegunn/vim-plug)
+
+##### install
+
+```bash
+vim
+$ curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+
+
+neovim
+$ sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
+```
+
+##### setting
+
+```
+call plug#begin('~/.vim/plugged')
+
+call plug#end()
+```
+
+##### 命令
+
+| Command                             | Description                                                  |
+| ----------------------------------- | ------------------------------------------------------------ |
+| `PlugInstall [name ...] [#threads]` | Install plugins                                              |
+| `PlugUpdate [name ...] [#threads]`  | Install or update plugins                                    |
+| `PlugClean[!]`                      | Remove unlisted plugins (bang version will clean without prompt) |
+| `PlugUpgrade`                       | Upgrade vim-plug itself                                      |
+| `PlugStatus`                        | Check the status of plugins                                  |
+| `PlugDiff`                          | Examine changes from the previous update and the pending changes |
+| `PlugSnapshot[!] [output path]`     | Generate script for restoring the current snapshot of the plugins |
+
+##### PlugInstall 安装失败
+
+```
+修改 /home/glfadd/.vim/autoload/plug.vim
+
+1. 将
+let fmt = get(g:, 'plug_url_format', 'https://git::@github.com/%s.git')
+改为
+let fmt = get(g:, 'plug_url_format', 'https://git::@github.com.cnpmjs.org/%s.git')
+
+
+2. 将
+\ '^https://git::@github\.com', 'https://github.com', '')
+改为
+\ '^https://git::@github.com.cnpmjs\.org', 'https://github.com.cnpmjs.org', '')
+```
+
+## install plugin
 
 ##### 安装字体
 
@@ -280,16 +341,9 @@ Vim 的全局配置一般在/etc/vim/vimrc或者/etc/vimrc，对所有用户生�
 - setting
 
   ```
-  ```
-
   
-
-```
-
-
-```
-
-
+  ```
+  
 
 ##### 运行代码
 
@@ -322,171 +376,167 @@ Vim 的全局配置一般在/etc/vim/vimrc或者/etc/vimrc，对所有用户生�
   :AsyncRun python code_test.py
   ```
 
-##### 断点调试
+## 断点调试
 
 > [github](https://github.com/puremourning/vimspector)
 >
 > https://www.5axxw.com/wiki/content/jifl0q
 >
 
-- install
+##### install
 
-  ```
-  Plug 'puremourning/vimspector'
-  ```
-  
-- setting
+```
+Plug 'puremourning/vimspector'
+```
 
-  - 语言支持
-  
-    ```bash
-    $ cd /home/glfadd/.vim/plugged/vimspector
-    $ ./install_gadget.py --help
-    $ ./install_gadget.py --enable-python
-    
-    # 会自动生成 /home/glfadd/.vim/plugged/vimspector/gadgets/linux/.gadgets.json
-    # ${gadgetDir} 代表着存放.gadgets.json的目录
-    ```
-  
-  - 快捷键设置
-  
-    ```
-    # vimspector预设了vscode mode和human mode两套键盘映射
-    
-    let g:vimspector_enable_mappings = 'HUMAN'
-    或
-    let g:vimspector_enable_mappings = 'VISUAL_STUDIO'
-    ```
-  
-- 示例代码
+##### 安装语言支持
 
-  ```
-  /home/glfadd/.vim/plugged/vimspector/support/test
-  ```
-  
-- .vimspector.json 文件参数
+```bash
+$ cd /home/glfadd/.vim/plugged/vimspector
+$ ./install_gadget.py --help
+$ ./install_gadget.py --enable-python
 
-  | 参数           | 说明                                                        | 是否必填 |
-  | -------------- | :---------------------------------------------------------- | -------- |
-  | adapters       | 调试适配器配置，如果不是进行远程调试，一般不需要设置        |          |
-  | configurations | 配置字段字典                                                |          |
-  | adapter        | 使用的调试配置器名称                                        | 是       |
-  | variables      | 用户定义的变量                                              |          |
-  | configuration  | 配置名字                                                    | 是       |
-  | remote-request | 远程调试使用                                                |          |
-  | remote-cmdLine | 远程调试使用                                                |          |
-  | request        | 调试的类型，lauch或attach                                   |          |
-  | type           | cppdgb(GDB/LLDB)或cppvsdbg(Visutal Studio Windows debugger) |          |
-  
-- 自定义变量
+# 会自动生成 /home/glfadd/.vim/plugged/vimspector/gadgets/linux/.gadgets.json
+# ${gadgetDir} 代表着存放.gadgets.json的目录
+```
 
-  ```
-  可以在variable中定义变量。
-  
-      {
-        "configurations": {
-          "some-configuration": {
-            "variables": {
-              "gdbserver-version": {
-                "shell": [ "/path/to/my/scripts/get-gdbserver-version" ],
-                "env": {
-                  "SOME_ENV_VAR": "Value used when running above command"
-                }
-              },
-              "some-other-variable": "some value"
-            }
-          }
-        }
-      }
-  
-  其中gdbserver-version和some-other-variable都是用户定义的变量，可以像预定义变量一样使用。
-  
-  可以调用外部命令，将外部命令的输出赋给变量。gdbserver-version的值就是/path/to/my/scripts/get-gdbserver-version的输出。
-  
-  还可以在运行vimspector时输入变量的值。最典型的运例子是程序参数的传递，vimspector调试的程序的参数以数组的形式传递，在配置文件中将args设置为一个在运行时用户输入的变量，就可以模拟命令行的效果。
-  
-  用户输入值的变量用"*${variable-neme}表示，比如以下配置：
-  
-        "args": [ "*${CommandLineArgs}" ]
-  
-  在运行时vimspector会要求用户输入值，如果用户输入1、2、3,args就会被拓展成["1", "2", "3"]传递给程序。
-  
-  ```
+##### 快捷键设置
 
-- 预定义变量
+```
+# vimspector预设了vscode mode和human mode两套键盘映射
 
-  ![预定义变量](./image/预定义变量.png)
+let g:vimspector_enable_mappings = 'HUMAN'
+或
+let g:vimspector_enable_mappings = 'VISUAL_STUDIO'
+```
 
-- use
+##### 示例代码
 
-  >  在每个项目目录中创建 .vimspector.json 用来设置调试的参数
+```
+/home/glfadd/.vim/plugged/vimspector/support/test
+```
 
-  - python
+##### .vimspector.json 文件参数
 
-    ```json
+| 参数           | 说明                                                        | 是否必填 |
+| -------------- | :---------------------------------------------------------- | -------- |
+| adapters       | 调试适配器配置，如果不是进行远程调试，一般不需要设置        |          |
+| configurations | 配置字段字典                                                |          |
+| adapter        | 使用的调试配置器名称                                        | 是       |
+| variables      | 用户定义的变量                                              |          |
+| configuration  | 配置名字                                                    | 是       |
+| remote-request | 远程调试使用                                                |          |
+| remote-cmdLine | 远程调试使用                                                |          |
+| request        | 调试的类型，lauch或attach                                   |          |
+| type           | cppdgb(GDB/LLDB)或cppvsdbg(Visutal Studio Windows debugger) |          |
+
+##### 自定义变量
+
+```
+可以在variable中定义变量。
+
     {
       "configurations": {
-        "run": {
-          "adapter": "debugpy",
-          "default": true,
-          "configuration": {
-            "request": "launch",
-            "program": "${workspaceRoot}/${file}",
-            "cwd": "${workspaceRoot}",
-            "stopOnEntry": true
-          },
-          "breakpoints": {
-            "exception": {
-              "raised": "N",
-              "uncaught": "",
-              "userUnhandled": ""
-            }
+        "some-configuration": {
+          "variables": {
+            "gdbserver-version": {
+              "shell": [ "/path/to/my/scripts/get-gdbserver-version" ],
+              "env": {
+                "SOME_ENV_VAR": "Value used when running above command"
+              }
+            },
+            "some-other-variable": "some value"
           }
         }
       }
     }
-    ```
 
-- 自定义按键
+其中gdbserver-version和some-other-variable都是用户定义的变量，可以像预定义变量一样使用。
 
+可以调用外部命令，将外部命令的输出赋给变量。gdbserver-version的值就是/path/to/my/scripts/get-gdbserver-version的输出。
+
+还可以在运行vimspector时输入变量的值。最典型的运例子是程序参数的传递，vimspector调试的程序的参数以数组的形式传递，在配置文件中将args设置为一个在运行时用户输入的变量，就可以模拟命令行的效果。
+
+用户输入值的变量用"*${variable-neme}表示，比如以下配置：
+
+      "args": [ "*${CommandLineArgs}" ]
+
+在运行时vimspector会要求用户输入值，如果用户输入1、2、3,args就会被拓展成["1", "2", "3"]传递给程序。
+
+```
+
+##### 预定义变量
+
+![预定义变量](./image/预定义变量.png)
+
+##### use
+
+>  在每个项目目录中创建 .vimspector.json 用来设置调试的参数
+
+- python
+
+  ```json
+  {
+    "configurations": {
+      "run": {
+        "adapter": "debugpy",
+        "default": true,
+        "configuration": {
+          "request": "launch",
+          "program": "${workspaceRoot}/${file}",
+          "cwd": "${workspaceRoot}",
+          "stopOnEntry": true
+        },
+        "breakpoints": {
+          "exception": {
+            "raised": "N",
+            "uncaught": "",
+            "userUnhandled": ""
+          }
+        }
+      }
+    }
+  }
   ```
-  nmap <F5> <Plug>VimspectorContinue
-  
-  
-  
-  
-  ```
 
-  
+##### 自定义按键
 
-- HUMAN
+```
+nmap <F5> <Plug>VimspectorContinue
+```
 
-  | Key          | Function                     | API                                                          |
-  | ------------ | ---------------------------- | ------------------------------------------------------------ |
-  | `F5`         | 调试时，继续。否则启动调试。 | `vimspector#Continue()`                                      |
-  | `F3`         | Stop debugging.              | `vimspector#Stop()`                                          |
-  | `F4`         | 使用相同的配置重新启动调试。 | `vimspector#Restart()`                                       |
-  | `F6`         | Pause debugee.               | `vimspector#Pause()`                                         |
-  | `F9`         | 切换当前行上的行断点。       | `vimspector#ToggleBreakpoint()`                              |
-  | `<leader>F9` | 切换当前行上的条件行断点。   | `vimspector#ToggleBreakpoint( { trigger expr, hit count expr } )` |
-  | `F8`         | 为游标下的表达式添加函数断点 | `vimspector#AddFunctionBreakpoint( '<cexpr>' )`              |
-  | `F10`        | Step Over                    | `vimspector#StepOver()`                                      |
-  | `F11`        | Step Into                    | `vimspector#StepInto()`                                      |
-  | `F12`        | 跳出当前功能范围             | `vimspector#StepOut()`                                       |
+##### HUMAN
 
-- VISUAL_STUDIO
+| Key          | Function                     | API                                                          |
+| ------------ | ---------------------------- | ------------------------------------------------------------ |
+| `F5`         | 调试时，继续。否则启动调试。 | `vimspector#Continue()`                                      |
+| `F3`         | Stop debugging.              | `vimspector#Stop()`                                          |
+| `F4`         | 使用相同的配置重新启动调试。 | `vimspector#Restart()`                                       |
+| `F6`         | Pause debugee.               | `vimspector#Pause()`                                         |
+| `F9`         | 切换当前行上的行断点。       | `vimspector#ToggleBreakpoint()`                              |
+| `<leader>F9` | 切换当前行上的条件行断点。   | `vimspector#ToggleBreakpoint( { trigger expr, hit count expr } )` |
+| `F8`         | 为游标下的表达式添加函数断点 | `vimspector#AddFunctionBreakpoint( '<cexpr>' )`              |
+| `F10`        | Step Over                    | `vimspector#StepOver()`                                      |
+| `F11`        | Step Into                    | `vimspector#StepInto()`                                      |
+| `F12`        | 跳出当前功能范围             | `vimspector#StepOut()`                                       |
 
-  | Key             | Function                     | API                                             |
-  | --------------- | ---------------------------- | ----------------------------------------------- |
-  | `F5`            | 调试时，继续。否则启动调试。 | `vimspector#Continue()`                         |
-  | `Shift F5`      | Stop debugging.              | `vimspector#Stop()`                             |
-  | `Ctrl Shift F5` | 使用相同的配置重新启动调试。 | `vimspector#Restart()`                          |
-  | `F6`            | Pause debugee.               | `vimspector#Pause()`                            |
-  | `F9`            | 切换当前行上的行断点。       | `vimspector#ToggleBreakpoint()`                 |
-  | `Shift F9`      | 为游标下的表达式添加函数断点 | `vimspector#AddFunctionBreakpoint( '<cexpr>' )` |
-  | `F10`           | Step Over                    | `vimspector#StepOver()`                         |
-  | `F11`           | Step Into                    | `vimspector#StepInto()`                         |
-  | `Shift F11`     | 跳出当前功能范围             | `vimspector#StepOut()`                          |
+##### VISUAL_STUDIO
+
+| Key             | Function                     | API                                             |
+| --------------- | ---------------------------- | ----------------------------------------------- |
+| `F5`            | 调试时，继续。否则启动调试。 | `vimspector#Continue()`                         |
+| `Shift F5`      | Stop debugging.              | `vimspector#Stop()`                             |
+| `Ctrl Shift F5` | 使用相同的配置重新启动调试。 | `vimspector#Restart()`                          |
+| `F6`            | Pause debugee.               | `vimspector#Pause()`                            |
+| `F9`            | 切换当前行上的行断点。       | `vimspector#ToggleBreakpoint()`                 |
+| `Shift F9`      | 为游标下的表达式添加函数断点 | `vimspector#AddFunctionBreakpoint( '<cexpr>' )` |
+| `F10`           | Step Over                    | `vimspector#StepOver()`                         |
+| `F11`           | Step Into                    | `vimspector#StepInto()`                         |
+| `Shift F11`     | 跳出当前功能范围             | `vimspector#StepOut()`                          |
+
+
+
+
 
 
 
@@ -500,7 +550,7 @@ pip install line_profiler
 
 
 
-## 完整例子
+## config - vim
 
 > 参考https://zhuanlan.zhihu.com/p/30022074
 
@@ -650,6 +700,119 @@ nmap <silent> <Leader>tw <Plug>TranslateW
 "可视模式下翻译光标下英文字符串，在窗口显示翻译结果
 vmap <silent> <Leader>tw <Plug>TranslateWV
 
+```
+
+## config - neovim
+
+```
+set number
+
+"行都为相对于该行的相对行号
+set relativenumber
+
+set encoding=utf-8
+
+"括号匹配
+set showmatch
+
+"设置Tab长度为4空格
+set tabstop=4
+"设置自动缩进长度为4空格
+set shiftwidth=4
+"继承前一行的缩进方式，适用于多行注释
+set autoindent
+
+"关闭与vi的兼容模式
+set nocompatible 
+
+"不自动折行
+set nowrap
+
+"高亮行
+set cursorline
+"高亮列
+set cursorcolumn
+"设置高亮的颜色
+"highlight CursorLine   cterm=NONE ctermbg=gray ctermfg=green guibg=NONE guifg=NONE
+"highlight CursorColumn cterm=NONE ctermbg=gray ctermfg=green guibg=NONE guifg=NONE
+
+"尺寸线
+set cc=80
+
+
+call plug#begin('~/.vim/plugged')
+" 状态栏
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
+
+" 目录树
+Plug 'preservim/nerdtree'
+
+" 代码补全
+Plug 'skywind3000/vim-dict'
+Plug 'skywind3000/vim-auto-popmenu'
+
+" 模糊查询
+Plug 'Yggdroot/LeaderF', { 'do': ':LeaderfInstallCExtension' }
+
+" 代码注释
+Plug 'preservim/nerdcommenter'
+
+" 代码格式化
+Plug 'Chiel92/vim-autoformat'
+
+" 语法检测
+Plug 'dense-analysis/ale'
+
+" 代码运行
+Plug 'skywind3000/asynctasks.vim'
+Plug 'skywind3000/asyncrun.vim'
+
+" 代码 debug
+"Plug 'sillybun/vim-repl'
+"Plug 'vim-vdebug/vdebug'
+Plug 'puremourning/vimspector'
+
+call plug#end()
+
+
+" ------------- setting
+let g:python3_host_prog='/home/glfadd/miniconda3/bin/python'
+
+
+" ------------- skywind3000/vim-auto-popmenu
+" 设定需要生效的文件类型，如果是 "*" 的话，代表所有类型
+let g:apc_enable_ft = {'*':1}
+" 设定从字典文件以及当前打开的文件里收集补全单词，详情看 ':help cpt'
+set cpt=.,k,w,b
+" 不要自动选中第一个选项。
+set completeopt=menu,menuone,noselect
+" 禁止在下方显示一些啰嗦的提示
+set shortmess+=c
+
+
+" ------------- Yggdroot/LeaderF
+let g:Lf_ShowDevIcons = 0
+
+
+" ------------- preservim/nerdcommenter
+let g:NERDDefaultAlign = 'left'
+let g:NERDTrimTrailingWhitespace = 1
+
+
+" ------------- Chiel92/vim-autoforma
+nnoremap <F3> :Autoformat<CR>
+
+
+" ------------- skywind3000/asyncrun.vim
+" 运行时自动打开高度为 6 的 quickfix 窗口, 不然你看不到任何输出
+let g:asyncrun_open = 10
+
+
+" ------------- skywind3000/asyncrun.vim
+let g:vimspector_enable_mappings = 'HUMAN'
+nmap <LocalLeader><F11> <Plug>VimspectorRestart
+nmap <F7> <Plug>VimspectorRestart
 ```
 
 

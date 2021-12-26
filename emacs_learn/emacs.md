@@ -1,3 +1,13 @@
+##### 参考
+
+```
+https://github.com/cabins/.emacs.d
+
+elpa包管理功能
+```
+
+
+
 ## 安装
 
 > [官网](http://www.gnu.org/software/emacs/emacs.html)
@@ -61,6 +71,21 @@ $ emacs
                          ("melpa-stable" . "http://mirrors.ustc.edu.cn/elpa/melpa-stable/")
                          ("org" . "http://mirrors.ustc.edu.cn/elpa/org/")))
 ```
+
+##### use-package
+
+```
+ (use-package smooth-scrolling 
+    :ensure t ;是否一定要确保已安装
+    :defer nil ;是否要延迟加载 
+    :init (setq smooth-scrolling-margin 2) ;初始化参数 
+    :config (smooth-scrolling-mode t) ;基本配置参数 
+    :bind ;快捷键的绑定 
+    :hook) ;hook模式的绑定
+
+```
+
+
 
 ##### 安装包
 
@@ -313,6 +338,16 @@ C-/ 撤销
 ```
 
 
+
+
+
+## 优化
+
+##### 查看启动时间
+
+```
+M-x emacs-init-time
+```
 
 ## 示例 
 

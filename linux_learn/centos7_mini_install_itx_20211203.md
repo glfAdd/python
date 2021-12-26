@@ -92,10 +92,10 @@ $ nmtui
 ##### 必备软件
 
 ```bash
-$ yum install ntfs-3g wget htop vim net-tools zsh git tree openvpn yum-utils neovim
+$ yum install ntfs-3g wget htop vim net-tools zsh git tree openvpn yum-utils neovim lsof dnf
 
 
-$ yum install dnf gcc-c++  mock cmake 
+$ yum install gcc-c++  mock cmake 
 $ yum install devtoolset-8-gcc  devtoolset-8-gcc-c++
 $ yum install yum-fastestmirror
 
@@ -171,6 +171,8 @@ $ yum reinstall openssh-server
 
 2. 编辑 /etc/ssh/sshd_config 文件修改为如下
 Port 22
+ListenAddress 0.0.0.0
+ListenAddress ::
 PermitRootLogin yes
 PasswordAuthentication yes
 
@@ -226,6 +228,27 @@ $ bashtop
 $ git config --global user.name "gonglongfei"
 $ git config --global user.email "2239660080@qq.com"
 ```
+
+##### github 问题
+
+- clone 速度慢, 使用国内镜像源
+
+  ```
+  将 github.com 替换为 github.com.cnpmjs.org
+  
+  示例
+  $ git clone https://github.com/vim/vim.git
+  替换为
+  $ git clone https://github.com.cnpmjs.org/vim/vim.git
+  ```
+
+- 设置 /etc/hosts 添加
+
+  ```
+  185.199.108.133 raw.githubusercontent.com
+  199.232.69.194 github.global.ssl.fastly.net
+  140.82.113.4 github.com git
+  ```
 
 ##### ssh 秘钥设置
 
@@ -306,6 +329,52 @@ $ wget https://mirrors.tuna.tsinghua.edu.cn/gitlab-ce/yum/el7/gitlab-ce-14.5.1-c
 
 
 ```
+
+##### w3m
+
+- install
+
+  ```
+  yum install w3m w3m-img
+  ```
+
+- use
+
+  ```
+  $ w3m www.baidu.com
+  ```
+
+- keyboard
+
+  ```
+  Enter
+  
+  H 帮助
+  q 退出
+  
+  u 刷新页面
+  U 从新输入 url
+  B 后退
+  T 创建新标签
+  C - t 关闭当前标签
+  C-a 添加书签
+  
+  C-b 查看书签
+  
+  {}切换标签t
+  Esc t 标签切换弹框
+  
+  hjkl 上下左右
+  ```
+
+  
+
+  
+
+```
+```
+
+
 
 ##### kvm
 
