@@ -1,21 +1,21 @@
 ##### 参考
 
 ```
-*****
 https://www.cnblogs.com/xiaobaozi-95/p/10740511.html
-*****
+
+https://www.cnblogs.com/longcnblogs/p/9620733.html
+
+https://zhuanlan.zhihu.com/p/179294441
 
 https://zhuanlan.zhihu.com/p/179292686
-https://www.cnblogs.com/longcnblogs/p/9620733.html
-https://zhuanlan.zhihu.com/p/179294441
-https://zhuanlan.zhihu.com/p/179292686
+
 https://zhuanlan.zhihu.com/p/74932366
-https://www.cnblogs.com/zhaojiedi1992/p/zhaojiedi_liunx_65_prometheus_alertmanager.html
+
+文档
 https://yunlzheng.gitbook.io/prometheus-book/parti-prometheus-ji-chu/alert/prometheus-alert-manager-overview
 
-
-详细
-https://www.cnblogs.com/battlescars/p/prometheus_alertmanager.html
+webhook
+https://cloud.tencent.com/developer/article/1782471
 ```
 ##### 是什么
 
@@ -145,127 +145,6 @@ ALERTS{alertname="<alert name>", alertstate="pending|firing", <additional alert 
 
 ```
 
-## 配置
-
-##### alertmanager 设置 webhook 
-
-| 参数                | 说明                                                         |
-| ------------------- | ------------------------------------------------------------ |
-| scrape_interval     | Promethues抓取数据的间隔，默认为1分钟                        |
-| evaluation_interval | 评估间隔，Promethues跑一遍所有的定义好的alerting rules，并更新alerting的状态 |
-|                     |                                                              |
-| global              | 全局配置                                                     |
-| templates           | 模板                                                         |
-| route               | 告警路由. 根据标签匹配，确定当前告警应该如何处理             |
-| receivers           | 接收方                                                       |
-| inhibit_rules       | 抑制规则. 合理设置抑制规则可以减少垃圾告警的产生             |
-|                     |                                                              |
-| group_by            | 告警组名, 可以将多个分组的合并在一起                         |
-| group_wait          | 等待该时间，目的是将该时间段内所有的属于同一个组的alert打包一起发送告警通知 |
-| group_interval      | 下一次评估过程中，同一个组的alert生效，则会等待该时长发送告警通知，此时不会等待group_wait设置的时间 |
-| repeat_interval     | 重复告警周期时间                                             |
-| receiver            | 信息推送给谁，此处设置的值必须在receivers中能够找到          |
-
-- alertmanager.yml
-
-  ```yml
-  global:
-    resolve_timeout: 5m
-  route:
-    group_by:
-      - test_1
-    group_wait: 10s
-    group_interval: 20s
-    repeat_interval: 20s
-    receiver: webhook
-  receivers:
-    - name: webhook
-      webhook_configs:
-        - url: 'http://localhost:11469/alertmanager'
-  ```
-
-##### prometheus.yml
-
-```yml
-global:
-  scrape_interval: 15s
-  evaluation_interval: 15s
-  
-# 配置alertmanager
-alerting:
-  alertmanagers:
-    - static_configs:
-        - targets:
-            - '127.0.0.1:9093'
-# 告警规则文件
-rule_files:
-  - rules/*.yml
-  
-scrape_configs:
-  ...
-```
-
-##### 自定义 rules yml
-
-| 参数                | 说明                                                         |
-| ------------------- | ------------------------------------------------------------ |
-| group               | 将一组相关的规则设置定义在一个group下. 每一个group中我们可以定义多个告警规则(rule) |
-| alert               | 告警规则的名称                                               |
-| expr                | 基于PromQL表达式告警触发条件，用于计算是否有时间序列满足该条件 |
-| for                 | 评估等待时间，可选参数。用于表示只有当触发条件持续一段时间后才发送告警。在等待期间新产生告警的状态为pending。 |
-| labels              | 自定义标签，允许用户指定要附加到告警上的一组附加标签         |
-| annotations         | 附加描述信息                                                 |
-| summary             | 告警的概要信息                                               |
-| description         | 告警的详细信息                                               |
-|                     |                                                              |
-| $labels.<labelname> | 访问当前告警实例中指定标签的值                               |
-| $value              | 获取当前PromQL表达式计算的样本值                             |
-
-- test.yml
-
-```yml
-groups:
-  - name: example
-    rules:
-      - alert: InstanceDown
-        expr: up == 0
-        for: 5m
-        labels:
-          severity: page
-        annotations:
-          summary: 'Instance {{ $labels.instance }} down'
-          description: >-
-            {{ $labels.instance }} of job {{ $labels.job }} has been down for
-            more than 5 minutes.
-      - alert: APIHighRequestLatency
-        expr: 'api_http_request_latencies_second{quantile="0.5"} > 1'
-        for: 10m
-        annotations:
-          summary: 'High request latency on {{ $labels.instance }}'
-          description: >-
-            {{ $labels.instance }} has a median request latency above 1s
-            (current value: {{ $value }}s)
-```
-
-
-
-```
-groups:
-  - name: blackbox_network_stats
-    rules:
-      - alert: blackbox_network_stats
-        expr: probe_success == 0
-        for: 1m
-        labels:
-          severity: critical
-        annotations:
-          summary: '接口/主机/端口 {{ $labels.instance }}  无法联通'
-          description: 请尽快检测
-
-```
-
-
-
 ##### 支持报警类型
 
 ```
@@ -275,21 +154,174 @@ command
 发送 post 请求
 ```
 
-##### 
+## setting - prometheus
 
-## 问题
+##### 示例 - prometheus.yml
 
-##### 报警 webhook 没有收到
+```yml
+# Prometheus全局配置项
+global:
+  # 设定抓取数据的周期，默认 1min
+  scrape_interval: 10s
+  # 设定更新rules文件的周期，默认 1min
+  evaluation_interval: 10s
+  # 抓取数据超时时间，默认 10s
+  scrape_timeout: 10s
+  external_labels: # 额外的属性，会添加到拉取得数据并存到数据库中
+    monitor: 'codelab_monitor'
+
+# Alertmanager 配置
+alerting:
+  alertmanagers:
+    - static_configs:
+        - targets:
+          # 设定 alertmanager 和 prometheus 交互的接口
+          "localhost:9093"
+
+
+# rule 配置
+rule_files:
+  - 'rules/*.yml'
+
+
+# scape配置
+scrape_configs:
+  # job_name 默认写入 timeseries 的 labels 中
+  - job_name: 'glfadd_test'
+    # 抓取周期，默认采用global配置
+    scrape_interval: 15s
+    # 静态配置
+    static_configs:
+      # prometheus所要抓取数据的地址，即instance实例项
+      - targets:
+          - 'localdns:9090' 
+```
+
+## setting - alertmanager
+
+##### 参数
+
+| 参数            | 说明                                                         |
+| --------------- | ------------------------------------------------------------ |
+| global          | 全局配置                                                     |
+| resolve_timeout | 当Alertmanager持续多长时间未接收到告警后标记告警状态为resolved（已解决） |
+| group_by        | 采用哪个标签来作为分组依据                                   |
+| group_wait      | 组告警等待时间。也就是告警产生后等待10s，如果有同组告警一起发出 |
+| group_interval  | 两组告警的间隔时间                                           |
+| repeat_interval | 重复告警的间隔时间，减少相同邮件的发送频率                   |
+| receiver        | 设置默认接收人                                               |
+
+##### route 与 receivers
+
+> group_by 是 alertname 的报警由 name 是 web.hook 的 receiver处理
+
+```yml
+global:
+  resolve_timeout: 5m # 处理超时时间，默认为5min
+  
+# 告警路由的匹配规则
+route:
+  group_by:
+    - 'alertname'
+  receiver: 'web.hook'
+
+# receiver 匹配规则
+receivers:
+  - name: 'web.hook'
+    webhook_configs:
+      - url: 'http://127.0.0.1:5001/'
+```
+
+```
+route 匹配结果将告警发送给 receiver
+匹配规则有 match、match_re
 
 ```
 
+##### 示例 - alertmanager.yml
 
+> routes 设置了 2 个报警, 用 alert_type 标签匹配, 分别发送给不同的 receivers 处理
+
+```yml
+# 全局配置项
+global:
+  resolve_timeout: 2m
+
+
+# 定义模板信息
+templates:
+  - 'template/*.tmpl'
+
+
+# 定义路由指定接收者
+route:
+  # 组告警等待时间。也就是告警产生后等待10s，如果有同组告警一起发出
+  group_wait: 10s
+  # 两组告警的间隔时间
+  group_interval: 10s
+  # 重复告警的间隔时间，减少相同邮件的发送频率
+  repeat_interval: 10s
+  routes:
+    - match:
+        alert_type: api_status
+      group_by:
+        - api_status
+      receiver: api_status
+
+    - match:
+        alert_type: node_status
+      group_by:
+        - node_status
+      receiver: node_status
+
+
+# 定义警报接收者
+receivers:
+  - name: api_status
+    webhook_configs:
+      - url: 'http://localhost:10421/alert/error/api/status'
+
+  - name: node_status
+    webhook_configs:
+      - url: 'http://localhost:10421/alert/error/node/status'
 
 ```
 
-##### python webhook
+## setting - rules
 
-```
-https://cloud.tencent.com/developer/article/1782471
+ ##### 参数
+
+| 参数                | 说明                                                         |
+| ------------------- | ------------------------------------------------------------ |
+| group               |                                                              |
+| name                | rule 名称                                                    |
+| alert               | 告警名称                                                     |
+| expr                | PromQL 语句定义触发告警的条件                                |
+| for                 | 定义告警从产生到发送的等待时间. 在等待期间新产生告警的状态为 pending |
+| labels              | 自定义标签                                                   |
+| annotations         | 附加描述信息                                                 |
+| summary             | 告警的概要信息                                               |
+| description         | 告警的详细信息                                               |
+|                     |                                                              |
+| $labels.<labelname> | 访问当前告警实例中指定标签的值                               |
+| $value              | 获取当前PromQL表达式计算的样本值                             |
+
+##### 示例 - rules
+
+```yml
+groups:
+  - name: api_status
+    rules:
+      - alert: api_status
+        expr: probe_success == 0
+        for: 15s
+        labels:
+          owner: 宫龙飞
+          host: 123.0.0.1
+          service: 工时管理系统
+        annotations:
+          summary: '接口/主机/端口 {{ $labels.instance }}  无法联通'
+          description: 请尽快检测
+
 ```
 
