@@ -1,0 +1,13 @@
+groups:
+  - name: api_status
+    rules:
+      - alert: api_status
+        expr: probe_success == 0
+        for: 15s
+        labels:
+          owner: 宫龙飞
+          host: 123.0.0.1
+          service: 工时管理系统
+        annotations:
+          summary: '接口/主机/端口 {{ $labels.instance }}  无法联通'
+          description: 请尽快检测
