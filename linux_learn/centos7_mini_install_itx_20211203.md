@@ -164,22 +164,32 @@ gong    ALL=(ALL)       NOPASSWD: ALL
 
 ##### ssh
 
-```bash
-1. 重新安装
-$ yum reinstall openssh-server
+- 安装
 
+  ```bash
+  1. 重新安装
+  $ yum reinstall openssh-server
+  
+  
+  2. 编辑 /etc/ssh/sshd_config 文件修改为如下
+  Port 22
+  #ListenAddress 0.0.0.0
+  #ListenAddress ::
+  PermitRootLogin yes
+  PasswordAuthentication yes
+  
+  
+  3. 重启动服务
+  $ service sshd start
+  ```
 
-2. 编辑 /etc/ssh/sshd_config 文件修改为如下
-Port 22
-ListenAddress 0.0.0.0
-ListenAddress ::
-PermitRootLogin yes
-PasswordAuthentication yes
+- 秘钥设置
 
+  ```bash
+  $ ssh-keygen -t rsa -C "2239660080@qq.com"
+  ```
 
-3. 重启动服务
-$ service sshd start
-```
+  
 
 ##### 设置 DNS 服务器
 
@@ -231,6 +241,12 @@ $ git config --global user.email "2239660080@qq.com"
 
 ##### github 问题
 
+- clone 失败
+
+  ```bash
+  $ git config --global --unset http.proxy
+  ```
+
 - clone 速度慢, 使用国内镜像源
 
   ```
@@ -249,12 +265,6 @@ $ git config --global user.email "2239660080@qq.com"
   199.232.69.194 github.global.ssl.fastly.net
   140.82.113.4 github.com git
   ```
-
-##### ssh 秘钥设置
-
-```bash
-$ ssh-keygen -t rsa -C "2239660080@qq.com"
-```
 
 ##### docker
 
@@ -367,12 +377,41 @@ $ wget https://mirrors.tuna.tsinghua.edu.cn/gitlab-ce/yum/el7/gitlab-ce-14.5.1-c
   hjkl 上下左右
   ```
 
+##### 防火墙
+
+- 状态
+
+  ```bash
+  # status / start / restart / stop
+  $ systemctl status firewalld
+  $ service firewalld status
+  ```
+
+- firewall-cmd
+
+  ```bash
+  $ firewall-cmd --state
+  $ firewall-cmd --reload
+  # 查看防火墙规则
+  $ firewall-cmd --list-all 
+  # 查询端口是否开放
+  $ firewall-cmd --query-port=8080/tcp
+  # 开放80端口
+  $ firewall-cmd --permanent --add-port=80/tcp
+  # 移除端口
+  $ firewall-cmd --permanent --remove-port=8080/tcp
   
+  参数
+  	--permanent: 表示设置为持久
+  	--add-port: 标识添加的端口
+  	--query-port: 查看
+  	--add-port: 添加
+  	--remove-port: 移除
+  ```
 
   
 
-```
-```
+
 
 
 
