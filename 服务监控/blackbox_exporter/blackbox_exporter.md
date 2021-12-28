@@ -52,7 +52,7 @@ $ /opt/blackbox_exporter-0.19.0.linux-amd64/blackbox_exporter --config.file=/opt
 $ curl -XPOST http://127.0.0.1:9115/-/reload
 ```
 
-##### blackbox_exporter_conf.conf
+##### blackbox_exporter.conf
 
 ```ini
 [program:blackbox_exporter]
@@ -502,7 +502,33 @@ probe_success 0
 
   
 
+## http code
 
+##### 指标
+
+```
+成功时
+probe_success 1
+probe_http_status_code 200
+
+
+失败时
+probe_success 0
+probe_http_status_code 404
+```
+
+
+
+## 属性查找
+
+```
+每次发送请求时间间隔设置
+
+
+
+
+
+```
 
 
 

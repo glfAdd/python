@@ -186,15 +186,25 @@ rule_files:
 
 # scape配置
 scrape_configs:
-  # job_name 默认写入 timeseries 的 labels 中
-  - job_name: 'glfadd_test'
-    # 抓取周期，默认采用global配置
-    scrape_interval: 15s
-    # 静态配置
-    static_configs:
-      # prometheus所要抓取数据的地址，即instance实例项
-      - targets:
-          - 'localdns:9090' 
+  - job_name: blackbox_get
+    metrics_path: /probe
+    params:
+      module:
+        - http_2xx
+    file_sd_configs:
+      # 刷新间隔
+      - refresh_interval: 1m
+        files:
+          - /opt/prometheus-2.28.0.linux-amd64/config/blackbox*.yml
+    relabel_configs:
+      - source_labels:
+          - __address__
+        target_label: __param_target
+      - source_labels:
+          - __param_target
+        target_label: instance
+      - target_label: __address__
+        replacement: '127.0.0.1:9115'
 ```
 
 ## setting - alertmanager
@@ -261,6 +271,8 @@ route:
   group_interval: 10s
   # 重复告警的间隔时间，减少相同邮件的发送频率
   repeat_interval: 10s
+  # 默认接收者, 不设置报错
+  receiver: api_status
   routes:
     - match:
         alert_type: api_status
@@ -280,10 +292,13 @@ receivers:
   - name: api_status
     webhook_configs:
       - url: 'http://localhost:10421/alert/error/api/status'
+        # 报警恢复时发送数据到 webhook
+        send_resolved: true
 
   - name: node_status
     webhook_configs:
       - url: 'http://localhost:10421/alert/error/node/status'
+        send_resolved: true
 
 ```
 
@@ -313,15 +328,23 @@ groups:
   - name: api_status
     rules:
       - alert: api_status
-        expr: probe_success == 0
+        expr: probe_http_status_code != 200
         for: 15s
         labels:
-          owner: 宫龙飞
-          host: 123.0.0.1
-          service: 工时管理系统
+          source: 'api_http_status_code'
         annotations:
           summary: '接口/主机/端口 {{ $labels.instance }}  无法联通'
           description: 请尽快检测
+          # 使用 $value 获取 PromQL 表达式的值
+          http_status_code2: '{{ $value }}'
 
+```
+
+## webhook
+
+```
+https://www.jianshu.com/p/9829986b4363
+
+https://segmentfault.com/a/1190000020249988
 ```
 

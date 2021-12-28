@@ -1,13 +1,46 @@
-groups:
+# 全局配置项
+global:
+  resolve_timeout: 2m
+
+
+# 定义模板信息
+templates:
+  - 'template/*.tmpl'
+
+
+# 定义路由指定接收者
+route:
+  # 组告警等待时间。也就是告警产生后等待10s，如果有同组告警一起发出
+  group_wait: 10s
+  # 两组告警的间隔时间
+  group_interval: 10s
+  # 重复告警的间隔时间，减少相同邮件的发送频率
+  repeat_interval: 10s
+  # 默认接收者, 不设置报错
+  receiver: api_status
+  routes:
+    - match:
+        alert_type: api_status
+      group_by:
+        - api_status
+      receiver: api_status
+
+    - match:
+        alert_type: node_status
+      group_by:
+        - node_status
+      receiver: node_status
+
+
+# 定义警报接收者
+receivers:
   - name: api_status
-    rules:
-      - alert: api_status
-        expr: probe_success == 0
-        for: 15s
-        labels:
-          owner: 宫龙飞
-          host: 123.0.0.1
-          service: 工时管理系统
-        annotations:
-          summary: '接口/主机/端口 {{ $labels.instance }}  无法联通'
-          description: 请尽快检测
+    webhook_configs:
+      - url: 'http://localhost:10421/alert/error/api/status'
+        # 报警恢复时发送数据到 webhook
+        send_resolved: true
+
+  - name: node_status
+    webhook_configs:
+      - url: 'http://localhost:10421/alert/error/node/status'
+        send_resolved: true

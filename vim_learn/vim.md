@@ -416,6 +416,17 @@ let g:vimspector_enable_mappings = 'VISUAL_STUDIO'
 /home/glfadd/.vim/plugged/vimspector/support/test
 ```
 
+##### configurations 优先级
+
+```
+1. vimspector 先在当前目录向父目录递归搜索, 如果查找到了 .vimspector.json, 则使用其中的配置，并将其所在的目录设定为项目根目录
+
+2. 如果未查找到，在 vimspector 安装目录 ./configurations/<os>/<filetype>/*.json 的配置文件, 将打开的文件的目录设置为项目根目录。
+	/home/glfadd/.vim/plugged/vimspector/configurations/linux/_all/python.json
+```
+
+
+
 ##### .vimspector.json 文件参数
 
 | 参数           | 说明                                                        | 是否必填 |
