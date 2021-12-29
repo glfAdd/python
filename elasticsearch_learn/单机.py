@@ -7,15 +7,14 @@ pip install elasticsearch
 from elasticsearch import Elasticsearch
 
 es = Elasticsearch(
-    # ['192.168.10.10', '192.168.10.11', '192.168.10.12'],
-    ['10.135.0.19:9200'],
-    sniff_on_start=True,
-    sniff_on_connection_fail=True,
-    sniff_timeout=60
+    [{'host': '10.135.0.19', 'port': 9200}],
+    timeout=3600,
+    http_auth=('gonglongfei', '8hv_tUW24xD_wrrauqRBQT')
 )
-
-
-
-
-
-
+query = {
+    "query": {
+        "match_all": {}
+    }
+}
+result = es.search(index="megacorp", body=query)
+print(result)

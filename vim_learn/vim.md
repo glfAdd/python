@@ -376,6 +376,49 @@ let fmt = get(g:, 'plug_url_format', 'https://git::@github.com.cnpmjs.org/%s.git
   :AsyncRun python code_test.py
   ```
 
+##### git
+
+- install
+
+  ```
+  vim-fugitive
+  
+  
+  
+  set background=dark "背景使用黑色 
+  
+  
+  设置配色方案
+  "colorscheme murphy
+  "字体 
+  "if (has("gui_running")) 
+  "   set guifont=Bitstream\ Vera\ Sans\ Mono\ 10 
+  "endif 
+  
+  
+  " 开启256色支持
+  set t_Co=256
+  " 背景使用黑色, 只有 light 和 dark
+  set background=dark
+  " 配色方案
+  colorscheme=zellner
+  ```
+
+- setting
+
+  ```
+  ```
+
+##### 配色
+
+```
+https://github.com/dracula/dracula-theme
+
+https://draculatheme.com/
+```
+
+
+
 ## 断点调试
 
 > [github](https://github.com/puremourning/vimspector)
@@ -424,8 +467,6 @@ let g:vimspector_enable_mappings = 'VISUAL_STUDIO'
 2. 如果未查找到，在 vimspector 安装目录 ./configurations/<os>/<filetype>/*.json 的配置文件, 将打开的文件的目录设置为项目根目录。
 	/home/glfadd/.vim/plugged/vimspector/configurations/linux/_all/python.json
 ```
-
-
 
 ##### .vimspector.json 文件参数
 
@@ -545,12 +586,6 @@ nmap <F5> <Plug>VimspectorContinue
 | `F11`           | Step Into                    | `vimspector#StepInto()`                         |
 | `Shift F11`     | 跳出当前功能范围             | `vimspector#StepOut()`                          |
 
-
-
-
-
-
-
 ## pip
 
 ##### 性能测试
@@ -558,8 +593,6 @@ nmap <F5> <Plug>VimspectorContinue
 ```
 pip install line_profiler
 ```
-
-
 
 ## config - vim
 
@@ -717,39 +750,37 @@ vmap <silent> <Leader>tw <Plug>TranslateWV
 
 ```
 set number
-
-"行都为相对于该行的相对行号
+" 行都为相对于该行的相对行号
 set relativenumber
-
 set encoding=utf-8
-
-"括号匹配
+" 括号匹配
 set showmatch
-
-"设置Tab长度为4空格
+" 设置Tab长度为4空格
 set tabstop=4
-"设置自动缩进长度为4空格
+" 设置自动缩进长度为4空格
 set shiftwidth=4
-"继承前一行的缩进方式，适用于多行注释
+" 继承前一行的缩进方式，适用于多行注释
 set autoindent
-
-"关闭与vi的兼容模式
+" 关闭与vi的兼容模式
 set nocompatible 
-
-"不自动折行
+" 不自动折行
 set nowrap
-
-"高亮行
+" 高亮行
 set cursorline
-"高亮列
+" 高亮列
 set cursorcolumn
-"设置高亮的颜色
+" 设置高亮的颜色
 "highlight CursorLine   cterm=NONE ctermbg=gray ctermfg=green guibg=NONE guifg=NONE
 "highlight CursorColumn cterm=NONE ctermbg=gray ctermfg=green guibg=NONE guifg=NONE
 
-"尺寸线
-set cc=80
-
+" 尺寸线
+set cc=100
+" 开启256色支持
+set t_Co=256
+" 背景使用黑色, 只有 light 和 dark
+set background=dark
+" ***** vim ***** - 配色方案
+"colorscheme=desert
 
 call plug#begin('~/.vim/plugged')
 " 状态栏
@@ -784,10 +815,18 @@ Plug 'skywind3000/asyncrun.vim'
 "Plug 'vim-vdebug/vdebug'
 Plug 'puremourning/vimspector'
 
+" git
+
+
+" 主题
+Plug 'dracula/vim', { 'as': 'dracula' }
+
+
 call plug#end()
 
 
 " ------------- setting
+" 支持 python3
 let g:python3_host_prog='/home/glfadd/miniconda3/bin/python'
 
 
@@ -803,6 +842,7 @@ set shortmess+=c
 
 
 " ------------- Yggdroot/LeaderF
+" 关闭最前面的图标, 如果没有安装字体显示乱码
 let g:Lf_ShowDevIcons = 0
 
 
@@ -824,6 +864,7 @@ let g:asyncrun_open = 10
 let g:vimspector_enable_mappings = 'HUMAN'
 nmap <LocalLeader><F11> <Plug>VimspectorRestart
 nmap <F7> <Plug>VimspectorRestart
+
 ```
 
 

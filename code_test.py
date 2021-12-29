@@ -10,6 +10,7 @@ def test():
     a = a + 1
     print(222)
     print(333)
+    print(333)
     print(a)
 
 
