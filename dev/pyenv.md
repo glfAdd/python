@@ -1,110 +1,74 @@
-# github
+> [pyenv](https://github.com/pyenv/pyenv)
+>
+> [pyenv-virtualenv](https://github.com/pyenv/pyenv-virtualenv)
 
-```
-https://github.com/pyenv/pyenv
-https://github.com/pyenv/pyenv-virtualenv
-```
+## 安装
 
-# macOS
+##### pyenv
 
-##### brew安装
+> shell 文件 .zshrc .bashrc .bash_profile
 
-```
-$ brew uninstall pyenv
-$ brew update
-$ brew install pyenv
-```
+- clone
 
-##### 安装 pyenv
+  ```bash
+  $ git clone https://github.com/pyenv/pyenv.git ~/.pyenv
+  ```
 
-```bash
-$ git clone https://github.com/pyenv/pyenv.git ~/.pyenv
+- shell 添加如下内容:
 
-配置环境变量 (如果你使用 bash，就依次执行如下命令)
-$ echo 'export PYENV_ROOT="$HOME/.pyenv"' >> ~/.bash_profile
-$ echo 'export PATH="$PYENV_ROOT/bin:$PATH"' >> ~/.bash_profile
-$ echo -e 'if command -v pyenv 1>/dev/null 2>&1; then\n  eval "$(pyenv init -)"\nfi' >> ~/.bash_profile
-配置环境变量 (如果你使用 zsh，就依次执行如下命令)
-$ echo 'export PYENV_ROOT="$HOME/.pyenv"' >> ~/.zshrc
-$ echo 'export PATH="$PYENV_ROOT/bin:$PATH"' >> ~/.zshrc
-$ echo -e 'if command -v pyenv 1>/dev/null 2>&1; then\n eval "$(pyenv init -)"\nfi' >> ~/.zshrc
+  ```shell
+  export PYENV_ROOT="$HOME/.pyenv"
+  export PATH="$PYENV_ROOT/bin:$PATH"
+  eval "$(pyenv init -)"
+  eval "$(pyenv virtualenv-init -)"
+  ```
 
-重新初始化 shell 环境, 或者关闭在打开
-$ exec $SHELL
-```
+##### pyenv-virtualenv
 
-##### 安装 pyenv-virtualenv
+- clone
 
-```bash
-$ git clone https://github.com/pyenv/pyenv-virtualenv.git $(pyenv root)/plugins/pyenv-virtualenv
+  ```bash
+  $ git clone https://github.com/pyenv/pyenv-virtualenv.git $(pyenv root)/plugins/pyenv-virtualenv
+  ```
 
-如果你使用 bash，就执行如下命令：
-$ echo 'eval "$(pyenv virtualenv-init -)"' >> ~/.bashrc
-如果你使用 zsh，就执行如下命令：
-$ echo 'eval "$(pyenv virtualenv-init -)"' >> ~/.zshrc
+## 命令
 
-重新初始化 shell 环境, 或者关闭在打开
-$ exec $SHELL
-```
-
-# debian
-
-```
-先安装依赖
-apt-get update
-apt-get install --no-install-recommends make build-essential libssl-dev zlib1g-dev libbz2-dev libreadline-dev libsqlite3-dev wget curl llvm libncurses5-dev xz-utils tk-dev libxml2-dev libxmlsec1-dev libffi-dev liblzma-dev
-apt-get install zlibc zlib1g-dev
-```
-
-# centos
-
-##### 安装 pyenv
+##### pyenv
 
 ```bash
-python依赖的库文件
-# yum install gcc
-# yum install zlib-devel bzip2 bzip2-devel readline-devel sqlite sqlite-devel openssl-devel tk-devel libffi-devel
-
-
-# mkdir ~/.pyenv
-# git clone git://github.com/yyuu/pyenv.git ~/.pyenv  
-# echo 'export PYENV_ROOT="$HOME/.pyenv"' >> ~/.bashrc  
-# echo 'export PATH="$PYENV_ROOT/bin:$PATH"' >> ~/.bashrc  
-# echo 'eval "$(pyenv init -)"' >> ~/.bashrc  
-# exec $SHELL -l 
+pyenv local 2.7.6			# 设置当前python 版本
+pyenv install --list		# 列出可安装版本
+pyenv install <version>		# 安装对应版本 
+pyenv install -v <version>	# 安装对应版本，若发生错误，可以显示详细的错误信息 
+pyenv versions				# 显示当前使用的python版本 
+pyenv which python			# 显示当前python安装路径 
+pyenv global <version>		# 设置默认Python版本 
+pyenv local <version>		# 当前路径创建一个.python-version, 以后进入这个目录自动切换为该版本 
+pyenv shell <version>		# 当前shell的session中启用某版本，优先级高于global 及 local
+pyenv rehash 				# 安装完成之后需要对数据库进行更新
+pyenv uninstall <version>	# 卸载python 3.4.0
 ```
 
-##### 安装 pyenv-virtualenv
+##### pyenv-virtualenv
 
 ```bash
-# git clone https://github.com/pyenv/pyenv-virtualenv.git $(pyenv root)/plugins/pyenv-virtualenv
+pyenv virtualenv env 				# 从默认版本创建虚拟环境 
+pyenv virtualenv <version> <name> 	# 创建3.6.4版本的虚拟环境 
+pyenv activate <name> 				# 激活 env-3.6.4 这个虚拟环境 
+pyenv deactivate 					# 停用当前的虚拟环境 
+# 自动激活 
+# 使用pyenv local 虚拟环境名 
+# 会把`虚拟环境名`写入当前目录的.python-version文件中 
+# 关闭自动激活 -> pyenv deactivate 
+# 启动自动激活 -> pyenv activate env-3.6.4 
+pyenv local env-3.6.4 
+pyenv uninstall env-3.6.4 			# 删除 env-3.6.4 这个虚拟环境
 
-如果你使用 bash，就执行如下命令：
-# echo 'eval "$(pyenv virtualenv-init -)"' >> ~/.bashrc
-如果你使用 zsh，就执行如下命令：
-# echo 'eval "$(pyenv virtualenv-init -)"' >> ~/.zshrc
-
-重新初始化 shell 环境, 或者关闭在打开
-# exec $SHELL
 ```
 
-# 命令
 
-```bash
-which pyenv												# 安装路径
-cd $(pyenv root) & git pull				# 更新 pyenv
-rm -rf $(pyenv root)							# 卸载 pyenv
 
-pyenv commands 										# 显示所有可用命令
-pyenv --version										# pyenv版本
-pyenv versions										# pyenv python版本
-pyenv install --list							# 可以安装的版本
-pyenv install 3.7.4								# 安装python
-pyenv virtualenv 3.7.4 p37				# 创建虚拟环境
-pyenv activate p37								# 激活虚拟环境
-```
-
-# 离线包安装python
+## 离线包安装python
 
 ```
 创建目录放安装文件 ~/.pyenv/cache
@@ -112,49 +76,65 @@ pyenv activate p37								# 激活虚拟环境
 安装 pyenv install 2.7.16
 ```
 
-# pip
+## pip
 
-##### centos
+#####  pip 安装
+
+- 在 Python2.x 中安装
+
+  ```bash
+  $ curl https://bootstrap.pypa.io/pip/2.7/get-pip.py -o get-pip2.py
+  $ sudo python get-pip2.py
+  $ pip --version
+  $ pip install --upgrade pip
+  ```
+
+- 在 Python3.x 中安装
+
+  ```bash
+  $ curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
+  $ sudo python3 get-pip.py
+  $ pip3 --version
+  $ pip3 install --upgrade pip
+  ```
+
+##### 临时改变源
 
 ```bash
-指定版本
-pip install flask==0.10.1
-临时使用某个源
-pip install -i https://pypi.tuna.tsinghua.edu.cn/simple -r requirements.txt
-导入出文件
-pip freeze > abc.text
+$ pip install -i https://pypi.tuna.tsinghua.edu.cn/simple -r requirements.txt
+```
 
-安装错误的时候需要先安装
-yum install python-devel
-pip install turtle
-python -m pip install --upgrade --force pip 
+##### 永久改变源 
 
-永久改变源
-[root@localhost ~]# cd ~
-[root@localhost ~]# mkdir .pip
-[root@localhost ~]# cd .pip
-[root@localhost .pip]# vim pip.conf
-添加
+```
+创建并添加 ~/.pip/pip.conf
+
 [global]
 index-url = https://mirrors.aliyun.com/pypi/simple
 [install]
 trusted-host = https://mirrors.aliyun.com
-
-
-项目安装psycopg2失败需要安装
-yum install libjpeg libjpeg-devel zlib zlib-devel freetype freetype-devel lcms lcms-devel
-yum install postgresql-devel*
-yum install python-imaging
 ```
 
-##### 安装psycopg2失败
+## 问题
 
-```
-brew update
-brew install --force ossp-uuid
-brew install postgresql
-pip install psycopg
-```
+##### 安装 psycopg2 失败
+
+- centos
+
+  ```bash
+  $ yum install libjpeg libjpeg-devel zlib zlib-devel freetype freetype-devel lcms lcms-devel
+  $ yum install postgresql-devel*
+  $ yum install python-imaging
+  ```
+
+- man
+
+  ```bash
+  $ brew update
+  $ brew install --force ossp-uuid
+  $ brew install postgresql
+  $ pip install psycopg
+  ```
 
 ##### pyltp 安装失败
 
@@ -174,19 +154,9 @@ $ python setup.py install
 
 
 $ MACOSX_DEPLOYMENT_TARGET=10.7 python setup.py install
-
-
 ```
 
 
-##### sqlalchemy init 失败
-
-```
-执行 python gendb.py db init报错 Error: Directory migrations already exists and is not empty
-解决办法:
-
-删除目录下的 migrations
-```
 
 
 

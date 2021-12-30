@@ -844,3 +844,25 @@ c + L 地址栏输入路径
   b : reBoot 重启
 ```
 
+#####  pip
+
+- 在 Python2.x 中安装
+
+  ```bash
+  $ curl https://bootstrap.pypa.io/pip/2.7/get-pip.py -o get-pip2.py
+  $ sudo python get-pip2.py
+  $ pip --version
+  $ pip install --upgrade pip
+  ```
+
+- 在 Python3.x 中安装
+
+  ```bash
+  $ curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
+  $ sudo python3 get-pip.py
+  $ pip3 --version
+  $ pip3 install --upgrade pip
+  ```
+
+#####
+

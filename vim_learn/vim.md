@@ -1,3 +1,14 @@
+##### 参考案例
+
+```
+https://zhuanlan.zhihu.com/p/382092667
+http://47.112.232.56/github/zh/61928120c295597421382002.html
+https://github.com/nvim-telescope/telescope.nvim
+https://github.com/vim-vdebug/vdebug
+```
+
+
+
 ## 安装 - vim
 
 ##### install
@@ -47,9 +58,14 @@ $ vim --version
 
 ##### install
 
+> yum 和 apt 安装的版本低
+
 ```bash
-$ yum install neovim
-$ apt-get install neovim
+$ wget https://github.com/neovim/neovim/releases/download/v0.6.0/nvim-linux64.tar.gz
+$ tar zxvf nvim-linux64.tar.gz
+$ mkdir -p /opt/neovim-0.6.0
+# 移动到 opt
+$ ln -s /opt/neovim-0.6.0/bin/nvim /usr/bin/nvim
 ```
 
 ##### 配置文件
@@ -58,22 +74,16 @@ $ apt-get install neovim
 ~/.config/nvim/init.vim
 ```
 
-##### 是否支持 python2 / python3
+##### 支持 python2 / python3
 
-```
+```bash
 1. 查看是否支持 python
 :checkhealth
 
 
 2. 安装插件
 $ pip install neovim
-
-
-3. (可选)设置 python3_host_prog 如果没有设置就使用当前虚拟环境的
-let g:python3_host_prog='/home/glfadd/miniconda3/bin/python'
-
-
-4. (可选)设置 python_host_prog
+$ pip3 install neovim
 ```
 
 ## install vim plug
@@ -130,18 +140,33 @@ let fmt = get(g:, 'plug_url_format', 'https://git::@github.com.cnpmjs.org/%s.git
 
 ## install plugin
 
-##### 安装字体
+##### 字体
 
 > https://github.com/ryanoasis/nerd-fonts
 
 ```
+https://github.com/vim-airline/vim-airline
 
+
+字体
+https://github.com/powerline/fonts
+# clone
+git clone https://github.com/powerline/fonts.git --depth=1
+# install
+cd fonts
+./install.sh
+# clean-up a bit
+cd ..
+rm -rf fonts
+./uninstall.sh
 
 ```
 
 ##### 状态栏
 
-> https://github.com/vim-airline/vim-airline
+> [vim-airline](https://github.com/vim-airline/vim-airline)
+>
+> [vim-airline-themes](https://github.com/vim-airline/vim-airline-themes)
 
 - install
 
@@ -150,15 +175,10 @@ let fmt = get(g:, 'plug_url_format', 'https://git::@github.com.cnpmjs.org/%s.git
   Plug 'vim-airline/vim-airline-themes'
   ```
 
-- setting
-
-  ```
-  
-  ```
 
 ##### 代码补全
 
-> https://github.com/skywind3000/vim-auto-popmenu
+> [github](https://github.com/skywind3000/vim-auto-popmenu)
 
 - install
 
@@ -180,9 +200,20 @@ let fmt = get(g:, 'plug_url_format', 'https://git::@github.com.cnpmjs.org/%s.git
   set shortmess+=c
   ```
 
+- buffer使用
+
+  ```
+  :ls 查看buffer
+  :bn (buffer next)
+  :bp (buffer previous)
+  :b <num> 打开编号为num的buffer
+  ```
+
+  
+
 ##### 目录树
 
-> https://github.com/preservim/nerdtree
+> [github](https://github.com/preservim/nerdtree)
 
 - install
 
@@ -199,49 +230,50 @@ let fmt = get(g:, 'plug_url_format', 'https://git::@github.com.cnpmjs.org/%s.git
 
 ##### 模糊查询
 
-> https://github.com/Yggdroot/LeaderF
+```
+https://github.com/junegunn/fzf.vim
+
+参考
+https://www.jianshu.com/p/bb91582317ed
+https://blog.zfanw.com/fzf-vim-usage/
+```
 
 - install
 
   ```
-  Plug 'Yggdroot/LeaderF', { 'do': ':LeaderfInstallCExtension' }
+  Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+  Plug 'junegunn/fzf.vim'
   ```
 
-- uninstall
+##### 启动页面
+
+> [github](https://github.com/glepnir/dashboard-nvim)
+
+- 依赖: 3 个必须安装一个 (用 fzf)
+
+  > [vim-clap](https://github.com/liuchengxu/vim-clap)
+  >
+  > [fzf.vim](https://github.com/junegunn/fzf.vim)
+  >
+  > [telescope.nvim](https://github.com/nvim-lua/telescope.nvim)
+
+- install
 
   ```
-  :LeaderfInstallCExtension
-  :LeaderfUninstallCExtension
+  Plug 'glepnir/dashboard-nvim'
   ```
 
 - setting
 
   ```
-  " 关闭头像
-  let g:Lf_ShowDevIcons = 0
+  let g:dashboard_default_executive ='clap'
   ```
 
-- use
-
-  ```
-  :Leaderf
   
-  查询文件, 默认是从根目录内的文件中查找
-  :Leaderf file
-  
-  默认是再当前文件中查找函数
-  :Leaderf function
-  
-  模糊查询字符串
-  :Leaderf rg
-  
-  查询最近打开过的文件
-  :Leaderf mru
-  ```
 
 ##### 注释
 
-> https://github.com/preservim/nerdcommenter
+> [github](https://github.com/preservim/nerdcommenter)
 
 - install
 
@@ -273,7 +305,7 @@ let fmt = get(g:, 'plug_url_format', 'https://git::@github.com.cnpmjs.org/%s.git
 
 ##### 代码格式化
 
-> https://github.com/vim-autoformat/vim-autoformat
+> [github](https://github.com/vim-autoformat/vim-autoformat)
 
 - install
 
@@ -312,7 +344,7 @@ let fmt = get(g:, 'plug_url_format', 'https://git::@github.com.cnpmjs.org/%s.git
 
 ##### 语法检测
 
-> https://github.com/dense-analysis/ale
+> [github](https://github.com/dense-analysis/ale)
 
 - install
 
@@ -378,32 +410,14 @@ let fmt = get(g:, 'plug_url_format', 'https://git::@github.com.cnpmjs.org/%s.git
 
 ##### git
 
+> [github](https://github.com/tpope/vim-fugitive)
+
 - install
 
   ```
-  vim-fugitive
-  
-  
-  
-  set background=dark "背景使用黑色 
-  
-  
-  设置配色方案
-  "colorscheme murphy
-  "字体 
-  "if (has("gui_running")) 
-  "   set guifont=Bitstream\ Vera\ Sans\ Mono\ 10 
-  "endif 
-  
-  
-  " 开启256色支持
-  set t_Co=256
-  " 背景使用黑色, 只有 light 和 dark
-  set background=dark
-  " 配色方案
-  colorscheme=zellner
+  Plug 'tpope/vim-fugitive'
   ```
-
+  
 - setting
 
   ```
@@ -412,10 +426,26 @@ let fmt = get(g:, 'plug_url_format', 'https://git::@github.com.cnpmjs.org/%s.git
 ##### 配色
 
 ```
-https://github.com/dracula/dracula-theme
 
-https://draculatheme.com/
 ```
+
+##### shell补全
+
+```
+
+https://github.com/Shougo/neocomplete.vim
+
+```
+
+##### markdown
+
+```
+https://github.com/plasticboy/vim-markdown
+
+https://zhuanlan.zhihu.com/p/84773275
+```
+
+
 
 
 
@@ -599,10 +629,15 @@ pip install line_profiler
 > 参考https://zhuanlan.zhihu.com/p/30022074
 
 ```
+
+```
+
+## config - neovim
+
+```
+let mapleader=' '
 set number
-" 鼠标支持
-set mouse=a
-" 行号都为相对于该行的相对行号
+" 行都为相对于该行的相对行号
 set relativenumber
 set encoding=utf-8
 " 括号匹配
@@ -617,6 +652,8 @@ set autoindent
 set nocompatible
 " 不自动折行
 set nowrap
+" 忽略大小写
+set ignorecase
 " 高亮行
 set cursorline
 " 高亮列
@@ -624,210 +661,66 @@ set cursorcolumn
 " 设置高亮的颜色
 "highlight CursorLine   cterm=NONE ctermbg=gray ctermfg=green guibg=NONE guifg=NONE
 "highlight CursorColumn cterm=NONE ctermbg=gray ctermfg=green guibg=NONE guifg=NONE
-" 尺寸线
-set cc=120
-
-"nnoremap <C-J> <C-W><C-J>
-"nnoremap <C-K> <C-W><C-K>
-"nnoremap <C-L> <C-W><C-L>
-"nnoremap <C-H> <C-W><C-H>
-
-
-call plug#begin('~/.vim/plugged')
-" 状态栏
-Plug 'vim-airline/vim-airline'
-Plug 'vim-airline/vim-airline-themes'
-
-" 目录树
-Plug 'preservim/nerdtree'
-
-" 代码补全
-Plug 'skywind3000/vim-dict'
-Plug 'skywind3000/vim-auto-popmenu'
-
-" 模糊查询
-Plug 'Yggdroot/LeaderF', { 'do': ':LeaderfInstallCExtension' }
-
-" 代码注释
-Plug 'preservim/nerdcommenter'
-
-" 代码格式化
-Plug 'Chiel92/vim-autoformat'
-
-" 语法检测
-Plug 'dense-analysis/ale'
-
-
-" 代码运行
-Plug 'skywind3000/asyncrun.vim'
-Plug 'skywind3000/asynctasks.vim'
-
-" debug
-Plug 'puremourning/vimspector'
-
-" 词典
-Plug 'voldikss/vim-translator'
-
-
-call plug#end()
-
-" --------------------------------- setting
-" 设置 leader 键, 默认 /
-let mapleader=" "
-
-
-" --------------------------------- skywind3000/vim-auto-popmenu
-" 设定需要生效的文件类型，如果是 "*" 的话，代表所有类型
-let g:apc_enable_ft = {'*':1}
-" 设定从字典文件以及当前打开的文件里收集补全单词，详情看 ':help cpt'
-set cpt=.,k,w,b
-" 不要自动选中第一个选项。
-set completeopt=menu,menuone,noselect
-" 禁止在下方显示一些啰嗦的提示
-set shortmess+=c
-
-
-" --------------------------------- Yggdroot/LeaderF
-let g:Lf_ShowDevIcons = 0
-
-
-" --------------------------------- preservim/nerdcommenter
-let g:NERDDefaultAlign = 'left'
-let g:NERDTrimTrailingWhitespace = 1
-
-
-" --------------------------------- Chiel92/vim-autoforma
-"nnoremap <M-F3> :Autoformat <CR>
-map <M-F3> :Autoformat <CR>
-
-
-" --------------------------------- skywind3000/asyncrun.vim
-" asyncrun 运行时自动打开高度为 6 的 quickfix 窗口, 不然你看不到任何输出                 
-let g:asyncrun_open = 10    
-
-
-" --------------------------------- preservim/nerdtree
-nnoremap <F3> :NERDTreeToggle<CR>
-autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
-
-
-" --------------------------------- puremourning/vimspector
-let g:vimspector_enable_mappings = 'HUMAN'
-"syntax enable
-
-
-" --------------------------------- voldikss/vim-translator
-"弹出窗口中显示
-let g:translator_window_type = 'popup'
-"目标语言为中文。
-let g:translator_target_lang = 'zh'
-"源语言自动识别                     
-let g:translator_source_lang = 'auto'
-"使用的翻译工具。
-let g:translator_default_engines = ['bing', 'google', 'haici', 'youdao']
-
-"翻译Window的高亮配置
-hi def link TranslatorQuery             Identifier
-hi def link TranslatorDelimiter         Special
-hi def link TranslatorExplain           Statement
-
-"窗口背景
-hi def link Translator                  Normal
-hi def link TranslatorBorder            NormalFloat
-
-"普通模式下翻译光标下英文字符串，在命令行显示翻译结果
-nmap <silent> <Leader>tt <Plug>Translate
-"可视模式下翻译选中英文字符串，在命令行显示翻译结果
-vmap <silent> <Leader>tt <Plug>TranslateV
-"普通模式下翻译光标下英文字符串，在窗口显示翻译结果
-nmap <silent> <Leader>tw <Plug>TranslateW
-"可视模式下翻译光标下英文字符串，在窗口显示翻译结果
-vmap <silent> <Leader>tw <Plug>TranslateWV
-
-```
-
-## config - neovim
-
-```
-set number
-" 行都为相对于该行的相对行号
-set relativenumber
-set encoding=utf-8
-" 括号匹配
-set showmatch
-" 设置Tab长度为4空格
-set tabstop=4
-" 设置自动缩进长度为4空格
-set shiftwidth=4
-" 继承前一行的缩进方式，适用于多行注释
-set autoindent
-" 关闭与vi的兼容模式
-set nocompatible 
-" 不自动折行
-set nowrap
-" 高亮行
-set cursorline
-" 高亮列
-set cursorcolumn
-" 设置高亮的颜色
-"highlight CursorLine   cterm=NONE ctermbg=gray ctermfg=green guibg=NONE guifg=NONE
-"highlight CursorColumn cterm=NONE ctermbg=gray ctermfg=green guibg=NONE guifg=NONE
-
 " 尺寸线
 set cc=100
 " 开启256色支持
 set t_Co=256
 " 背景使用黑色, 只有 light 和 dark
 set background=dark
-" ***** vim ***** - 配色方案
-"colorscheme=desert
+" 移动窗口快捷键
+nnoremap <C-J> <C-W><C-J>
+nnoremap <C-K> <C-W><C-K>
+nnoremap <C-L> <C-W><C-L>
+nnoremap <C-H> <C-W><C-H>
+
+
 
 call plug#begin('~/.vim/plugged')
 " 状态栏
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
-
 " 目录树
 Plug 'preservim/nerdtree'
-
 " 代码补全
 Plug 'skywind3000/vim-dict'
 Plug 'skywind3000/vim-auto-popmenu'
-
 " 模糊查询
-Plug 'Yggdroot/LeaderF', { 'do': ':LeaderfInstallCExtension' }
-
+Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' } 
+Plug 'junegunn/fzf.vim' 
 " 代码注释
 Plug 'preservim/nerdcommenter'
-
 " 代码格式化
 Plug 'Chiel92/vim-autoformat'
-
 " 语法检测
 Plug 'dense-analysis/ale'
-
 " 代码运行
 Plug 'skywind3000/asynctasks.vim'
 Plug 'skywind3000/asyncrun.vim'
-
 " 代码 debug
-"Plug 'sillybun/vim-repl'
-"Plug 'vim-vdebug/vdebug'
 Plug 'puremourning/vimspector'
-
 " git
-
-
+Plug 'tpope/vim-fugitive'
 " 主题
 Plug 'dracula/vim', { 'as': 'dracula' }
+" 启动页面
+Plug 'glepnir/dashboard-nvim'
+
+
+
 
 
 call plug#end()
 
-
-" ------------- setting
-" 支持 python3
-let g:python3_host_prog='/home/glfadd/miniconda3/bin/python'
+" ------------- preservim/nerdtree
+"开启和关闭树"
+map <Leader>w :NERDTreeToggl<CR>
+let NERDTreeChDirMode=1
+"显示书签"
+let NERDTreeShowBookmarks=1
+"设置忽略文件类型"
+"let NERDTreeIgnore=['\~$', '\.pyc$', '\.swp$']
+"窗口大小"
+let NERDTreeWinSize=25
 
 
 " ------------- skywind3000/vim-auto-popmenu
@@ -841,18 +734,13 @@ set completeopt=menu,menuone,noselect
 set shortmess+=c
 
 
-" ------------- Yggdroot/LeaderF
-" 关闭最前面的图标, 如果没有安装字体显示乱码
-let g:Lf_ShowDevIcons = 0
-
-
 " ------------- preservim/nerdcommenter
 let g:NERDDefaultAlign = 'left'
 let g:NERDTrimTrailingWhitespace = 1
 
 
 " ------------- Chiel92/vim-autoforma
-nnoremap <F3> :Autoformat<CR>
+nnoremap <Leader>a :Autoformat<CR>
 
 
 " ------------- skywind3000/asyncrun.vim
@@ -864,6 +752,26 @@ let g:asyncrun_open = 10
 let g:vimspector_enable_mappings = 'HUMAN'
 nmap <LocalLeader><F11> <Plug>VimspectorRestart
 nmap <F7> <Plug>VimspectorRestart
+
+
+" ------------- vim-airline/vim-airline
+" 开启tabline
+let g:airline#extensions#tabline#enabled = 1
+" 显示buffer编号
+let g:airline#extensions#tabline#buffer_nr_show = 1
+let g:airline_theme='silver'
+
+
+
+" ------------- glepnir/dashboard-nvim
+let g:dashboard_default_executive ='clap'
+"let g:dashboard_custom_shortcut_icon['last_session'] = '1'
+"let g:dashboard_custom_shortcut_icon['find_history'] = '2'
+"let g:dashboard_custom_shortcut_icon['find_file'] = '3'
+"let g:dashboard_custom_shortcut_icon['new_file'] = '4'
+"let g:dashboard_custom_shortcut_icon['change_colorscheme'] = '5'
+"let g:dashboard_custom_shortcut_icon['find_word'] = '6'
+"let g:dashboard_custom_shortcut_icon['book_marks'] = '7'
 
 ```
 
