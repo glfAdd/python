@@ -764,14 +764,15 @@ let g:airline_theme='silver'
 
 
 " ------------- glepnir/dashboard-nvim
-let g:dashboard_default_executive ='clap'
-"let g:dashboard_custom_shortcut_icon['last_session'] = '1'
-"let g:dashboard_custom_shortcut_icon['find_history'] = '2'
-"let g:dashboard_custom_shortcut_icon['find_file'] = '3'
-"let g:dashboard_custom_shortcut_icon['new_file'] = '4'
-"let g:dashboard_custom_shortcut_icon['change_colorscheme'] = '5'
-"let g:dashboard_custom_shortcut_icon['find_word'] = '6'
-"let g:dashboard_custom_shortcut_icon['book_marks'] = '7'
+let g:dashboard_default_executive ='fzf'
+nmap <Leader>ss :<C-u>SessionSave<CR>
+nmap <Leader>sl :<C-u>SessionLoad<CR>
+nnoremap <silent> <Leader>fh :DashboardFindHistory<CR>
+nnoremap <silent> <Leader>ff :DashboardFindFile<CR>
+nnoremap <silent> <Leader>tc :DashboardChangeColorscheme<CR>
+nnoremap <silent> <Leader>fa :DashboardFindWord<CR>
+nnoremap <silent> <Leader>fb :DashboardJumpMark<CR>
+nnoremap <silent> <Leader>cn :DashboardNewFile<CR>
 
 ```
 
