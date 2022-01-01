@@ -28,7 +28,6 @@ set tw=160
 
 Plug 'Yggdroot/indentLine'                "缩进对齐标注"
 Plug 'mileszs/ack.vim'                    "在项目里全局搜索某个单词"
-Plug 'majutsushi/tagbar'                  "跳转函数 map"
 Plug 'tmhedberg/SimpylFold'               "自定义标注"
 Plug 'bronson/vim-trailing-whitespace'    "表出末尾空格 可以删除"
 

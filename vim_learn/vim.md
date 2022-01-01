@@ -3,11 +3,12 @@
 ```
 https://zhuanlan.zhihu.com/p/382092667
 http://47.112.232.56/github/zh/61928120c295597421382002.html
-https://github.com/nvim-telescope/telescope.nvim
 https://github.com/vim-vdebug/vdebug
+
+
+Tmux + vim
+https://kxcblog.com/post/terminal/2.tmux-tutorial/
 ```
-
-
 
 ## 安装 - vim
 
@@ -159,10 +160,9 @@ cd fonts
 cd ..
 rm -rf fonts
 ./uninstall.sh
-
 ```
 
-##### 状态栏
+##### vim-airline 状态栏
 
 > [vim-airline](https://github.com/vim-airline/vim-airline)
 >
@@ -176,7 +176,7 @@ rm -rf fonts
   ```
 
 
-##### 代码补全
+##### vim-dict 代码补全
 
 > [github](https://github.com/skywind3000/vim-auto-popmenu)
 
@@ -209,30 +209,55 @@ rm -rf fonts
   :b <num> 打开编号为num的buffer
   ```
 
+
+##### defx.nvim 异步文件树
+
+> [github](https://github.com/Shougo/defx.nvim)
+>
+> https://blog.csdn.net/Marshall001/article/details/115494459
+
+- 依赖
+
+  ```
+  Neovim 0.4.0 or Vim8.2+
+  Python3.6.1+
+  coc.vim
   
-
-##### 目录树
-
-> [github](https://github.com/preservim/nerdtree)
+  $ pip3 install --user pynvim
+  ```
 
 - install
 
   ```
-  Plug 'preservim/nerdtree'
+  if has('nvim')
+    Plug 'Shougo/defx.nvim', { 'do': ':UpdateRemotePlugins' }
+  else
+    Plug 'Shougo/defx.nvim'
+    Plug 'roxma/nvim-yarp'
+    Plug 'roxma/vim-hug-neovim-rpc'
+  endif
   ```
 
 - setting
 
   ```
-  nnoremap <F3> :NERDTreeToggle<CR>
-  autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
+  
+  
   ```
 
-##### 模糊查询
+- use
+
+  ```
+  :Defx
+  
+  ```
+
+
+##### fzf 模糊查询
+
+> [github](https://github.com/junegunn/fzf.vim)
 
 ```
-https://github.com/junegunn/fzf.vim
-
 参考
 https://www.jianshu.com/p/bb91582317ed
 https://blog.zfanw.com/fzf-vim-usage/
@@ -245,9 +270,11 @@ https://blog.zfanw.com/fzf-vim-usage/
   Plug 'junegunn/fzf.vim'
   ```
 
-##### 启动页面
+##### dashboard-nvim 启动页面
 
 > [github](https://github.com/glepnir/dashboard-nvim)
+>
+> [开始画面顶部图片](https://github.com/glepnir/dashboard-nvim/wiki/Ascii-Header-Text)
 
 - 依赖: 3 个必须安装一个 (用 fzf)
 
@@ -266,12 +293,11 @@ https://blog.zfanw.com/fzf-vim-usage/
 - setting
 
   ```
-  let g:dashboard_default_executive ='clap'
+  let g:dashboard_default_executive ='fzf'
   ```
 
-  
 
-##### 注释
+##### nerdcommenter 注释
 
 > [github](https://github.com/preservim/nerdcommenter)
 
@@ -303,7 +329,7 @@ https://blog.zfanw.com/fzf-vim-usage/
   <leader>cy   先复制, 再注解(p可以进行黏贴)
   ```
 
-##### 代码格式化
+##### vim-autoformat 代码格式化
 
 > [github](https://github.com/vim-autoformat/vim-autoformat)
 
@@ -341,8 +367,61 @@ https://blog.zfanw.com/fzf-vim-usage/
   :Autoformat
   ```
 
+##### Node.js 安装
 
-##### 语法检测
+> [官网](https://nodejs.org/zh-cn/download/)
+
+```
+1. 下载解压
+$ wget https://nodejs.org/dist/v16.13.1/node-v16.13.1-linux-x64.tar.xz
+$ tar xvf  node-v16.13.1-linux-x64.tar.xz
+
+
+2. 查看版本
+$ ./bin/node -v
+
+
+3. 创建软连接
+sudo ln -s /opt/node-v16.13.1-linux-x64/bin/npm   /usr/local/bin/ 
+sudo ln -s /opt/node-v16.13.1-linux-x64/bin/node   /usr/local/bin/
+```
+
+##### coc
+
+> 可以实现代码补全
+>
+> [github](https://github.com/neoclide/coc.nvim)
+
+```
+https://zhuanlan.zhihu.com/p/65524706
+https://zhuanlan.zhihu.com/p/71846145
+```
+
+- 依赖
+
+  ```
+  必须安装 nodejs >= 12.12
+  ```
+
+- install
+
+  ```
+  Plug 'neoclide/coc.nvim', {'branch': 'release'}
+  ```
+
+- setting
+
+  ```
+  ```
+
+- use
+
+  ```
+  ```
+
+  
+
+##### ale 语法检测
 
 > [github](https://github.com/dense-analysis/ale)
 
@@ -360,7 +439,7 @@ https://blog.zfanw.com/fzf-vim-usage/
     pip install flake8
     ```
 
-##### 词典
+##### vim-translator 词典
 
 > [github](https://github.com/voldikss/vim-translator)
 
@@ -377,7 +456,7 @@ https://blog.zfanw.com/fzf-vim-usage/
   ```
   
 
-##### 运行代码
+##### asyncrun.vim 运行代码
 
 > https://github.com/skywind3000/asyncrun.vim [文档](https://github.com/skywind3000/asyncrun.vim/blob/master/README-cn.md)
 >
@@ -408,7 +487,7 @@ https://blog.zfanw.com/fzf-vim-usage/
   :AsyncRun python code_test.py
   ```
 
-##### git
+##### vim-fugitive git工具
 
 > [github](https://github.com/tpope/vim-fugitive)
 
@@ -435,6 +514,8 @@ https://blog.zfanw.com/fzf-vim-usage/
 
 https://github.com/Shougo/neocomplete.vim
 
+
+command mode
 ```
 
 ##### markdown
@@ -445,7 +526,73 @@ https://github.com/plasticboy/vim-markdown
 https://zhuanlan.zhihu.com/p/84773275
 ```
 
+##### vim-floaterm 内置终端
 
+```
+https://zhuanlan.zhihu.com/p/102287909
+
+https://www.mch5k.com/post/%E5%BA%94%E7%94%A8%E6%B5%AE%E5%8A%A8%E7%AA%97%E5%8F%A3%E6%80%8E%E4%B9%88%E8%AE%BE%E7%BD%AE.html
+https://github.com/voldikss/vim-floaterm
+
+
+http://cxh.me/2021/03/07/vim_floaterm/
+```
+
+> [github](https://github.com/voldikss/vim-floaterm)
+
+- install
+
+  ```
+  Plug 'voldikss/vim-floaterm'
+  ```
+
+- setting
+
+  ```
+  ```
+
+- use
+
+  ```
+  :FloatermNew命令打开终端窗口
+  :FloatermToggle隐藏/重新打开该窗口
+  
+  :FloatermNext	下一个
+  :FloatermPrev	上一个
+  :FloatermFirst	第一个
+  :FloatermLast	最后一个
+  
+  终端缓冲区的文件类型设置为floaterm
+  ```
+
+##### vista.vim 查看缓冲区函数, 变量，并跳转
+
+> [github](https://github.com/liuchengxu/vista.vim)
+
+- 依赖
+
+  ```
+  需要 vim 插件 coc.vim
+  ```
+
+- install
+
+  ```
+  Plug 'liuchengxu/vista.vim'
+  ```
+
+- setting
+
+  ```
+  ```
+
+- use
+
+  ```
+  Vista
+  Vista!
+  Vista!!
+  ```
 
 
 
@@ -692,7 +839,7 @@ Plug 'preservim/nerdcommenter'
 " 代码格式化
 Plug 'Chiel92/vim-autoformat'
 " 语法检测
-Plug 'dense-analysis/ale'
+"Plug 'dense-analysis/ale'
 " 代码运行
 Plug 'skywind3000/asynctasks.vim'
 Plug 'skywind3000/asyncrun.vim'
@@ -704,7 +851,22 @@ Plug 'tpope/vim-fugitive'
 Plug 'dracula/vim', { 'as': 'dracula' }
 " 启动页面
 Plug 'glepnir/dashboard-nvim'
+" 窗口内悬浮终端
+Plug 'voldikss/vim-floaterm'
+" 查看缓冲区函数, 变量，并跳转
+Plug 'liuchengxu/vista.vim'
 
+
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
+
+" 文件树
+if has('nvim')
+  Plug 'Shougo/defx.nvim', { 'do': ':UpdateRemotePlugins' }
+else
+  Plug 'Shougo/defx.nvim'
+  Plug 'roxma/nvim-yarp'
+  Plug 'roxma/vim-hug-neovim-rpc'
+endif
 
 
 
@@ -735,6 +897,8 @@ set shortmess+=c
 
 
 " ------------- preservim/nerdcommenter
+" 注释后面增加 1 个空格
+let g:NERDSpaceDelims = 1
 let g:NERDDefaultAlign = 'left'
 let g:NERDTrimTrailingWhitespace = 1
 
@@ -762,8 +926,8 @@ let g:airline#extensions#tabline#buffer_nr_show = 1
 let g:airline_theme='silver'
 
 
-
 " ------------- glepnir/dashboard-nvim
+" 这里使用 fzf
 let g:dashboard_default_executive ='fzf'
 nmap <Leader>ss :<C-u>SessionSave<CR>
 nmap <Leader>sl :<C-u>SessionLoad<CR>
@@ -774,6 +938,52 @@ nnoremap <silent> <Leader>fa :DashboardFindWord<CR>
 nnoremap <silent> <Leader>fb :DashboardJumpMark<CR>
 nnoremap <silent> <Leader>cn :DashboardNewFile<CR>
 
+" 按键说明
+let g:dashboard_custom_shortcut={
+  \ 'last_session'       : 'SPC s l',
+  \ 'find_history'       : 'SPC f h',
+  \ 'find_file'          : 'SPC f f',
+  \ 'new_file'           : 'SPC c n',
+  \ 'change_colorscheme' : 'SPC t c',
+  \ 'find_word'          : 'SPC f a',
+  \ 'book_marks'         : 'SPC f b',
+  \ }
+
+" 设置按键前面的图表, 必须先定义一个变量, 否则报错
+let g:dashboard_custom_shortcut_icon = {}
+let g:dashboard_custom_shortcut_icon['last_session'] = ''
+let g:dashboard_custom_shortcut_icon['find_history'] = ''
+let g:dashboard_custom_shortcut_icon['find_file'] = ''
+let g:dashboard_custom_shortcut_icon['new_file'] = ''
+let g:dashboard_custom_shortcut_icon['change_colorscheme'] = ''
+let g:dashboard_custom_shortcut_icon['find_word'] = ''
+let g:dashboard_custom_shortcut_icon['book_marks'] = ''
+
+" 开始的图形
+let g:dashboard_custom_header = [
+   \' ███████████████████████████ ',
+   \' ███████▀▀▀░░░░░░░▀▀▀███████ ',
+   \' ████▀░░░░░░░░░░░░░░░░░▀████ ',
+   \' ███│░░░░░░░░░░░░░░░░░░░│███ ',
+   \' ██▌│░░░░░░░░░░░░░░░░░░░│▐██ ',
+   \' ██░└┐░░░░░░░░░░░░░░░░░┌┘░██ ',
+   \' ██░░└┐░░░░░░░░░░░░░░░┌┘░░██ ',
+   \' ██░░┌┘▄▄▄▄▄░░░░░▄▄▄▄▄└┐░░██ ',
+   \' ██▌░│██████▌░░░▐██████│░▐██ ',
+   \' ███░│▐███▀▀░░▄░░▀▀███▌│░███ ',
+   \' ██▀─┘░░░░░░░▐█▌░░░░░░░└─▀██ ',
+   \' ██▄░░░▄▄▄▓░░▀█▀░░▓▄▄▄░░░▄██ ',
+   \' ████▄─┘██▌░░░░░░░▐██└─▄████ ',
+   \' █████░░▐█─┬┬┬┬┬┬┬─█▌░░█████ ',
+   \' ████▌░░░▀┬┼┼┼┼┼┼┼┬▀░░░▐████ ',
+   \' █████▄░░░└┴┴┴┴┴┴┴┘░░░▄█████ ',
+   \' ███████▄░░░░░░░░░░░▄███████ ',
+   \' ██████████▄▄▄▄▄▄▄██████████ ',
+   \ ]
+
+" ------------- liuchengxu/vista.vim
+" 使用 coc
+let g:vista_default_executive = 'coc'
 ```
 
 
