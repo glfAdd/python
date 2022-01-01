@@ -280,18 +280,8 @@ Icon=/home/gladd/eclipse/jee-oxygen/eclipse/icon.xpm
 /usr/share/applications
 ```
 
-##### git 设置
 
-```bash
-$ git config --global user.name "gonglongfei"
-$ git config --global user.email "2239660080@qq.com"
-```
 
-##### ssh 秘钥设置
-
-```bash
-$ ssh-keygen -t rsa -C "2239660080@qq.com"
-```
 
 ##### docker
 
@@ -348,25 +338,7 @@ yum install shadowsocks-qt5
 
 
 
-##### openvpn
 
-```
-
-$ yum install openvpn
-复制文件到/etc/openvpn
-运行
-openvpn glf.ovpn
-
-设置配置文件保存用户名和密码
-    1. 进行OPENVPN安装目录下config目录
-    2. 打开并编辑你的配置文件XXXX.ovpn
-    3. 在XXXX.ovpn最后增加配置 auth-user-pass pass.txt
-    4. 在同目录下创建XXXX.ovpn的配置文件名 pass.txt将写入用户和密码
-    (第一行用户名, 第二行密码)
-
-
-
-```
 
 ##### charles
 

@@ -330,48 +330,7 @@ aptitude install terminator htop vim zsh git smplayer tree curl screenfetch net-
 aptitude install git-cola
 ```
 
-##### ibus rimes 
 
-```
-apt-get install ibus-rime
-ibus restart
-
-输入法设置, 每次修改完配置文件需要<部署>
-
-1. 切换输入法快捷键
-修改 ~/.config/ibus/rime/build/default.yaml
-ascii_composer:
-  good_old_caps_lock: true
-  switch_key:
-    Shift_L: noop
-    Shift_R: noop
-    Control_L: commit_text
-    Control_R: commit_text
-    Caps_Lock: clear
-    Eisu_toggle: clear
-
-输入法切换的枚举
-  inline_ascii 在输入框内插入英文。
-  commit_text 候选文字上屏并切换至英文。
-  commit_code 输入拼音上屏并切换至英文。
-  clear 清除拼音并切换至英文。
-  noop 屏蔽此按键。
-
-2. 将拼音输入法的默认状态设为英文
-目录 ~/.config/ibus/rime/build/ 下有很多文件, *.yaml是输入法的配置文件, 每个输入法有自己单独的配置文件
-现在使用的是 luna_pinyin_simp.schema.yaml
-switches:
-  - name: ascii_mode
-    reset: 1   # 1为默认英文，0为默认中文
-
-3. 切换焦点时输入框中的文字没有清除
-  设置系统的输入法 -> 选择<Allow different sources for each window>
-  
-4. 垂直布局
-创建空白文件: ~/.config/ibus/rime/build/ibus_rime.yaml 并写入并保存以下内容:
-style:
-   horizontal: true
-```
 
 ##### google chrome
 
@@ -379,11 +338,7 @@ style:
 wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
 ```
 
-##### oh my zsh
 
-```
-sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
-```
 
 ##### sublime text
 
@@ -424,25 +379,8 @@ service docker start
 service docker restart
 ```
 
-##### github 问题
 
-```
-Connecting to raw.github.com (raw.github.com)|151.101.228.133|:443... failed: Connection refused.
 
-1. 通过IPAddress.com首页,输入raw.githubusercontent.com查询到真实IP地址
-2. vim /etc/hosts 添加
-151.101.76.133 raw.githubusercontent.com
-```
-
-##### bashtop
-
-```
-https://github.com/aristocratos/bashtop
-
-git clone https://github.com/aristocratos/bashtop.git
-cd bashtop
-sudo make install
-```
 
 ##### redis-desktop-manager
 
@@ -701,39 +639,9 @@ apt-get install typora
 aptitude install purge
 ```
 
-##### conda源
 
-- 用户目录下 .condarc 文件
 
-```
-channels:
-  - defaults
-show_channel_urls: true
-channel_alias: https://anaconda.mirrors.sjtug.sjtu.edu.cn/
-default_channels:
-  - https://anaconda.mirrors.sjtug.sjtu.edu.cn/pkgs/main
-  - https://anaconda.mirrors.sjtug.sjtu.edu.cn/pkgs/free
-  - https://anaconda.mirrors.sjtug.sjtu.edu.cn/pkgs/mro
-  - https://anaconda.mirrors.sjtug.sjtu.edu.cn/pkgs/msys2
-  - https://anaconda.mirrors.sjtug.sjtu.edu.cn/pkgs/pro
-  - https://anaconda.mirrors.sjtug.sjtu.edu.cn/pkgs/r
-custom_channels:
-  conda-forge: https://anaconda.mirrors.sjtug.sjtu.edu.cn/conda-forge
-  soumith: https://anaconda.mirrors.sjtug.sjtu.edu.cn/cloud/soumith
-  bioconda: https://anaconda.mirrors.sjtug.sjtu.edu.cn/cloud/bioconda
-  menpo: https://anaconda.mirrors.sjtug.sjtu.edu.cn/cloud/menpo
-  viscid-hub: https://anaconda.mirrors.sjtug.sjtu.edu.cn/cloud/viscid-hub
-  atztogo: https://anaconda.mirrors.sjtug.sjtu.edu.cn/cloud/atztogo
-```
 
-##### openvpn
-
-```
-aptitude install openvpn
-复制文件到/etc/openvpn
-运行
-openvpn glf.ovpn
-```
 
 ##### xfce 快捷方式
 
@@ -798,15 +706,7 @@ aptitude install mplayer
 我们把enabled=1改为enabled=0
 ```
 
-##### terminator 快捷键
 
-```
-c + s + E		水平分隔
-c + s + O		垂直分隔
-c + s + W		关闭窗口
-c + s + Z		将分割的某一个窗口放大至全屏使用
-c + s + X		将分割的某一个窗口放大至全屏使用
-```
 
 ##### xfce4 窗口快捷键
 
@@ -843,26 +743,4 @@ c + L 地址栏输入路径
   u : Unmount 将所有分区挂载为只读模式
   b : reBoot 重启
 ```
-
-#####  pip
-
-- 在 Python2.x 中安装
-
-  ```bash
-  $ curl https://bootstrap.pypa.io/pip/2.7/get-pip.py -o get-pip2.py
-  $ sudo python get-pip2.py
-  $ pip --version
-  $ pip install --upgrade pip
-  ```
-
-- 在 Python3.x 中安装
-
-  ```bash
-  $ curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
-  $ sudo python3 get-pip.py
-  $ pip3 --version
-  $ pip3 install --upgrade pip
-  ```
-
-#####
 
