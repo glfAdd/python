@@ -59,8 +59,6 @@ $ vim --version
 
 ##### install
 
-> yum 和 apt 安装的版本低
-
 ```bash
 $ wget https://github.com/neovim/neovim/releases/download/v0.6.0/nvim-linux64.tar.gz
 $ tar zxvf nvim-linux64.tar.gz
@@ -94,11 +92,6 @@ $ pip3 install neovim
 ##### install
 
 ```bash
-vim
-$ curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-
-
-neovim
 $ sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
 ```
 
@@ -769,14 +762,6 @@ nmap <F5> <Plug>VimspectorContinue
 
 ```
 pip install line_profiler
-```
-
-## config - vim
-
-> 参考https://zhuanlan.zhihu.com/p/30022074
-
-```
-
 ```
 
 ## config - neovim
