@@ -8,9 +8,12 @@ https://github.com/vim-vdebug/vdebug
 
 Tmux + vim
 https://kxcblog.com/post/terminal/2.tmux-tutorial/
+
+
+https://zhuanlan.zhihu.com/p/267856388
 ```
 
-## 安装 - vim
+## 安装 - vim  
 
 ##### install
 
@@ -85,7 +88,28 @@ $ pip install neovim
 $ pip3 install neovim
 ```
 
-## install vim plug
+## 系统依赖
+
+##### Node.js 安装
+
+> [官网](https://nodejs.org/zh-cn/download/)
+
+```
+1. 下载解压
+$ wget https://nodejs.org/dist/v16.13.1/node-v16.13.1-linux-x64.tar.xz
+$ tar xvf  node-v16.13.1-linux-x64.tar.xz
+
+
+2. 查看版本
+$ ./bin/node -v
+
+
+3. 创建软连接
+sudo ln -s /opt/node-v16.13.1-linux-x64/bin/npm   /usr/local/bin/ 
+sudo ln -s /opt/node-v16.13.1-linux-x64/bin/node   /usr/local/bin/
+```
+
+## vim plug
 
 > [github](https://github.com/junegunn/vim-plug)
 
@@ -132,27 +156,14 @@ let fmt = get(g:, 'plug_url_format', 'https://git::@github.com.cnpmjs.org/%s.git
 \ '^https://git::@github.com.cnpmjs\.org', 'https://github.com.cnpmjs.org', '')
 ```
 
-## install plugin
+## plugin
 
-##### 字体
+##### font - 字体(未使用)
 
-> https://github.com/ryanoasis/nerd-fonts
+> [github](https://github.com/ryanoasis/nerd-fonts)
 
-```
-https://github.com/vim-airline/vim-airline
-
-
-字体
-https://github.com/powerline/fonts
-# clone
-git clone https://github.com/powerline/fonts.git --depth=1
-# install
-cd fonts
-./install.sh
-# clean-up a bit
-cd ..
-rm -rf fonts
-./uninstall.sh
+```bash
+$ sudo ./install.sh
 ```
 
 ##### vim-airline 状态栏
@@ -160,6 +171,8 @@ rm -rf fonts
 > [vim-airline](https://github.com/vim-airline/vim-airline)
 >
 > [vim-airline-themes](https://github.com/vim-airline/vim-airline-themes)
+>
+> [文档](https://github.com/vim-airline/vim-airline/blob/master/doc/airline.txt)
 
 - install
 
@@ -167,84 +180,6 @@ rm -rf fonts
   Plug 'vim-airline/vim-airline'
   Plug 'vim-airline/vim-airline-themes'
   ```
-
-
-##### vim-dict 代码补全
-
-> [github](https://github.com/skywind3000/vim-auto-popmenu)
-
-- install
-
-  ```
-  Plug 'skywind3000/vim-dict'
-  Plug 'skywind3000/vim-auto-popmenu'
-  ```
-
-- setting
-
-  ```
-  " 设定需要生效的文件类型，如果是 "*" 的话，代表所有类型
-  let g:apc_enable_ft = {'text':1, 'markdown':1, 'php':1}
-  " 设定从字典文件以及当前打开的文件里收集补全单词，详情看 ':help cpt'
-  set cpt=.,k,w,b
-  " 不要自动选中第一个选项。
-  set completeopt=menu,menuone,noselect
-  " 禁止在下方显示一些啰嗦的提示
-  set shortmess+=c
-  ```
-
-- buffer使用
-
-  ```
-  :ls 查看buffer
-  :bn (buffer next)
-  :bp (buffer previous)
-  :b <num> 打开编号为num的buffer
-  ```
-
-
-##### defx.nvim 异步文件树
-
-> [github](https://github.com/Shougo/defx.nvim)
->
-> https://blog.csdn.net/Marshall001/article/details/115494459
-
-- 依赖
-
-  ```
-  Neovim 0.4.0 or Vim8.2+
-  Python3.6.1+
-  coc.vim
-  
-  $ pip3 install --user pynvim
-  ```
-
-- install
-
-  ```
-  if has('nvim')
-    Plug 'Shougo/defx.nvim', { 'do': ':UpdateRemotePlugins' }
-  else
-    Plug 'Shougo/defx.nvim'
-    Plug 'roxma/nvim-yarp'
-    Plug 'roxma/vim-hug-neovim-rpc'
-  endif
-  ```
-
-- setting
-
-  ```
-  
-  
-  ```
-
-- use
-
-  ```
-  :Defx
-  
-  ```
-
 
 ##### fzf 模糊查询
 
@@ -289,8 +224,130 @@ https://blog.zfanw.com/fzf-vim-usage/
   let g:dashboard_default_executive ='fzf'
   ```
 
+##### coc 代码补全
 
-##### nerdcommenter 注释
+> [github](https://github.com/neoclide/coc.nvim)
+>
+> [文档](https://github.com/neoclide/coc.nvim/wiki/Language-servers)
+
+- 依赖
+
+  ```
+  必须安装 nodejs >= 12.12
+  ```
+
+- install
+
+  ```
+  Plug 'neoclide/coc.nvim', {'branch': 'release'}
+  ```
+
+- python代码补全
+
+  > [github](https://github.com/fannheyward/coc-pyright)
+
+  ```
+  :CocInstall coc-pyright
+  
+  
+  python 的环境变量如何设置
+  ```
+
+- use
+
+  ```
+  :CocConfig
+  ```
+
+##### vista.vim 查看缓冲区函数, 变量，并跳转
+
+> [github](https://github.com/liuchengxu/vista.vim)
+
+- 依赖
+
+  ```
+  需要 vim 插件 coc.vim
+  ```
+
+- install
+
+  ```
+  Plug 'liuchengxu/vista.vim'
+  ```
+
+- setting
+
+  ```
+  
+  ```
+
+- use
+
+  ```
+  Vista
+  Vista!
+  Vista!!
+  ```
+
+##### defx.nvim 文件树
+
+> [github](https://github.com/Shougo/defx.nvim)
+>
+> https://blog.csdn.net/Marshall001/article/details/115494459
+
+- 依赖
+
+  ```
+  Neovim 0.4.0 or Vim8.2+
+  Python3.6.1+
+  coc.vim
+  
+  $ pip3 install --user pynvim
+  ```
+
+- install
+
+  ```
+  if has('nvim')
+    Plug 'Shougo/defx.nvim', { 'do': ':UpdateRemotePlugins' }
+  else
+    Plug 'Shougo/defx.nvim'
+    Plug 'roxma/nvim-yarp'
+    Plug 'roxma/vim-hug-neovim-rpc'
+  endif
+  ```
+
+- setting
+
+  ```
+  
+  ```
+  
+- use
+
+  ```
+  
+  ```
+
+##### vim-easy-align 文本对齐
+
+> [github](https://github.com/junegunn/vim-easy-align)
+>
+> https://www.shuzhiduo.com/A/qVdePZb5Pg/
+
+- install
+
+  ```
+  Plug 'junegunn/vim-easy-align'
+  ```
+
+- setting
+
+  ```
+  
+  ```
+
+##### nerdcommenter 代码注释
 
 > [github](https://github.com/preservim/nerdcommenter)
 
@@ -320,6 +377,25 @@ https://blog.zfanw.com/fzf-vim-usage/
   <leader>cu   解开注释
   <leader>c<space>  加上/解开注释, 智能判断
   <leader>cy   先复制, 再注解(p可以进行黏贴)
+  ```
+
+##### bufexplorer 列表切换 buffer
+
+> [github](https://github.com/jlanzarotta/bufexplorer)
+
+- install
+
+  ```
+  Plug 'jlanzarotta/bufexplorer'
+  ```
+
+- setting
+
+  ```
+  <Leader>be 普通打开
+  <Leader>bt 切换打开/关闭
+  <Leader>bs 强制水平拆分打开
+  <Leader>bv 强制垂直劈开
   ```
 
 ##### vim-autoformat 代码格式化
@@ -359,60 +435,6 @@ https://blog.zfanw.com/fzf-vim-usage/
   ```
   :Autoformat
   ```
-
-##### Node.js 安装
-
-> [官网](https://nodejs.org/zh-cn/download/)
-
-```
-1. 下载解压
-$ wget https://nodejs.org/dist/v16.13.1/node-v16.13.1-linux-x64.tar.xz
-$ tar xvf  node-v16.13.1-linux-x64.tar.xz
-
-
-2. 查看版本
-$ ./bin/node -v
-
-
-3. 创建软连接
-sudo ln -s /opt/node-v16.13.1-linux-x64/bin/npm   /usr/local/bin/ 
-sudo ln -s /opt/node-v16.13.1-linux-x64/bin/node   /usr/local/bin/
-```
-
-##### coc
-
-> 可以实现代码补全
->
-> [github](https://github.com/neoclide/coc.nvim)
-
-```
-https://zhuanlan.zhihu.com/p/65524706
-https://zhuanlan.zhihu.com/p/71846145
-```
-
-- 依赖
-
-  ```
-  必须安装 nodejs >= 12.12
-  ```
-
-- install
-
-  ```
-  Plug 'neoclide/coc.nvim', {'branch': 'release'}
-  ```
-
-- setting
-
-  ```
-  ```
-
-- use
-
-  ```
-  ```
-
-  
 
 ##### ale 语法检测
 
@@ -490,9 +512,11 @@ https://zhuanlan.zhihu.com/p/71846145
   Plug 'tpope/vim-fugitive'
   ```
   
-- setting
+- use
 
   ```
+  :Git status
+  :Git diff
   ```
 
 ##### 配色
@@ -504,7 +528,6 @@ https://zhuanlan.zhihu.com/p/71846145
 ##### shell补全
 
 ```
-
 https://github.com/Shougo/neocomplete.vim
 
 
@@ -522,16 +545,12 @@ https://zhuanlan.zhihu.com/p/84773275
 ##### vim-floaterm 内置终端
 
 ```
-https://zhuanlan.zhihu.com/p/102287909
-
-https://www.mch5k.com/post/%E5%BA%94%E7%94%A8%E6%B5%AE%E5%8A%A8%E7%AA%97%E5%8F%A3%E6%80%8E%E4%B9%88%E8%AE%BE%E7%BD%AE.html
-https://github.com/voldikss/vim-floaterm
-
-
-http://cxh.me/2021/03/07/vim_floaterm/
+https://blog.csdn.net/weixin_39795268/article/details/111344410
 ```
 
 > [github](https://github.com/voldikss/vim-floaterm)
+>
+> [文档](https://github.com/voldikss/vim-floaterm/blob/master/doc/floaterm.txt)
 
 - install
 
@@ -542,52 +561,22 @@ http://cxh.me/2021/03/07/vim_floaterm/
 - setting
 
   ```
+  - g:floaterm_keymap_new 打开
+  - g:floaterm_keymap_prev
+  - g:floaterm_keymap_next
+  - g:floaterm_keymap_first
+  - g:floaterm_keymap_last
+  - g:floaterm_keymap_hide
+  - g:floaterm_keymap_show
+  - g:floaterm_keymap_kill
+  - g:floaterm_keymap_toggle 隐藏/重新打开该窗口
   ```
 
 - use
 
   ```
-  :FloatermNew命令打开终端窗口
-  :FloatermToggle隐藏/重新打开该窗口
   
-  :FloatermNext	下一个
-  :FloatermPrev	上一个
-  :FloatermFirst	第一个
-  :FloatermLast	最后一个
-  
-  终端缓冲区的文件类型设置为floaterm
   ```
-
-##### vista.vim 查看缓冲区函数, 变量，并跳转
-
-> [github](https://github.com/liuchengxu/vista.vim)
-
-- 依赖
-
-  ```
-  需要 vim 插件 coc.vim
-  ```
-
-- install
-
-  ```
-  Plug 'liuchengxu/vista.vim'
-  ```
-
-- setting
-
-  ```
-  ```
-
-- use
-
-  ```
-  Vista
-  Vista!
-  Vista!!
-  ```
-
-
 
 ## 断点调试
 
@@ -767,153 +756,89 @@ pip install line_profiler
 ## config - neovim
 
 ```
-let mapleader=' '
+let mapleader=','
+
 set number
-" 行都为相对于该行的相对行号
-set relativenumber
+set relativenumber  " 行都为相对于该行的相对行号
 set encoding=utf-8
-" 括号匹配
-set showmatch
-" 设置Tab长度为4空格
-set tabstop=4
-" 设置自动缩进长度为4空格
-set shiftwidth=4
-" 继承前一行的缩进方式，适用于多行注释
-set autoindent
-" 关闭与vi的兼容模式
-set nocompatible
-" 不自动折行
-set nowrap
-" 忽略大小写
-set ignorecase
-" 高亮行
-set cursorline
-" 高亮列
-set cursorcolumn
-" 设置高亮的颜色
-"highlight CursorLine   cterm=NONE ctermbg=gray ctermfg=green guibg=NONE guifg=NONE
-"highlight CursorColumn cterm=NONE ctermbg=gray ctermfg=green guibg=NONE guifg=NONE
-" 尺寸线
-set cc=100
-" 开启256色支持
-set t_Co=256
-" 背景使用黑色, 只有 light 和 dark
-set background=dark
-" 移动窗口快捷键
-nnoremap <C-J> <C-W><C-J>
+set showmatch       " 括号匹配
+set tabstop=4       " 设置Tab长度为4空格
+set shiftwidth=4    " 设置自动缩进长度为4空格
+set autoindent      " 继承前一行的缩进方式，适用于多行注释
+set nocompatible    " 关闭与vi的兼容模式
+set nowrap          " 不自动折行
+set ignorecase      " 忽略大小写
+set cursorline      " 高亮行
+set cc=100          " 尺寸线
+set t_Co=256        " 开启256色支持
+set background=dark " 背景使用黑色, 只有 light 和 dark
+
+nnoremap <C-J> <C-W><C-J> " 移动窗口快捷键
 nnoremap <C-K> <C-W><C-K>
 nnoremap <C-L> <C-W><C-L>
 nnoremap <C-H> <C-W><C-H>
 
+noremap <Tab> :bn<CR> " buffer 切换
+noremap <S-Tab> :bp<CR>
+noremap <Leader><Tab> :Bw<CR>
+noremap <Leader><S-Tab> :Bw!<CR>
+noremap <C-t> :tabnew split<CR>
+
+
+
+" 设置高亮的颜色
+"highlight CursorLine   cterm=NONE ctermbg=gray ctermfg=green guibg=NONE guifg=NONE
+"highlight CursorColumn cterm=NONE ctermbg=gray ctermfg=green guibg=NONE guifg=NONE
 
 
 call plug#begin('~/.vim/plugged')
-" 状态栏
-Plug 'vim-airline/vim-airline'
+
+Plug 'vim-airline/vim-airline'                                    " 状态栏
 Plug 'vim-airline/vim-airline-themes'
-" 目录树
-Plug 'preservim/nerdtree'
-" 代码补全
-Plug 'skywind3000/vim-dict'
-Plug 'skywind3000/vim-auto-popmenu'
-" 模糊查询
-Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' } 
+Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' } " 模糊查询
 Plug 'junegunn/fzf.vim' 
-" 代码注释
-Plug 'preservim/nerdcommenter'
-" 代码格式化
-Plug 'Chiel92/vim-autoformat'
-" 语法检测
-"Plug 'dense-analysis/ale'
-" 代码运行
-Plug 'skywind3000/asynctasks.vim'
-Plug 'skywind3000/asyncrun.vim'
-" 代码 debug
-Plug 'puremourning/vimspector'
-" git
-Plug 'tpope/vim-fugitive'
-" 主题
-Plug 'dracula/vim', { 'as': 'dracula' }
-" 启动页面
-Plug 'glepnir/dashboard-nvim'
-" 窗口内悬浮终端
-Plug 'voldikss/vim-floaterm'
-" 查看缓冲区函数, 变量，并跳转
-Plug 'liuchengxu/vista.vim'
-
-
-Plug 'neoclide/coc.nvim', {'branch': 'release'}
-
-" 文件树
-if has('nvim')
+Plug 'glepnir/dashboard-nvim'                                     " 启动页面(依赖fzf)
+Plug 'neoclide/coc.nvim', {'branch': 'release'}                   " 代码补全
+if has('nvim')                                                    " 文件树
   Plug 'Shougo/defx.nvim', { 'do': ':UpdateRemotePlugins' }
 else
   Plug 'Shougo/defx.nvim'
   Plug 'roxma/nvim-yarp'
   Plug 'roxma/vim-hug-neovim-rpc'
 endif
+Plug 'preservim/nerdcommenter'                                    " 代码注释
+Plug 'junegunn/vim-easy-align'                                    " 文本对齐
+Plug 'jlanzarotta/bufexplorer'                                    " buffer 切换(在页面中切换)
+Plug 'voldikss/vim-floaterm'                                      " 窗口内悬浮终端
+Plug 'tpope/vim-fugitive'                                         " git
+Plug 'skywind3000/asynctasks.vim'                                 " 后台异步执行外部命令
+Plug 'skywind3000/asyncrun.vim'
 
-
-
-
+"Plug 'Chiel92/vim-autoformat' " 代码格式化
+"Plug 'dense-analysis/ale' " 语法检测
+"Plug 'puremourning/vimspector' " 代码 debug
+"Plug 'dracula/vim', { 'as': 'dracula' } " 主题
+"Plug 'liuchengxu/vista.vim' " 查看缓冲区函数, 变量，并跳转
 call plug#end()
 
-" ------------- preservim/nerdtree
-"开启和关闭树"
-map <Leader>w :NERDTreeToggl<CR>
-let NERDTreeChDirMode=1
-"显示书签"
-let NERDTreeShowBookmarks=1
-"设置忽略文件类型"
-"let NERDTreeIgnore=['\~$', '\.pyc$', '\.swp$']
-"窗口大小"
-let NERDTreeWinSize=25
+" ------------------------------------- Shougo/defx.nvim
+call defx#custom#option('_', {
+      \ 'winwidth': 30,
+      \ 'split': 'vertical',
+      \ 'direction': 'topleft',
+      \ 'show_ignored_files': 0,
+      \ 'buffer_name': '',
+      \ 'toggle': 1,
+      \ 'resume': 1
+      \ })
+
+nmap <silent> <Leader>e :Defx <cr>
 
 
-" ------------- skywind3000/vim-auto-popmenu
-" 设定需要生效的文件类型，如果是 "*" 的话，代表所有类型
-let g:apc_enable_ft = {'*':1}
-" 设定从字典文件以及当前打开的文件里收集补全单词，详情看 ':help cpt'
-set cpt=.,k,w,b
-" 不要自动选中第一个选项。
-set completeopt=menu,menuone,noselect
-" 禁止在下方显示一些啰嗦的提示
-set shortmess+=c
 
+" ------------------------------------- glepnir/dashboard-nvim
 
-" ------------- preservim/nerdcommenter
-" 注释后面增加 1 个空格
-let g:NERDSpaceDelims = 1
-let g:NERDDefaultAlign = 'left'
-let g:NERDTrimTrailingWhitespace = 1
-
-
-" ------------- Chiel92/vim-autoforma
-nnoremap <Leader>a :Autoformat<CR>
-
-
-" ------------- skywind3000/asyncrun.vim
-" 运行时自动打开高度为 6 的 quickfix 窗口, 不然你看不到任何输出
-let g:asyncrun_open = 10
-
-
-" ------------- skywind3000/asyncrun.vim
-let g:vimspector_enable_mappings = 'HUMAN'
-nmap <LocalLeader><F11> <Plug>VimspectorRestart
-nmap <F7> <Plug>VimspectorRestart
-
-
-" ------------- vim-airline/vim-airline
-" 开启tabline
-let g:airline#extensions#tabline#enabled = 1
-" 显示buffer编号
-let g:airline#extensions#tabline#buffer_nr_show = 1
-let g:airline_theme='silver'
-
-
-" ------------- glepnir/dashboard-nvim
-" 这里使用 fzf
-let g:dashboard_default_executive ='fzf'
+let g:dashboard_default_executive ='fzf' " 这里使用 fzf
 nmap <Leader>ss :<C-u>SessionSave<CR>
 nmap <Leader>sl :<C-u>SessionLoad<CR>
 nnoremap <silent> <Leader>fh :DashboardFindHistory<CR>
@@ -966,9 +891,83 @@ let g:dashboard_custom_header = [
    \' ██████████▄▄▄▄▄▄▄██████████ ',
    \ ]
 
-" ------------- liuchengxu/vista.vim
+
+" ------------------------------------- vim-airline/vim-airline
+let g:airline#extensions#tabline#enabled = 1        " 开启tabline
+let g:airline#extensions#tabline#buffer_nr_show = 1 " 显示buffer编号
+let g:bufferline_modified = '+'                     " 缓冲区已修改的符号
+let g:airline_theme='silver'
+
+nmap <leader>1 <Plug>AirlineSelectTab1
+nmap <leader>2 <Plug>AirlineSelectTab2
+nmap <leader>3 <Plug>AirlineSelectTab3
+nmap <leader>4 <Plug>AirlineSelectTab3
+nmap <leader>5 <Plug>AirlineSelectTab3
+nmap <leader>6 <Plug>AirlineSelectTab3
+nmap <leader>7 <Plug>AirlineSelectTab3
+nmap <leader>8 <Plug>AirlineSelectTab3
+nmap <leader>9 <Plug>AirlineSelectTab3
+nmap <leader>0 <Plug>AirlineSelectTab3
+
+
+" ------------------------------------- preservim/nerdcommenter
+
+let g:NERDSpaceDelims = 1 " 注释后面增加 1 个空格
+let g:NERDDefaultAlign = 'left'
+let g:NERDTrimTrailingWhitespace = 1
+
+
+
+" ------------------------------------- junegunn/vim-easy-align
+xmap ga <Plug>(EasyAlign)
+nmap ga <Plug>(EasyAlign)
+
+
+
+" ------------------------------------- jlanzarotta/bufexplorer
+let g:bufExplorerDefaultHelp=0      " 不显示默认帮助信息
+let g:bufExplorerShowRelativePath=0 " 显示绝对路径
+
+let g:bufExplorerSortBy='mru'       " Sort by most recently used.
+let g:bufExplorerSplitRight=0       " Split left.
+let g:bufExplorerSplitVertical=1    " Split vertically.
+let g:bufExplorerSplitVertSize = 30 " Split width
+let g:bufExplorerUseCurrentWindow=1 " Open in new window.
+let g:buffet_use_devicons = 10
+
+
+
+" ------------------------------------- Chiel92/vim-autoforma
+nnoremap <Leader>a :Autoformat<CR>
+
+
+
+" ------------------------------------- skywind3000/asyncrun.vim
+" 运行时自动打开高度为 6 的 quickfix 窗口, 不然你看不到任何输出
+let g:asyncrun_open = 10
+let g:vimspector_enable_mappings = 'HUMAN'
+nmap <LocalLeader><F11> <Plug>VimspectorRestart
+nmap <F7> <Plug>VimspectorRestart
+
+
+
+" ------------------------------------- liuchengxu/vista.vim
 " 使用 coc
 let g:vista_default_executive = 'coc'
+
+
+
+" ------------------------------------- voldikss/vim-floaterm
+let g:floaterm_keymap_new = '<Leader>ft'
+let g:floaterm_keymap_toggle = '<Leader>fh'
+let g:floaterm_keymap_prev = '<Leader>fp'
+let g:floaterm_keymap_next = '<Leader>fn'
+let g:floaterm_keymap_kill = '<Leader>fc'
+
+let g:floaterm_width=0.8
+let g:floaterm_height=0.8
+let g:floaterm_position = 'center'
+
 ```
 
 

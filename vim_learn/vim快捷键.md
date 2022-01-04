@@ -236,11 +236,34 @@ Alt 可以是 <M-key>或<A-key>
 <unique> 
 ```
 
-
-
-```
-连续按
-
+## buffer
 
 ```
+打开
+nvim a.py b.py
+
+
+:ls, :buffers       列出所有缓冲区
+:bn[ext]            下一个缓冲区
+:bp[revious]        上一个缓冲区
+:b {number, expression}     跳转到指定缓冲区
+
+
+:sb 3               分屏并打开编号为3的Buffer
+:vertical sb 3      同上，垂直分屏
+:vertical rightbelow sfind file.txt
+
+
+:bd
+:bd! 不保存退出
+:bd3
+
+
+:e /path/to/file 也可以打开文件到 buffer 中
+:new 和 :vnew
+:badd {filename} 添加到缓冲区，光标保持在当前缓冲
+
+```
+
+
 
