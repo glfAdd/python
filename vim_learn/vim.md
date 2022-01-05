@@ -135,6 +135,76 @@ let fmt = get(g:, 'plug_url_format', 'https://git::@github.com.cnpmjs.org/%s.git
 \ '^https://git::@github.com.cnpmjs\.org', 'https://github.com.cnpmjs.org', '')
 ```
 
+## coc
+
+> [github](https://github.com/neoclide/coc.nvim)
+>
+> [文档](https://github.com/neoclide/coc.nvim/wiki/Language-servers)
+
+coc.nvim 是 LSP (Language Server Protocol) 语言服务器
+
+##### 安装
+
+> 必须安装 nodejs >= 12.12 才能使用
+
+```
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
+```
+
+##### python
+
+> [github](https://github.com/fannheyward/coc-pyright)
+
+- 安装 python 语言服务器
+
+```
+:CocInstall coc-pyright
+```
+
+##### 配置文件
+
+```
+保存在 /home/glfadd/.config/nvim/coc-settings.json 中
+
+:CocConfig
+
+
+https://github.com/fannheyward/coc-pyright/blob/master/package.json
+https://github.com/microsoft/pyright/blob/main/docs/configuration.md
+```
+
+
+
+##### 安装问题 1
+
+- 问题描述
+
+  ```
+  [coc.nvim] build/index.js not found, please install dependencies and compile coc.nvim by: yarn install
+  ```
+
+- 解决办法
+
+  ```bash
+  # sudo su
+  $ npm install -g yarn
+  $ cd /home/gong/.vim/plugged/coc.nvim
+  $ yarn install
+  $ yarn build
+  ```
+
+- 验证
+
+  ```
+  安装成功后再次进入 nvim 显示如下消息
+  
+  [coc.nvim] creating data directory: /home/gong/.config/coc
+  ```
+
+##### 
+
+
+
 ## plugin
 
 ##### font - 字体(未使用)
@@ -202,67 +272,6 @@ https://blog.zfanw.com/fzf-vim-usage/
   ```
   let g:dashboard_default_executive ='fzf'
   ```
-
-##### coc 代码补全
-
-> [github](https://github.com/neoclide/coc.nvim)
->
-> [文档](https://github.com/neoclide/coc.nvim/wiki/Language-servers)
-
-- 依赖
-
-  ```
-  必须安装 nodejs >= 12.12
-  ```
-
-- install
-
-  ```
-  Plug 'neoclide/coc.nvim', {'branch': 'release'}
-  ```
-
-- python代码补全
-
-  > [github](https://github.com/fannheyward/coc-pyright)
-
-  ```
-  :CocInstall coc-pyright
-  
-  
-  python 的环境变量如何设置
-  ```
-
-- use
-
-  ```
-  :CocConfig
-  ```
-  
-- 安装问题1
-
-  - 问题描述
-
-    ```
-    [coc.nvim] build/index.js not found, please install dependencies and compile coc.nvim by: yarn install
-    ```
-
-  - 解决办法
-
-    ```bash
-    # sudo su
-    $ npm install -g yarn
-    $ cd /home/gong/.vim/plugged/coc.nvim
-    $ yarn install
-    $ yarn build
-    ```
-
-  - 验证
-
-    ```
-    安装成功后再次进入 nvim 显示如下消息
-    
-    [coc.nvim] creating data directory: /home/gong/.config/coc
-    ```
 
 ##### vista.vim 查看缓冲区函数, 变量，并跳转
 
@@ -811,15 +820,12 @@ noremap <Leader><Tab> :Bw<CR>
 noremap <Leader><S-Tab> :Bw!<CR>
 noremap <C-t> :tabnew split<CR>
 
-
-
 " 设置高亮的颜色
 "highlight CursorLine   cterm=NONE ctermbg=gray ctermfg=green guibg=NONE guifg=NONE
 "highlight CursorColumn cterm=NONE ctermbg=gray ctermfg=green guibg=NONE guifg=NONE
 
 
 call plug#begin('~/.vim/plugged')
-
 Plug 'vim-airline/vim-airline'                                    " 状态栏
 Plug 'vim-airline/vim-airline-themes'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' } " 模糊查询
@@ -840,15 +846,17 @@ Plug 'voldikss/vim-floaterm'                                      " 窗口内悬
 Plug 'tpope/vim-fugitive'                                         " git
 Plug 'skywind3000/asynctasks.vim'                                 " 后台异步执行外部命令
 Plug 'skywind3000/asyncrun.vim'
+Plug 'mbbill/undotree' " 撤销树
 
 "Plug 'Chiel92/vim-autoformat' " 代码格式化
 "Plug 'dense-analysis/ale' " 语法检测
 "Plug 'puremourning/vimspector' " 代码 debug
-"Plug 'dracula/vim', { 'as': 'dracula' } " 主题
 "Plug 'liuchengxu/vista.vim' " 查看缓冲区函数, 变量，并跳转
 call plug#end()
 
-" ------------------------------------- Shougo/defx.nvim
+nnoremap <Leader>t :UndotreeToggle<CR>
+
+" ************************************* Shougo/defx.nvim
 call defx#custom#option('_', {
       \ 'winwidth': 30,
       \ 'split': 'vertical',
@@ -863,27 +871,26 @@ nmap <silent> <Leader>e :Defx <cr>
 
 
 
-" ------------------------------------- glepnir/dashboard-nvim
-
+" ************************************* glepnir/dashboard-nvim
 let g:dashboard_default_executive ='fzf' " 这里使用 fzf
 nmap <Leader>ss :<C-u>SessionSave<CR>
 nmap <Leader>sl :<C-u>SessionLoad<CR>
-nnoremap <silent> <Leader>fh :DashboardFindHistory<CR>
-nnoremap <silent> <Leader>ff :DashboardFindFile<CR>
-nnoremap <silent> <Leader>tc :DashboardChangeColorscheme<CR>
-nnoremap <silent> <Leader>fa :DashboardFindWord<CR>
-nnoremap <silent> <Leader>fb :DashboardJumpMark<CR>
-nnoremap <silent> <Leader>cn :DashboardNewFile<CR>
+nnoremap <silent> <Leader>dh :DashboardFindHistory<CR>
+nnoremap <silent> <Leader>df :DashboardFindFile<CR>
+nnoremap <silent> <Leader>dc :DashboardChangeColorscheme<CR>
+nnoremap <silent> <Leader>da :DashboardFindWord<CR>
+nnoremap <silent> <Leader>db :DashboardJumpMark<CR>
+nnoremap <silent> <Leader>dn :DashboardNewFile<CR>
 
 " 按键说明
 let g:dashboard_custom_shortcut={
-  \ 'last_session'       : 'SPC s l',
-  \ 'find_history'       : 'SPC f h',
-  \ 'find_file'          : 'SPC f f',
-  \ 'new_file'           : 'SPC c n',
-  \ 'change_colorscheme' : 'SPC t c',
-  \ 'find_word'          : 'SPC f a',
-  \ 'book_marks'         : 'SPC f b',
+  \ 'last_session'       : 'SPC d l',
+  \ 'find_history'       : 'SPC d h',
+  \ 'find_file'          : 'SPC d f',
+  \ 'new_file'           : 'SPC d n',
+  \ 'change_colorscheme' : 'SPC d c',
+  \ 'find_word'          : 'SPC d a',
+  \ 'book_marks'         : 'SPC d b',
   \ }
 
 " 设置按键前面的图表, 必须先定义一个变量, 否则报错
@@ -919,7 +926,7 @@ let g:dashboard_custom_header = [
    \ ]
 
 
-" ------------------------------------- vim-airline/vim-airline
+" ************************************* vim-airline/vim-airline
 let g:airline#extensions#tabline#enabled = 1        " 开启tabline
 let g:airline#extensions#tabline#buffer_nr_show = 1 " 显示buffer编号
 let g:bufferline_modified = '+'                     " 缓冲区已修改的符号
@@ -937,7 +944,7 @@ nmap <leader>9 <Plug>AirlineSelectTab3
 nmap <leader>0 <Plug>AirlineSelectTab3
 
 
-" ------------------------------------- preservim/nerdcommenter
+" ************************************* preservim/nerdcommenter
 
 let g:NERDSpaceDelims = 1 " 注释后面增加 1 个空格
 let g:NERDDefaultAlign = 'left'
@@ -945,13 +952,13 @@ let g:NERDTrimTrailingWhitespace = 1
 
 
 
-" ------------------------------------- junegunn/vim-easy-align
+" ************************************* junegunn/vim-easy-align
 xmap ga <Plug>(EasyAlign)
 nmap ga <Plug>(EasyAlign)
 
 
 
-" ------------------------------------- jlanzarotta/bufexplorer
+" ************************************* jlanzarotta/bufexplorer
 let g:bufExplorerDefaultHelp=0      " 不显示默认帮助信息
 let g:bufExplorerShowRelativePath=0 " 显示绝对路径
 
@@ -964,27 +971,25 @@ let g:buffet_use_devicons = 10
 
 
 
-" ------------------------------------- Chiel92/vim-autoforma
+" ************************************* Chiel92/vim-autoforma
 nnoremap <Leader>a :Autoformat<CR>
 
 
 
-" ------------------------------------- skywind3000/asyncrun.vim
-" 运行时自动打开高度为 6 的 quickfix 窗口, 不然你看不到任何输出
-let g:asyncrun_open = 10
+" ************************************* skywind3000/asyncrun.vim
+let g:asyncrun_open = 10 " 设置输出窗口高度, 不然看不到任何输出
 let g:vimspector_enable_mappings = 'HUMAN'
 nmap <LocalLeader><F11> <Plug>VimspectorRestart
 nmap <F7> <Plug>VimspectorRestart
 
 
 
-" ------------------------------------- liuchengxu/vista.vim
-" 使用 coc
-let g:vista_default_executive = 'coc'
+" ************************************* liuchengxu/vista.vim
+let g:vista_default_executive = 'coc' " 使用 coc
 
 
 
-" ------------------------------------- voldikss/vim-floaterm
+" ************************************* voldikss/vim-floaterm
 let g:floaterm_keymap_new = '<Leader>ft'
 let g:floaterm_keymap_toggle = '<Leader>fh'
 let g:floaterm_keymap_prev = '<Leader>fp'
@@ -994,6 +999,7 @@ let g:floaterm_keymap_kill = '<Leader>fc'
 let g:floaterm_width=0.8
 let g:floaterm_height=0.8
 let g:floaterm_position = 'center'
+
 
 ```
 

@@ -1,39 +1,30 @@
+## 安装
+
 ##### 参考
 
 ```
 https://blog.csdn.net/aixiaoyang168/article/details/103022342#3Consul__17
 https://blog.csdn.net/aixiaoyang168/article/details/105233955/
 https://cloud.tencent.com/developer/article/1692817
-
-官网文档
-https://book-consul-guide.vnzmi.com/04_run_agent.html
-
-查看命令文档
-https://blog.csdn.net/yaos829/article/details/103826839
-
 https://cloud.tencent.com/developer/article/1695997
-
-
-new
 https://www.cnblogs.com/whuanle/p/14015189.html
-
 ```
 
 ##### 是什么
 
 ```
-Consul 是基于 GO 语言开发的开源工具，主要面向分布式，服务化的系统提供服务注册、服务发现和配置管理的功能。Consul 提供服务注册/发现、健康检查、Key/Value存储、多数据中心和分布式一致性保证等功能。Prometheus 通过 Consul 可以很方便的实现服务自动发现和维护，同时 Consul 支持分布式集群部署，将大大提高了稳定性，通过 Prometheus 跟 Consul 集群二者结合起来，能够高效的进行数据维护同时保证系统稳定。
+Consul 是基于 GO 语言开发的开源工具，主要面向分布式，服务化的系统提供服务注册、服务发现和配置管理的功能。
+Consul 提供服务注册/发现、健康检查、Key/Value存储、多数据中心和分布式一致性保证等功能。Prometheus 通过 Consul 可以很方便的实现服务自动发现和维护，同时 Consul 支持分布式集群部署，将大大提高了稳定性，通过 Prometheus 跟 Consul 集群二者结合起来，能够高效的进行数据维护同时保证系统稳定。
 ```
 
 ##### 安装
 
-```
-官网
-https://www.consul.io/downloads
-https://github.com/hashicorp/consul
+> [官网](https://www.consul.io/downloads)
+>
+> [github](https://github.com/hashicorp/consul)
 
-
-wget https://releases.hashicorp.com/consul/1.10.0/consul_1.10.0_linux_amd64.zip
+```bash
+$ wget https://releases.hashicorp.com/consul/1.10.0/consul_1.10.0_linux_amd64.zip
 ```
 
 ##### 命令
@@ -56,10 +47,10 @@ wget https://releases.hashicorp.com/consul/1.10.0/consul_1.10.0_linux_amd64.zip
 
 ```bash
 # 查看服务器状态
-curl localhost:8500/v1/catalog/nodes
+$ curl localhost:8500/v1/catalog/nodes
 
 # 只能本地可以访问
-/opt/consul/consul agent -dev  
+$ /opt/consul/consul agent -dev  
 
 # 持久化 外网访问
 /opt/consul/consul agent -server -ui -client 0.0.0.0 -bootstrap-expect=1 -data-dir=/opt/consul/data -node=consul_01 -datacenter SH-TMP -bind=0.0.0.0 -client=0.0.0.0 -log-file=/opt/logs/consul.log
@@ -126,19 +117,6 @@ curl -X PUT -d '{"id": "node-exporter","name": "node-exporter-1","address": "loc
 http://ip:port/v1/agent/service/deregister/实例id
 
 curl -X PUT http://localhost:8500/v1/agent/service/deregister/node-exporter
-```
-
-##### prometheus.yml 
-
-> 使用 consul_sd_configs 来配置使用 Consul 服务发现类型
->
-> server 为 Consul 的服务地址
-
-```xml
-scrape_configs:
-  - job_name: consul-prometheus
-    consul_sd_configs:
-      - server: 'localhost:8500'
 ```
 
 ##### prometheus 去掉默认节点 consul 
@@ -393,7 +371,146 @@ Meta 设置3个自定义标签，系统会自动添加3个标签
           action: labelmap
   ```
 
-## Consul Template
+## node_exporter
+
+### 参考
+
+```
+https://www.jianshu.com/p/7bec152d1a1f
+```
+
+
+
+##### 修改 Grafana 中主机的名字
+
+在 *.json 文件中 Meta 下添加 nodename
+
+```json
+{
+  "ID": "node_id_localhost",
+  "Name": "node_name_localhost",
+  "Tags": [
+    "node"
+  ],
+  "Address": "localhost",
+  "Port": 9100,
+  "Meta": {
+    "owner": "宫龙飞",
+    "app": "node_status_elk",
+    "team": "node_status",
+    "host": "localhost",
+    "nodename": "123123aaaa"
+  },
+  "EnableTagOverride": false,
+  "Check": {
+    "HTTP": "http://localhost:9100/metrics",
+    "Interval": "10s"
+  },
+  "Weights": {
+    "Passing": 10,
+    "Warning": 1
+  }
+}
+```
+
+##### 判断节点是否可用
+
+```
+prometheus rule 筛选条件
+
+up{job="node_status"}==0
+```
+
+##### cpu 百分比(5 分钟平均值)
+
+```
+node_load5{job="node_status"} > 1
+```
+
+##### 内存百分比(大于80%)
+
+```
+((node_memory_MemTotal_bytes - node_memory_MemFree_bytes - node_memory_Buffers_bytes - node_memory_Cached_bytes) / (node_memory_MemTotal_bytes )) * 100 > 80
+```
+
+##### 磁盘可用百分比(小于 5%)
+
+```
+((node_filesystem_avail_bytes{job="node_status",mountpoint=~".*"} * 100) / node_filesystem_size_bytes {job="node_status",mountpoint=~".*",fstype=~"ext4|xfs|ext2|ext3"}) < 5
+```
+
+## blackbox_exporter
+
+##### 接口
+
+```
+
+
+```
+
+
+
+##### 端口
+
+```
+
+
+```
+
+## process-exporter
+
+> 参考 https://www.jianshu.com/p/6a7511004766
+
+
+
+```
+
+
+
+
+$ ./process-exporter [options] -config.path filename.yml
+
+
+$ ./process-exporter -web.config.file web-config.yml &
+
+
+
+
+
+$ vim process-name.yaml
+
+
+
+
+```
+
+模板变量
+
+```
+{{.Comm}} contains the basename of the original executable, i.e. 2nd field in /proc/<pid>/stat
+{{.ExeBase}} contains the basename of the executable
+{{.ExeFull}} contains the fully qualified path of the executable
+{{.Username}} contains the username of the effective user
+{{.Matches}} map contains all the matches resulting from applying cmdline regexps
+
+
+{{.Comm}} 包含原始可执行文件的基本名称，即第二个字段 /proc//stat
+{{.ExeBase}} 包含可执行文件的基名
+{{.ExeFull}} 包含可执行文件的完全限定路径
+{{.Username}} 包含有效用户的用户名
+{{.Matches}} map包含应用cmdline regexps产生的所有匹配项
+
+```
+
+
+
+
+
+
+
+
+
+
 
 
 
