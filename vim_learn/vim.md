@@ -88,27 +88,6 @@ $ pip install neovim
 $ pip3 install neovim
 ```
 
-## 系统依赖
-
-##### Node.js 安装
-
-> [官网](https://nodejs.org/zh-cn/download/)
-
-```
-1. 下载解压
-$ wget https://nodejs.org/dist/v16.13.1/node-v16.13.1-linux-x64.tar.xz
-$ tar xvf  node-v16.13.1-linux-x64.tar.xz
-
-
-2. 查看版本
-$ ./bin/node -v
-
-
-3. 创建软连接
-sudo ln -s /opt/node-v16.13.1-linux-x64/bin/npm   /usr/local/bin/ 
-sudo ln -s /opt/node-v16.13.1-linux-x64/bin/node   /usr/local/bin/
-```
-
 ## vim plug
 
 > [github](https://github.com/junegunn/vim-plug)
@@ -258,6 +237,32 @@ https://blog.zfanw.com/fzf-vim-usage/
   ```
   :CocConfig
   ```
+  
+- 安装问题1
+
+  - 问题描述
+
+    ```
+    [coc.nvim] build/index.js not found, please install dependencies and compile coc.nvim by: yarn install
+    ```
+
+  - 解决办法
+
+    ```bash
+    # sudo su
+    $ npm install -g yarn
+    $ cd /home/gong/.vim/plugged/coc.nvim
+    $ yarn install
+    $ yarn build
+    ```
+
+  - 验证
+
+    ```
+    安装成功后再次进入 nvim 显示如下消息
+    
+    [coc.nvim] creating data directory: /home/gong/.config/coc
+    ```
 
 ##### vista.vim 查看缓冲区函数, 变量，并跳转
 
@@ -577,6 +582,28 @@ https://blog.csdn.net/weixin_39795268/article/details/111344410
   ```
   
   ```
+
+#####  undotree
+
+> [github](https://github.com/mbbill/undotree)
+
+- install
+
+  ```
+  Plug 'mbbill/undotree'
+  ```
+
+- setting
+
+  ```
+  ```
+
+- use
+
+  ```
+  ```
+
+  
 
 ## 断点调试
 
