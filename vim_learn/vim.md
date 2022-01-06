@@ -141,7 +141,7 @@ let fmt = get(g:, 'plug_url_format', 'https://git::@github.com.cnpmjs.org/%s.git
 >
 > [文档](https://github.com/neoclide/coc.nvim/wiki/Language-servers)
 
-coc.nvim 是 LSP (Language Server Protocol) 语言服务器
+coc.nvim 是针对 neovim 的智能感知插件, 基于微软的  LSP (Language Server Protocol) 协议
 
 ##### 安装
 
@@ -150,6 +150,29 @@ coc.nvim 是 LSP (Language Server Protocol) 语言服务器
 ```
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 ```
+
+##### 命令
+
+```
+CocInstall coc-clangd  # C++环境插件                                                               
+CocInstall coc-cmake  # Cmake 支持                                                                 
+CocInstall coc-emmet                                                                               
+CocInstall coc-git    # git 支持                                                                   
+CocInstall coc-highlight  # 高亮支持                                                               
+CocInstall coc-jedi   # jedi                                                                       
+CocInstall coc-json   # json 文件支持                                                              
+CocInstall coc-python # python 环境支持                                                            
+CocInstall coc-sh     # bash 环境支持                                                              
+CocInstall coc-snippets # python提供 snippets                                                      
+CocInstall coc-vimlsp # lsp                                                                        
+CocInstall coc-yaml   # yaml                                                                       
+CocInstall coc-syntax                                                                              
+CocInstall coc-pairs  
+```
+
+
+
+
 
 ##### python
 

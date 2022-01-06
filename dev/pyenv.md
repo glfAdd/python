@@ -1,3 +1,17 @@
+```
+查看系统 python 和 pip 命令的目录
+
+
+$ which python
+/usr/bin/python
+$ which python3
+/usr/bin/python3
+$ which pip    
+/usr/local/bin/pip
+$ which pip3
+/usr/local/bin/pip3
+```
+
 > [pyenv](https://github.com/pyenv/pyenv)
 >
 > [pyenv-virtualenv](https://github.com/pyenv/pyenv-virtualenv)
@@ -6,7 +20,9 @@
 
 ##### pyenv
 
-> shell 文件 .zshrc .bashrc .bash_profile
+> 用于安装多个版本 python
+>
+> shell 文件 .zshrc .bash_profile
 
 - clone
 
@@ -14,55 +30,99 @@
   $ git clone https://github.com/pyenv/pyenv.git ~/.pyenv
   ```
 
-- shell 添加如下内容:
+- .zshrc 添加如下内容
 
   ```shell
   export PYENV_ROOT="$HOME/.pyenv"
   export PATH="$PYENV_ROOT/bin:$PATH"
   eval "$(pyenv init -)"
-  eval "$(pyenv virtualenv-init -)"
+  eval "$(pyenv init --path)"
   ```
 
 ##### pyenv-virtualenv
+
+> 用于创建 python 虚拟环境
 
 - clone
 
   ```bash
   $ git clone https://github.com/pyenv/pyenv-virtualenv.git $(pyenv root)/plugins/pyenv-virtualenv
   ```
+  
+- .zshrc 添加如下内容:
+
+  ```bash
+  eval "$(pyenv virtualenv-init -)"
+  ```
+
+  
+
+```
+pip2 install virtualenv
+pip3 install virtualenv
+```
+
+##### 问题
+
+- 描述
+
+  ```
+  切换环境成功, 但 python 和 pip 没有切换
+  ```
+
+- 原因
+
+  ```
+  .zshrc 环境变量问题
+  ```
+
+- 解决办法
+
+  ```
+  在 .zshrc 中添加
+  eval "$(pyenv init --path)"
+  ```
 
 ## 命令
 
-##### pyenv
-
 ```bash
-pyenv local 2.7.6			# 设置当前python 版本
+pyenv help install
+pyenv commands				# 所有可用的 pyenv 命令
+pyenv version  				# 显示当前目录下采用的 python 版本
+pyenv versions 				# 列出系统中安装的 python 版本
 pyenv install --list		# 列出可安装版本
 pyenv install <version>		# 安装对应版本 
 pyenv install -v <version>	# 安装对应版本，若发生错误，可以显示详细的错误信息 
-pyenv versions				# 显示当前使用的python版本 
+pyenv uninstall <version>	# 卸载 python 3.4.0
 pyenv which python			# 显示当前python安装路径 
-pyenv global <version>		# 设置默认Python版本 
+pyenv global <version>		# 全局设置, 整个系统生效 
 pyenv local <version>		# 当前路径创建一个.python-version, 以后进入这个目录自动切换为该版本 
 pyenv shell <version>		# 当前shell的session中启用某版本，优先级高于global 及 local
 pyenv rehash 				# 安装完成之后需要对数据库进行更新
-pyenv uninstall <version>	# 卸载python 3.4.0
-```
 
-##### pyenv-virtualenv
 
-```bash
-pyenv virtualenv env 				# 从默认版本创建虚拟环境 
+
+pyenv virtualenvs
 pyenv virtualenv <version> <name> 	# 创建3.6.4版本的虚拟环境 
 pyenv activate <name> 				# 激活 env-3.6.4 这个虚拟环境 
 pyenv deactivate 					# 停用当前的虚拟环境 
-# 自动激活 
-# 使用pyenv local 虚拟环境名 
-# 会把`虚拟环境名`写入当前目录的.python-version文件中 
-# 关闭自动激活 -> pyenv deactivate 
-# 启动自动激活 -> pyenv activate env-3.6.4 
-pyenv local env-3.6.4 
 pyenv uninstall env-3.6.4 			# 删除 env-3.6.4 这个虚拟环境
+```
+
+```
+pyenv global 3.3.3 2.7.6
+pyenv versions
+  system
+* 2.7.6 (set by /Users/yyuu/.pyenv/version)
+* 3.3.3 (set by /Users/yyuu/.pyenv/version)
+  venv27
+python --version
+Python 3.3.3
+python2.7 --version
+Python 2.7.6
+python3.3 --version
+Python 3.3.3
+
 
 ```
 
