@@ -1,7 +1,6 @@
 ##### 参考案例
 
 ```
-https://zhuanlan.zhihu.com/p/382092667
 http://47.112.232.56/github/zh/61928120c295597421382002.html
 https://github.com/vim-vdebug/vdebug
 
@@ -11,6 +10,12 @@ https://kxcblog.com/post/terminal/2.tmux-tutorial/
 
 
 https://zhuanlan.zhihu.com/p/267856388
+
+
+
+plugin
+https://zhuanlan.zhihu.com/p/382092667
+https://github.com/ayamir/nvimdots/wiki/Plugins
 ```
 
 ## 安装 - vim  
@@ -154,7 +159,7 @@ Plug 'neoclide/coc.nvim', {'branch': 'release'}
 ##### 命令
 
 ```
-CocInstall coc-clangd  # C++环境插件                                                               
+CocInstall coc-clangd  # C++环境插件                                                       
 CocInstall coc-cmake  # Cmake 支持                                                                 
 CocInstall coc-emmet                                                                               
 CocInstall coc-git    # git 支持                                                                   
@@ -178,11 +183,17 @@ CocInstall coc-pairs
 
 > [github](https://github.com/fannheyward/coc-pyright)
 
+- pip 包. 会使用当前的 python 环境
+
+  ```
+  pip install autopep8
+  ```
+
 - 安装 python 语言服务器
 
-```
-:CocInstall coc-pyright
-```
+  ```
+  :CocInstall coc-pyright
+  ```
 
 ##### 配置文件
 
@@ -195,8 +206,6 @@ CocInstall coc-pairs
 https://github.com/fannheyward/coc-pyright/blob/master/package.json
 https://github.com/microsoft/pyright/blob/main/docs/configuration.md
 ```
-
-
 
 ##### 安装问题 1
 
@@ -296,26 +305,18 @@ https://blog.zfanw.com/fzf-vim-usage/
   let g:dashboard_default_executive ='fzf'
   ```
 
-##### vista.vim 查看缓冲区函数, 变量，并跳转
+##### vista.vim 函数和变量查看
 
-> [github](https://github.com/liuchengxu/vista.vim)
-
-- 依赖
-
-  ```
-  需要 vim 插件 coc.vim
-  ```
+> [github](https://github.com/liuchengxu/vista.vim) 
+>
+> [文档](https://github.com/liuchengxu/vista.vim/blob/master/doc/vista.txt)
+>
+> 依赖: 需要插件 coc.vim
 
 - install
 
   ```
   Plug 'liuchengxu/vista.vim'
-  ```
-
-- setting
-
-  ```
-  
   ```
 
 - use
@@ -435,62 +436,6 @@ https://blog.zfanw.com/fzf-vim-usage/
   <Leader>bv 强制垂直劈开
   ```
 
-##### vim-autoformat 代码格式化
-
-> [github](https://github.com/vim-autoformat/vim-autoformat)
-
-- install
-
-  ```
-  Plug 'Chiel92/vim-autoformat'
-  ```
-
-- setting
-
-  - python 支持
-
-    ```
-    pip install autopep8
-    ```
-
-  - java 支持
-
-    ```
-    ```
-
-  - 其他设置
-
-    ```
-    nnoremap <F6> :Autoformat<CR>
-    let g:autoformat_autoindent = 0
-    let g:autoformat_retab = 0
-    let g:autoformat_remove_trailing_spaces = 0
-    ```
-
-- use
-
-  ```
-  :Autoformat
-  ```
-
-##### ale 语法检测
-
-> [github](https://github.com/dense-analysis/ale)
-
-- install
-
-  ```
-  Plug 'dense-analysis/ale'
-  ```
-
-- setting
-
-  - python 支持
-
-    ```
-    pip install flake8
-    ```
-
 ##### vim-translator 词典
 
 > [github](https://github.com/voldikss/vim-translator)
@@ -501,19 +446,22 @@ https://blog.zfanw.com/fzf-vim-usage/
   Plug 'voldikss/vim-translator'
   ```
 
-- setting
+  
+
+
+- 翻译句子
 
   ```
   
   ```
-  
 
-##### asyncrun.vim 运行代码
+##### asyncrun.vim 异步执行命令
 
-> https://github.com/skywind3000/asyncrun.vim [文档](https://github.com/skywind3000/asyncrun.vim/blob/master/README-cn.md)
+> 运行的时候使用当前的环境变量, 如 python 版本
 >
-> https://github.com/skywind3000/asynctasks.vim [文档](https://github.com/skywind3000/asynctasks.vim/blob/master/README-cn.md)
+> asyncrun.vim [github](https://github.com/skywind3000/asyncrun.vim) [文档](https://github.com/skywind3000/asyncrun.vim/blob/master/README-cn.md)
 >
+> asynctasks.vim [github](https://github.com/skywind3000/asynctasks.vim) [文档](https://github.com/skywind3000/asynctasks.vim/blob/master/README-cn.md)
 
 - install
 
@@ -526,7 +474,7 @@ https://blog.zfanw.com/fzf-vim-usage/
 - setting
 
   ```
-  " asyncrun 运行时自动打开高度为 6 的 quickfix 窗口, 不然你看不到任何输出                 
+  " asyncrun 运行时自动打开高度为 10 的 quickfix 窗口, 不然你看不到任何输出                 
   let g:asyncrun_open = 10    
   ```
 
@@ -538,6 +486,23 @@ https://blog.zfanw.com/fzf-vim-usage/
   
   :AsyncRun python code_test.py
   ```
+
+- 命令
+
+  ```
+  :AsyncStop[!] 停止正在运行的任务
+  
+  运行10 - 20 行的代码
+  :10,20AsyncRun python
+  
+  
+  运行选定的代码
+  :'<,'>AsyncRun python
+  
+  
+  ```
+
+  
 
 ##### vim-fugitive git工具
 
@@ -555,21 +520,6 @@ https://blog.zfanw.com/fzf-vim-usage/
   :Git status
   :Git diff
   ```
-
-##### 配色
-
-```
-
-```
-
-##### shell补全
-
-```
-https://github.com/Shougo/neocomplete.vim
-
-
-command mode
-```
 
 ##### markdown
 
@@ -615,6 +565,18 @@ https://blog.csdn.net/weixin_39795268/article/details/111344410
   
   ```
 
+##### toggleterm.nvim - 终端
+
+> [github](https://github.com/akinsho/toggleterm.nvim)
+
+```
+
+
+
+```
+
+
+
 #####  undotree
 
 > [github](https://github.com/mbbill/undotree)
@@ -633,9 +595,17 @@ https://blog.csdn.net/weixin_39795268/article/details/111344410
 - use
 
   ```
-  ```
-
   
+```
+
+##### 配色
+
+```
+
+
+```
+
+
 
 ## 断点调试
 
@@ -817,20 +787,24 @@ pip install line_profiler
 ```
 let mapleader=','
 
-set number
-set relativenumber  " 行都为相对于该行的相对行号
 set encoding=utf-8
+set fenc=utf-8
+set hidden
+set number          " 显示行号
+set noswapfile      " 不要生成swap文件
+set nobackup        " 不要备份文件
+set relativenumber  " 行都为相对于该行的相对行号
 set showmatch       " 括号匹配
 set tabstop=4       " 设置Tab长度为4空格
 set shiftwidth=4    " 设置自动缩进长度为4空格
 set autoindent      " 继承前一行的缩进方式，适用于多行注释
 set nocompatible    " 关闭与vi的兼容模式
 set nowrap          " 不自动折行
-set ignorecase      " 忽略大小写
+set ignorecase      " 搜索时忽略大小写
 set cursorline      " 高亮行
 set cc=100          " 尺寸线
 set t_Co=256        " 开启256色支持
-set background=dark " 背景使用黑色, 只有 light 和 dark
+"set background=dark " 背景使用黑色, 只有 light 和 dark
 
 nnoremap <C-J> <C-W><C-J> " 移动窗口快捷键
 nnoremap <C-K> <C-W><C-K>
@@ -869,15 +843,21 @@ Plug 'voldikss/vim-floaterm'                                      " 窗口内悬
 Plug 'tpope/vim-fugitive'                                         " git
 Plug 'skywind3000/asynctasks.vim'                                 " 后台异步执行外部命令
 Plug 'skywind3000/asyncrun.vim'
-Plug 'mbbill/undotree' " 撤销树
+Plug 'mbbill/undotree'                                            " 撤销树
+Plug 'voldikss/vim-translator'                                    " 翻译工具
+Plug 'liuchengxu/vista.vim'                                       " 函数和变量
+Plug 'puremourning/vimspector'                                    " 代码 debug
 
-"Plug 'Chiel92/vim-autoformat' " 代码格式化
-"Plug 'dense-analysis/ale' " 语法检测
-"Plug 'puremourning/vimspector' " 代码 debug
-"Plug 'liuchengxu/vista.vim' " 查看缓冲区函数, 变量，并跳转
+
+Plug 'akinsho/toggleterm.nvim'
+
 call plug#end()
 
-nnoremap <Leader>t :UndotreeToggle<CR>
+
+" ************************************* neoclide/coc.nvim
+nmap <leader>rn <Plug>(coc-rename) " 重命名
+
+
 
 " ************************************* Shougo/defx.nvim
 call defx#custom#option('_', {
@@ -891,7 +871,6 @@ call defx#custom#option('_', {
       \ })
 
 nmap <silent> <Leader>e :Defx <cr>
-
 
 
 " ************************************* glepnir/dashboard-nvim
@@ -955,6 +934,7 @@ let g:airline#extensions#tabline#buffer_nr_show = 1 " 显示buffer编号
 let g:bufferline_modified = '+'                     " 缓冲区已修改的符号
 let g:airline_theme='silver'
 
+" 切换 buffer 快捷键
 nmap <leader>1 <Plug>AirlineSelectTab1
 nmap <leader>2 <Plug>AirlineSelectTab2
 nmap <leader>3 <Plug>AirlineSelectTab3
@@ -968,11 +948,9 @@ nmap <leader>0 <Plug>AirlineSelectTab3
 
 
 " ************************************* preservim/nerdcommenter
-
 let g:NERDSpaceDelims = 1 " 注释后面增加 1 个空格
 let g:NERDDefaultAlign = 'left'
 let g:NERDTrimTrailingWhitespace = 1
-
 
 
 " ************************************* junegunn/vim-easy-align
@@ -980,11 +958,9 @@ xmap ga <Plug>(EasyAlign)
 nmap ga <Plug>(EasyAlign)
 
 
-
 " ************************************* jlanzarotta/bufexplorer
 let g:bufExplorerDefaultHelp=0      " 不显示默认帮助信息
 let g:bufExplorerShowRelativePath=0 " 显示绝对路径
-
 let g:bufExplorerSortBy='mru'       " Sort by most recently used.
 let g:bufExplorerSplitRight=0       " Split left.
 let g:bufExplorerSplitVertical=1    " Split vertically.
@@ -993,23 +969,16 @@ let g:bufExplorerUseCurrentWindow=1 " Open in new window.
 let g:buffet_use_devicons = 10
 
 
-
 " ************************************* Chiel92/vim-autoforma
 nnoremap <Leader>a :Autoformat<CR>
 
 
-
 " ************************************* skywind3000/asyncrun.vim
 let g:asyncrun_open = 10 " 设置输出窗口高度, 不然看不到任何输出
-let g:vimspector_enable_mappings = 'HUMAN'
-nmap <LocalLeader><F11> <Plug>VimspectorRestart
-nmap <F7> <Plug>VimspectorRestart
-
 
 
 " ************************************* liuchengxu/vista.vim
 let g:vista_default_executive = 'coc' " 使用 coc
-
 
 
 " ************************************* voldikss/vim-floaterm
@@ -1022,6 +991,66 @@ let g:floaterm_keymap_kill = '<Leader>fc'
 let g:floaterm_width=0.8
 let g:floaterm_height=0.8
 let g:floaterm_position = 'center'
+
+
+" ************************************* mbbill/undotree
+nnoremap <Leader>t :UndotreeToggle<CR>
+
+xmap <leader>qq <Plug>(coc-format)
+nmap <leader>qq <Plug>(coc-format)
+
+
+" ************************************* voldikss/vim-translator
+let g:translator_window_type = 'popup'      " 弹出窗口中显示。
+let g:translator_target_lang = 'zh'         " 目标语言为中文。
+let g:translator_source_lang = 'auto'       " 源语言自动识别。
+let g:translator_default_engines = ['bing'] " 使用的翻译工具。
+
+" nmap <silent> <Leader>t <Plug>Translate " 翻译光标下的文本，在命令行显翻译内容
+" vmap <silent> <Leader>t <Plug>TranslateV " 翻译光标下的文本，在命令行回显翻译内容
+nmap <silent> <Leader>w <Plug>TranslateW " 翻译光标下的文本，在窗口中显示翻译内容
+vmap <silent> <Leader>w <Plug>TranslateWV "翻译光标下的文本，在窗口中显示翻译内容
+" nmap <silent> <Leader>r <Plug>TranslateR " 替换光标下的文本为翻译内容
+" vmap <silent> <Leader>r <Plug>TranslateRV " 替换光标下的文本为翻译内容
+
+" "翻译Window的高亮配置
+" hi def link TranslatorQuery             Identifier
+" hi def link TranslatorDelimiter         Special
+" hi def link TranslatorExplain           Statement
+
+" "窗口背景
+" hi def link Translator                  Normal
+" hi def link TranslatorBorder            NormalFloat
+
+
+" ************************************* liuchengxu/vista.vim
+let g:vista_default_executive = 'coc'            " 提取 tags 的工具
+let g:vista_finder_alternative_executives = ['coc']
+let g:vista_echo_cursor_strategy ='floating_win' " 启用悬浮窗预览
+let g:vista_sidebar_width = 30                   " 侧边栏宽度.
+let g:vista_echo_cursor = 1                      " 设置为0，以禁用光标移动时的回显.
+let g:vista_cursor_delay = 400                   " 当前游标上显示详细符号信息的时间延迟.
+let g:vista_close_on_jump = 0                    " 跳转到一个符号时，自动关闭vista窗口.
+let g:vista_stay_on_open = 1                     " 打开vista窗口后移动到它.
+let g:vista_blink = [2, 100]                     " 跳转到标记后闪烁光标2次，间隔100ms.
+let g:vista_icon_indent = ["╰─▸ ", "├─▸ "]       " 展示样式
+
+" 状态栏显示函数名称
+function! NearestMethodOrFunction() abort
+  return get(b:, 'vista_nearest_method_or_function', '')
+endfunction
+set statusline+=%{NearestMethodOrFunction()}
+
+
+" ************************************* puremourning/vimspector
+let g:vimspector_enable_mappings = 'HUMAN' 
+nmap <LocalLeader><F11> <Plug>VimspectorRestart
+nmap <F7> <Plug>VimspectorRestart
+
+
+" ************************************* akinsho/toggleterm.nvim
+
+
 
 
 ```

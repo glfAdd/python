@@ -23,6 +23,8 @@ $ which pip3
 > 用于安装多个版本 python
 >
 > shell 文件 .zshrc .bash_profile
+>
+> pip 包安装在虚拟环境的 ~/.pyenv/versions/p-3.9.2-learn/lib 目录下
 
 - clone
 

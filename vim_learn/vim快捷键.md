@@ -265,5 +265,43 @@ nvim a.py b.py
 
 ```
 
+## 终端模式
+
+```
+打开
+:terminal
+:term
+:te
+
+:te bash
+:te zsh
+
+:terminal {cmd}                当前窗口创建缓冲区
+:split | terminal {cmd}      横向分割创建窗口
+:vsplit | terminal {cmd}     纵向分割创建窗口
+:tabedit | terminal {cmd}        新标签页创建窗口
+
+
+
+
+# 纵向分屏
+:vs term://$SHELL
+
+# 横向分屏
+:split term://$SHELL
+
+# 新标签打开
+:tabe term://$SHELL
+
+
+
+命令行中执行插入（i）或者附加（a）操作就可以进入命令行的交互模式。
+
+
+
+<c-\><c-n>
+C-w
+```
+
 
 
