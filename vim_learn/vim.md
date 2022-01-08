@@ -57,7 +57,7 @@ Vim 的全局配置一般在/etc/vim/vimrc或者/etc/vimrc，对所有用户生�
 用户个人的配置在 ~/.vimrc
 ```
 
-##### 是否支持 python2 / python3
+##### 支持 python2 / 3
 
 ```
 $ vim --version
@@ -81,7 +81,7 @@ $ ln -s /opt/neovim-0.6.0/bin/nvim /usr/bin/nvim
 ~/.config/nvim/init.vim
 ```
 
-##### 支持 python2 / python3
+##### 支持 python2 / 3
 
 ```bash
 1. 查看是否支持 python
