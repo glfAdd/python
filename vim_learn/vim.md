@@ -152,6 +152,16 @@ let fmt = get(g:, 'plug_url_format', 'https://git::@github.com.cnpmjs.org/%s.git
 
 coc.nvim 是针对 neovim 的智能感知插件, 基于微软的  LSP (Language Server Protocol) 协议
 
+##### 安装 nodejs 和 yarn
+
+- fedora / centos
+
+  ```bash
+  # 在安装 yarn 时会自动安装 nodejs
+  $ curl -sL https://dl.yarnpkg.com/rpm/yarn.repo -o /etc/yum.repos.d/yarn.repo
+  $ dnf install yarn
+  ```
+
 ##### 安装
 
 > 必须安装 nodejs >= 12.12 才能使用
@@ -175,8 +185,8 @@ CocInstall coc-sh     # bash 环境支持
 CocInstall coc-snippets # python提供 snippets                                                      
 CocInstall coc-vimlsp # lsp                                                                        
 CocInstall coc-yaml   # yaml                                                                       
-CocInstall coc-syntax                                                                              
-CocInstall coc-pairs  
+CocInstall coc-syntax
+:qCocInstall coc-pairs  
 ```
 
 
@@ -222,9 +232,7 @@ https://github.com/microsoft/pyright/blob/main/docs/configuration.md
 - 解决办法
 
   ```bash
-  # sudo su
-  $ npm install -g yarn
-  $ cd /home/gong/.vim/plugged/coc.nvim
+  $ cd ~/.vim/plugged/coc.nvim
   $ yarn install
   $ yarn build
   ```
@@ -237,9 +245,25 @@ https://github.com/microsoft/pyright/blob/main/docs/configuration.md
   [coc.nvim] creating data directory: /home/gong/.config/coc
   ```
 
-##### 
+##### 安装问题 2
 
+- 问题描述
 
+  ```
+  [defx] Vim(call):E117: Unknown function: _defx_init                                                                                                                                                                                
+  [defx] function defx#util#call_defx[2]..defx#start[10]..defx#initialize[1]..defx#init#_initialize[5]..defx#init#_channel, line 26
+  Error detected while processing function defx#util#call_defx[2]..defx#start[10]..defx#initialize[1]..defx#init#_initialize[5]..defx#init#_channel[32]..defx#init#_python_version_check:
+  line    9:
+  E121: Undefined variable: g:defx#_python_version_check
+  
+  ```
+
+- 解决办法
+
+  ```
+  :UpdateRemotePlugins
+  ```
+  
 
 ## plugin
 
@@ -404,6 +428,25 @@ https://blog.zfanw.com/fzf-vim-usage/
 
   ```
   
+  ```
+
+##### bufexplorer 列表切换 buffer
+
+> [github](https://github.com/jlanzarotta/bufexplorer)
+
+- install
+
+  ```
+  Plug 'jlanzarotta/bufexplorer'
+  ```
+
+- setting
+
+  ```
+  <Leader>be 普通打开
+  <Leader>bt 切换打开/关闭
+  <Leader>bs 强制水平拆分打开
+  <Leader>bv 强制垂直劈开
   ```
 
 ##### nerdcommenter 代码注释
@@ -793,7 +836,8 @@ Plug 'vim-airline/vim-airline-themes'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' } " 模糊查询
 Plug 'junegunn/fzf.vim' 
 Plug 'glepnir/dashboard-nvim'                                     " 启动页面(依赖fzf)
-Plug 'neoclide/coc.nvim', {'branch': 'release'}                   " 代码补全
+                                                                  " Plug 'neoclide/coc.nvim', {'branch': 'release'} " 代码补全
+Plug 'neoclide/coc.nvim', {'branch': 'master', 'do': 'yarn install --frozen-lockfile'}
 if has('nvim')                                                    " 文件树
   Plug 'Shougo/defx.nvim', { 'do': ':UpdateRemotePlugins' }
 else
@@ -810,6 +854,7 @@ Plug 'liuchengxu/vista.vim'                                       " 函数和变
 Plug 'puremourning/vimspector'                                    " 代码 debug
 Plug 'voldikss/vim-floaterm'                                      " 窗口内悬浮终端
 Plug 'akinsho/toggleterm.nvim'                                    " 内置窗口
+Plug 'jlanzarotta/bufexplorer'                                    " 列表切换 buffer
 call plug#end()
 
 
