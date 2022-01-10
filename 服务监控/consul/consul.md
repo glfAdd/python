@@ -466,43 +466,41 @@ node_load5{job="node_status"} > 1
 ```
 
 
-
-
-$ ./process-exporter [options] -config.path filename.yml
-
-
-$ ./process-exporter -web.config.file web-config.yml &
-
-
-
-
-
-$ vim process-name.yaml
-
+process.json
 
 
 
 ```
 
-模板变量
+
+
+
 
 ```
-{{.Comm}} contains the basename of the original executable, i.e. 2nd field in /proc/<pid>/stat
-{{.ExeBase}} contains the basename of the executable
-{{.ExeFull}} contains the fully qualified path of the executable
-{{.Username}} contains the username of the effective user
-{{.Matches}} map contains all the matches resulting from applying cmdline regexps
-
-
-{{.Comm}} 包含原始可执行文件的基本名称，即第二个字段 /proc//stat
-{{.ExeBase}} 包含可执行文件的基名
-{{.ExeFull}} 包含可执行文件的完全限定路径
-{{.Username}} 包含有效用户的用户名
-{{.Matches}} map包含应用cmdline regexps产生的所有匹配项
+curl --request PUT --data @process.json http://127.0.0.1:8500/v1/agent/service/register\?replace-existing-checks\=1
 
 ```
 
 
+
+##### 指标
+
+```
+https://www.cnblogs.com/huandada/p/10431667.html
+
+namedprocess_namegroup_states
+
+
+
+sum(namedprocess_namegroup_states)
+
+总僵尸进程数
+sum(namedprocess_namegroup_states{state="Zombie"})
+
+
+Grafana
+249
+```
 
 
 
