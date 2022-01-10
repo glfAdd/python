@@ -16,6 +16,10 @@ https://zhuanlan.zhihu.com/p/267856388
 plugin
 https://zhuanlan.zhihu.com/p/382092667
 https://github.com/ayamir/nvimdots/wiki/Plugins
+
+
+配色
+https://www.cnblogs.com/jhssd/p/6803689.html
 ```
 
 ## 安装 - vim  
@@ -417,28 +421,9 @@ https://blog.zfanw.com/fzf-vim-usage/
   <leader>cy   先复制, 再注解(p可以进行黏贴)
   ```
 
-##### bufexplorer 列表切换 buffer
-
-> [github](https://github.com/jlanzarotta/bufexplorer)
-
-- install
-
-  ```
-  Plug 'jlanzarotta/bufexplorer'
-  ```
-
-- setting
-
-  ```
-  <Leader>be 普通打开
-  <Leader>bt 切换打开/关闭
-  <Leader>bs 强制水平拆分打开
-  <Leader>bv 强制垂直劈开
-  ```
-
 ##### vim-translator 词典
 
-> [github](https://github.com/voldikss/vim-translator)
+> [github](https://github.com/voldikss/vim-translator):
 
 - install
 
@@ -446,7 +431,6 @@ https://blog.zfanw.com/fzf-vim-usage/
   Plug 'voldikss/vim-translator'
   ```
 
-  
 
 
 - 翻译句子
@@ -454,55 +438,6 @@ https://blog.zfanw.com/fzf-vim-usage/
   ```
   
   ```
-
-##### asyncrun.vim 异步执行命令
-
-> 运行的时候使用当前的环境变量, 如 python 版本
->
-> asyncrun.vim [github](https://github.com/skywind3000/asyncrun.vim) [文档](https://github.com/skywind3000/asyncrun.vim/blob/master/README-cn.md)
->
-> asynctasks.vim [github](https://github.com/skywind3000/asynctasks.vim) [文档](https://github.com/skywind3000/asynctasks.vim/blob/master/README-cn.md)
-
-- install
-
-  ```
-  Plug 'skywind3000/asyncrun.vim'
-  " asyncrun 任务管理插件
-  Plug 'skywind3000/asynctasks.vim'
-  ```
-
-- setting
-
-  ```
-  " asyncrun 运行时自动打开高度为 10 的 quickfix 窗口, 不然你看不到任何输出                 
-  let g:asyncrun_open = 10    
-  ```
-
-- use
-
-  ```
-  运行 python
-  :AsyncRun -cwd=$(VIM_FILEDIR) python "$(VIM_FILEPATH)"
-  
-  :AsyncRun python code_test.py
-  ```
-
-- 命令
-
-  ```
-  :AsyncStop[!] 停止正在运行的任务
-  
-  运行10 - 20 行的代码
-  :10,20AsyncRun python
-  
-  
-  运行选定的代码
-  :'<,'>AsyncRun python
-  
-  
-  ```
-
-  
 
 ##### vim-fugitive git工具
 
@@ -596,16 +531,29 @@ https://blog.csdn.net/weixin_39795268/article/details/111344410
 
   ```
   
-```
 
-##### 配色
+##### vim-colors-violet 配色
 
-```
+> [github](https://github.com/ashfinal/vim-colors-violet)
 
+- install
 
-```
+  ```
+  Plug 'ashfinal/vim-colors-violet'
+  ```
 
+- setting
 
+  ```
+  nnoremap <silent> <Leader>b :call ToggleBackground()<CR>
+  function! ToggleBackground()
+      if &background == "light"
+          set background=dark
+      else
+          set background=light
+      endif
+  endfunction
+  ```
 
 ## 断点调试
 
@@ -804,7 +752,6 @@ set ignorecase      " 搜索时忽略大小写
 set cursorline      " 高亮行
 set cc=100          " 尺寸线
 set t_Co=256        " 开启256色支持
-"set background=dark " 背景使用黑色, 只有 light 和 dark
 
 nnoremap <C-J> <C-W><C-J> " 移动窗口快捷键
 nnoremap <C-K> <C-W><C-K>
@@ -838,25 +785,18 @@ else
 endif
 Plug 'preservim/nerdcommenter'                                    " 代码注释
 Plug 'junegunn/vim-easy-align'                                    " 文本对齐
-Plug 'jlanzarotta/bufexplorer'                                    " buffer 切换(在页面中切换)
-Plug 'voldikss/vim-floaterm'                                      " 窗口内悬浮终端
 Plug 'tpope/vim-fugitive'                                         " git
-Plug 'skywind3000/asynctasks.vim'                                 " 后台异步执行外部命令
-Plug 'skywind3000/asyncrun.vim'
 Plug 'mbbill/undotree'                                            " 撤销树
 Plug 'voldikss/vim-translator'                                    " 翻译工具
 Plug 'liuchengxu/vista.vim'                                       " 函数和变量
 Plug 'puremourning/vimspector'                                    " 代码 debug
-
-
-Plug 'akinsho/toggleterm.nvim'
-
+Plug 'voldikss/vim-floaterm'                                      " 窗口内悬浮终端
+Plug 'akinsho/toggleterm.nvim'                                    " 内置窗口
 call plug#end()
 
 
 " ************************************* neoclide/coc.nvim
 nmap <leader>rn <Plug>(coc-rename) " 重命名
-
 
 
 " ************************************* Shougo/defx.nvim
@@ -928,7 +868,7 @@ let g:dashboard_custom_header = [
    \ ]
 
 
-" ************************************* vim-airline/vim-airline
+" ************************************* vim-airline/vim-airline 状态栏
 let g:airline#extensions#tabline#enabled = 1        " 开启tabline
 let g:airline#extensions#tabline#buffer_nr_show = 1 " 显示buffer编号
 let g:bufferline_modified = '+'                     " 缓冲区已修改的符号
@@ -947,50 +887,15 @@ nmap <leader>9 <Plug>AirlineSelectTab3
 nmap <leader>0 <Plug>AirlineSelectTab3
 
 
-" ************************************* preservim/nerdcommenter
+" ************************************* preservim/nerdcommenter 注释
 let g:NERDSpaceDelims = 1 " 注释后面增加 1 个空格
 let g:NERDDefaultAlign = 'left'
 let g:NERDTrimTrailingWhitespace = 1
 
 
-" ************************************* junegunn/vim-easy-align
+" ************************************* junegunn/vim-easy-align 文字对齐
 xmap ga <Plug>(EasyAlign)
 nmap ga <Plug>(EasyAlign)
-
-
-" ************************************* jlanzarotta/bufexplorer
-let g:bufExplorerDefaultHelp=0      " 不显示默认帮助信息
-let g:bufExplorerShowRelativePath=0 " 显示绝对路径
-let g:bufExplorerSortBy='mru'       " Sort by most recently used.
-let g:bufExplorerSplitRight=0       " Split left.
-let g:bufExplorerSplitVertical=1    " Split vertically.
-let g:bufExplorerSplitVertSize = 30 " Split width
-let g:bufExplorerUseCurrentWindow=1 " Open in new window.
-let g:buffet_use_devicons = 10
-
-
-" ************************************* Chiel92/vim-autoforma
-nnoremap <Leader>a :Autoformat<CR>
-
-
-" ************************************* skywind3000/asyncrun.vim
-let g:asyncrun_open = 10 " 设置输出窗口高度, 不然看不到任何输出
-
-
-" ************************************* liuchengxu/vista.vim
-let g:vista_default_executive = 'coc' " 使用 coc
-
-
-" ************************************* voldikss/vim-floaterm
-let g:floaterm_keymap_new = '<Leader>ft'
-let g:floaterm_keymap_toggle = '<Leader>fh'
-let g:floaterm_keymap_prev = '<Leader>fp'
-let g:floaterm_keymap_next = '<Leader>fn'
-let g:floaterm_keymap_kill = '<Leader>fc'
-
-let g:floaterm_width=0.8
-let g:floaterm_height=0.8
-let g:floaterm_position = 'center'
 
 
 " ************************************* mbbill/undotree
@@ -1000,14 +905,12 @@ xmap <leader>qq <Plug>(coc-format)
 nmap <leader>qq <Plug>(coc-format)
 
 
-" ************************************* voldikss/vim-translator
+" ************************************* voldikss/vim-translator 词典
 let g:translator_window_type = 'popup'      " 弹出窗口中显示。
 let g:translator_target_lang = 'zh'         " 目标语言为中文。
 let g:translator_source_lang = 'auto'       " 源语言自动识别。
 let g:translator_default_engines = ['bing'] " 使用的翻译工具。
 
-" nmap <silent> <Leader>t <Plug>Translate " 翻译光标下的文本，在命令行显翻译内容
-" vmap <silent> <Leader>t <Plug>TranslateV " 翻译光标下的文本，在命令行回显翻译内容
 nmap <silent> <Leader>w <Plug>TranslateW " 翻译光标下的文本，在窗口中显示翻译内容
 vmap <silent> <Leader>w <Plug>TranslateWV "翻译光标下的文本，在窗口中显示翻译内容
 " nmap <silent> <Leader>r <Plug>TranslateR " 替换光标下的文本为翻译内容
@@ -1023,7 +926,7 @@ vmap <silent> <Leader>w <Plug>TranslateWV "翻译光标下的文本，在窗口�
 " hi def link TranslatorBorder            NormalFloat
 
 
-" ************************************* liuchengxu/vista.vim
+" ************************************* liuchengxu/vista.vim 文件函数变量
 let g:vista_default_executive = 'coc'            " 提取 tags 的工具
 let g:vista_finder_alternative_executives = ['coc']
 let g:vista_echo_cursor_strategy ='floating_win' " 启用悬浮窗预览
@@ -1048,10 +951,23 @@ nmap <LocalLeader><F11> <Plug>VimspectorRestart
 nmap <F7> <Plug>VimspectorRestart
 
 
-" ************************************* akinsho/toggleterm.nvim
+" ************************************* voldikss/vim-floaterm 悬浮内置终端
+let g:floaterm_keymap_new = '<Leader>ft'    " 新建
+let g:floaterm_keymap_toggle = '<Leader>fh' " 隐藏
+let g:floaterm_keymap_prev = '<Leader>fp'   " 上一个
+let g:floaterm_keymap_next = '<Leader>fn'   " 下一个
+let g:floaterm_keymap_kill = '<Leader>fc'   " 关闭
+
+let g:floaterm_width=0.8
+let g:floaterm_height=0.8
+let g:floaterm_position = 'center'
 
 
-
+" ************************************* akinsho/toggleterm.nvim 内置终端
+nmap <silent> <Leader>th :ToggleTerm direction=horizontal<CR>
+nmap <silent> <Leader>tv :ToggleTerm direction=vertical<CR>
+nmap <silent> <Leader>tf :ToggleTerm direction=float<CR>
+nmap <silent> <Leader>tt :ToggleTerm direction=tab<CR>
 
 ```
 
