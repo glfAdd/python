@@ -20,6 +20,9 @@ https://github.com/ayamir/nvimdots/wiki/Plugins
 
 配色
 https://www.cnblogs.com/jhssd/p/6803689.html
+
+
+https://www.cnblogs.com/cniwoq/p/13272746.html
 ```
 
 ## 安装 - vim  
@@ -149,6 +152,8 @@ let fmt = get(g:, 'plug_url_format', 'https://git::@github.com.cnpmjs.org/%s.git
 > [github](https://github.com/neoclide/coc.nvim)
 >
 > [文档](https://github.com/neoclide/coc.nvim/wiki/Language-servers)
+>
+> 参考 https://www.pythonf.cn/read/133307
 
 coc.nvim 是针对 neovim 的智能感知插件, 基于微软的  LSP (Language Server Protocol) 协议
 
@@ -173,29 +178,44 @@ Plug 'neoclide/coc.nvim', {'branch': 'release'}
 ##### 命令
 
 ```
-CocInstall coc-clangd  # C++环境插件                                                       
-CocInstall coc-cmake  # Cmake 支持                                                                 
-CocInstall coc-emmet                                                                               
-CocInstall coc-git    # git 支持                                                                   
-CocInstall coc-highlight  # 高亮支持                                                               
-CocInstall coc-jedi   # jedi                                                                       
-CocInstall coc-json   # json 文件支持                                                              
-CocInstall coc-python # python 环境支持                                                            
-CocInstall coc-sh     # bash 环境支持                                                              
-CocInstall coc-snippets # python提供 snippets                                                      
-CocInstall coc-vimlsp # lsp                                                                        
-CocInstall coc-yaml   # yaml                                                                       
-CocInstall coc-syntax
-:qCocInstall coc-pairs  
+安装命令:CocInstall 插件名
+移除命令:CocUninstall 插件名
+查看已安装:CocList extensions
+更新命令:CocUpdate
 ```
 
+##### 面板
 
+```
+安装面板
+:CocInstall coc-marketplace
 
+# 打开面板
+:CocList marketplace
 
+# 搜索python 相关子插件
+:CocList marketplace pythonjjjkk
+```
 
 ##### python
 
 > [github](https://github.com/fannheyward/coc-pyright)
+
+- 安装语言服务器 (这个是否需要安装?)
+
+  ```
+  $ pip install jedi
+  ```
+
+- 安装补全插件  
+
+  ```
+  :CocInstall coc-pyright
+  或
+  :CocInstall coc-python (停止更新了)
+  ```
+
+  
 
 - pip 包. 会使用当前的 python 环境
 
@@ -203,10 +223,30 @@ CocInstall coc-syntax
   pip install autopep8
   ```
 
-- 安装 python 语言服务器
+##### java
+
+> [github](https://github.com/neoclide/coc-java)
+
+```
+:CocInstall coc-java
+```
+
+##### 参数补全 / 片段补全
+
+> [github](https://github.com/neoclide/coc-snippets)
+
+- 需要先安装  honza/vim-snippets
+
+  > [github](https://github.com/honza/vim-snippets)
 
   ```
-  :CocInstall coc-pyright
+  Plug 'honza/vim-snippets'
+  ```
+
+- 安装
+
+  ```
+  :CocInstall coc-snippets
   ```
 
 ##### 配置文件
@@ -463,7 +503,7 @@ https://blog.zfanw.com/fzf-vim-usage/
 
   ```
   " 注释和文字中间额外增加 1 个空格
-  let g:NERDSpaceDelims = 1
+  let g:NERDSpaceDelims = 1m
   
   " 将行注释符左对齐, 不是按照代码缩进注释
   let g:NERDDefaultAlign = 'left'
@@ -805,14 +845,15 @@ set relativenumber " 行都为相对于该行的相对行号
 set showmatch      " 括号匹配
 set tabstop=4      " 设置Tab长度为4空格
 set shiftwidth=4   " 设置自动缩进长度为4空格
+set expandtab      " 使用空格代替制表符
+set history=1000   " 操作历史记录数
 set autoindent     " 继承前一行的缩进方式，适用于多行注释
 set nocompatible   " 关闭与vi的兼容模式
 set nowrap         " 不自动折行
 set ignorecase     " 搜索时忽略大小写
 set cursorline     " 高亮行
-set cc=100         " 尺寸线
 set t_Co=256       " 开启256色支持
-set ma     " defx 插件需要
+set ma             " defx 插件操作文件需要
 
 nnoremap <C-J> <C-W><C-J> " 移动窗口快捷键
 nnoremap <C-K> <C-W><C-K>
@@ -836,8 +877,7 @@ Plug 'vim-airline/vim-airline-themes'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' } " 模糊查询
 Plug 'junegunn/fzf.vim' 
 Plug 'glepnir/dashboard-nvim'                                     " 启动页面(依赖fzf)
-                                                                  " Plug 'neoclide/coc.nvim', {'branch': 'release'} " 代码补全
-Plug 'neoclide/coc.nvim', {'branch': 'master', 'do': 'yarn install --frozen-lockfile'}
+Plug 'neoclide/coc.nvim', {'branch': 'release'}                   " 代码补全
 if has('nvim')                                                    " 文件树
   Plug 'Shougo/defx.nvim', { 'do': ':UpdateRemotePlugins' }
 else
@@ -855,7 +895,15 @@ Plug 'puremourning/vimspector'                                    " 代码 debug
 Plug 'voldikss/vim-floaterm'                                      " 窗口内悬浮终端
 Plug 'akinsho/toggleterm.nvim'                                    " 内置窗口
 Plug 'jlanzarotta/bufexplorer'                                    " 列表切换 buffer
+
+Plug 'honza/vim-snippets'
 call plug#end()
+
+
+" ************************************* jlanzarotta/bufexplorer
+let g:bufExplorerDefaultHelp = 0      " 不显示帮助说明
+let g:bufExplorerShowRelativePath = 0 " 显示绝对路径
+let g:bufExplorerSortBy = 'number'    " 按照 buffer 序号排序
 
 
 " ************************************* neoclide/coc.nvim
@@ -950,9 +998,6 @@ nmap ga <Plug>(EasyAlign)
 " ************************************* mbbill/undotree
 nnoremap <Leader>t :UndotreeToggle<CR>
 
-xmap <leader>qq <Plug>(coc-format)
-nmap <leader>qq <Plug>(coc-format)
-
 
 " ************************************* voldikss/vim-translator 词典
 let g:translator_window_type = 'popup'      " 弹出窗口中显示。
@@ -992,6 +1037,17 @@ function! NearestMethodOrFunction() abort
   return get(b:, 'vista_nearest_method_or_function', '')
 endfunction
 set statusline+=%{NearestMethodOrFunction()}
+
+
+" 格式化代码
+xmap <leader>qq <Plug>(coc-format) 
+nmap <leader>qq <Plug>(coc-format)
+" 使用 tab 切换补全
+inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
+inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+" 手动触发补全
+inoremap <silent><expr> <c-space> coc#refresh()
+
 
 
 " ************************************* puremourning/vimspector

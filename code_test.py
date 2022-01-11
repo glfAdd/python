@@ -1,6 +1,8 @@
+import json
 
-def aaa():
-    {}
+def aaa(a:int):
+    print(123)
+
 
 
 def test():
