@@ -499,6 +499,9 @@ sum(namedprocess_namegroup_states)
 总僵尸进程数
 sum(namedprocess_namegroup_states{state="Zombie"})
 
+sum(namedprocess_namegroup_states{state="Other"} or namedprocess_namegroup_states{state="Running"} or namedprocess_namegroup_states{state="Sleeping"} or namedprocess_namegroup_states{state="Waiting"}) 
+
+
 
 Grafana
 249
