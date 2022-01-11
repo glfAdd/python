@@ -421,16 +421,18 @@ prometheus rule 筛选条件
 up{job="node_status"}==0
 ```
 
-##### cpu 百分比(5 分钟平均值)
+##### cpu 百分比(1, 5, 15 分钟平均值)
 
 ```
+node_load1{job="node_status"} > 1
 node_load5{job="node_status"} > 1
+node_load15{job="node_status"} > 1
 ```
 
 ##### 内存百分比(大于80%)
 
 ```
-((node_memory_MemTotal_bytes - node_memory_MemFree_bytes - node_memory_Buffers_bytes - node_memory_Cached_bytes) / (node_memory_MemTotal_bytes )) * 100 > 80
+((node_memory_MemTotal_bytes - node_memory_MemFree_bytes - node_memory_Buffers_bytes - node_memory_Cached_bytes) / (node_memory_MemTotal_bytes )) * 100 > 95
 ```
 
 ##### 磁盘可用百分比(小于 5%)
