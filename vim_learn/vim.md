@@ -340,6 +340,11 @@ $ sudo ./install.sh
 参考
 https://www.jianshu.com/p/bb91582317ed
 https://blog.zfanw.com/fzf-vim-usage/
+
+
+fzf executable not found. Download binary? (y/n)
+
+
 ```
 
 - install
@@ -348,6 +353,45 @@ https://blog.zfanw.com/fzf-vim-usage/
   Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
   Plug 'junegunn/fzf.vim'
   ```
+
+- use
+
+  ```
+  :Files			当前目录下搜索
+  :Files /opt		指定目录
+  
+  :Buffer			打开 buffer
+  ```
+
+- 命令
+
+  参考 https://blog.csdn.net/weixin_33982670/article/details/88742016
+
+  | Command          | List                                                         |
+  | ---------------- | ------------------------------------------------------------ |
+  | `Files [PATH]`   | 普通文件查找 (similar to `:FZF`)                             |
+  | `GFiles [OPTS]`  | git文件查找 (`git ls-files`)                                 |
+  | `GFiles?`        | git文件查找 (`git status`)                                   |
+  | `Buffers`        | buffer文件切换                                               |
+  | `Colors`         | Color schemes                                                |
+  | `Ag [PATTERN]`   | ag search result (`ALT-A` to select all, `ALT-D` to deselect all) |
+  | `Lines [QUERY]`  | 在buffer里的文件中寻找含有某个关键词的行                     |
+  | `BLines [QUERY]` | 在当前buffer里查找包含某关键词的行                           |
+  | `Tags [QUERY]`   | 以Tag查找 (`ctags -R`)                                       |
+  | `BTags [QUERY]`  | Tags in the current buffer                                   |
+  | `Marks`          | Marks                                                        |
+  | `Windows`        | Windows                                                      |
+  | `Locate PATTERN` | `locate` command output                                      |
+  | `History`        | `v:oldfiles` and open buffers                                |
+  | `History:`       | 命令历史查找                                                 |
+  | `History/`       | Search history                                               |
+  | `Snippets`       | Snippets (UltiSnips)                                         |
+  | `Commits`        | Git commits (requires fugitive.vim)                          |
+  | `BCommits`       | Git commits for the current buffer                           |
+  | `Commands`       | Commands                                                     |
+  | `Maps`           | Normal mode mappings                                         |
+  | `Helptags`       | Help tags [1](https://blog.csdn.net/weixin_33982670/article/details/88742016#helptags) |
+  | `Filetypes`      | File types                                                   |
 
 ##### dashboard-nvim 启动页面
 
@@ -829,7 +873,8 @@ call plug#begin('~/.vim/plugged')
 Plug 'morhetz/gruvbox'                                            " 主题
 Plug 'vim-airline/vim-airline'                                    " 状态栏
 Plug 'vim-airline/vim-airline-themes'
-Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' } " 模糊查询
+" Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' } " 模糊查询
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim' 
 Plug 'glepnir/dashboard-nvim'                                     " 启动页面(依赖fzf)
 Plug 'neoclide/coc.nvim', {'branch': 'release'}                   " 代码补全
@@ -850,8 +895,7 @@ Plug 'puremourning/vimspector'                                    " 代码 debug
 Plug 'voldikss/vim-floaterm'                                      " 窗口内悬浮终端
 Plug 'akinsho/toggleterm.nvim'                                    " 内置窗口
 Plug 'jlanzarotta/bufexplorer'                                    " 列表切换 buffer
-
-Plug 'honza/vim-snippets'
+Plug 'honza/vim-snippets'                                         " 代码块补全
 call plug#end()
 
 
@@ -893,6 +937,7 @@ noremap <Leader><Tab> :Bw<CR>
 noremap <Leader><S-Tab> :Bw!<CR>
 noremap <C-t> :tabnew split<CR>
 
+
 " ************************************* morhetz/gruvbox 主题
 set background=dark                  " 设置背景为黑色 light / dark
 colorscheme gruvbox                  " 设置主题为 gruvbox
@@ -900,7 +945,7 @@ let g:gruvbox_contrast_dark = 'soft' " soft / medium / hard
 let g:gruvbox_contrast_dark = 'soft'
 
 
-" ************************************* jlanzarotta/bufexplorer
+" ************************************* jlanzarotta/bufexplorer 切换 buffer 列表
 let g:bufExplorerDefaultHelp = 0      " 不显示帮助说明
 let g:bufExplorerShowRelativePath = 0 " 显示绝对路径
 let g:bufExplorerSortBy = 'number'    " 按照 buffer 序号排序
@@ -916,13 +961,13 @@ inoremap <silent><expr> <c-space> coc#refresh() " 手动触发补全
 inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
 inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
 
-
 nmap <silent> [g <Plug>(coc-diagnostic-prev) " 上一个参数
 nmap <silent> ]g <Plug>(coc-diagnostic-next) " 下一个参数
 nmap <silent> gd <Plug>(coc-definition) " 跳转到源代码
 nmap <silent> gy <Plug>(coc-type-definition)
 nmap <silent> gi <Plug>(coc-implementation)
 nmap <silent> gr <Plug>(coc-references) " 在当前文件/目录下跳转
+
 
 " ************************************* glepnir/dashboard-nvim
 let g:dashboard_default_executive ='fzf' " 这里使用 fzf
