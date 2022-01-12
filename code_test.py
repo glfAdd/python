@@ -1,9 +1,10 @@
 import json
 
-def aaa(a:int):
+
+def aaa(a: int=None):
     print(123)
 
-
+    
 
 def test():
 
@@ -18,3 +19,4 @@ def test():
 
 if __name__ == '__main__':
     test()
+    aaa()

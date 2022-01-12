@@ -154,6 +154,8 @@ let fmt = get(g:, 'plug_url_format', 'https://git::@github.com.cnpmjs.org/%s.git
 > [文档](https://github.com/neoclide/coc.nvim/wiki/Language-servers)
 >
 > 参考 https://www.pythonf.cn/read/133307
+>
+> 快捷键参考 https://www.starky.ltd/2021/05/30/vim-configuration-with-coc-support-rust-c-python-complete/
 
 coc.nvim 是针对 neovim 的智能感知插件, 基于微软的  LSP (Language Server Protocol) 协议
 
@@ -178,6 +180,8 @@ Plug 'neoclide/coc.nvim', {'branch': 'release'}
 ##### 命令
 
 ```
+:CocInfo
+
 安装命令:CocInstall 插件名
 移除命令:CocUninstall 插件名
 查看已安装:CocList extensions
@@ -197,41 +201,7 @@ Plug 'neoclide/coc.nvim', {'branch': 'release'}
 :CocList marketplace pythonjjjkk
 ```
 
-##### python
-
-> [github](https://github.com/fannheyward/coc-pyright)
-
-- 安装语言服务器 (这个是否需要安装?)
-
-  ```
-  $ pip install jedi
-  ```
-
-- 安装补全插件  
-
-  ```
-  :CocInstall coc-pyright
-  或
-  :CocInstall coc-python (停止更新了)
-  ```
-
-  
-
-- pip 包. 会使用当前的 python 环境
-
-  ```
-  pip install autopep8
-  ```
-
-##### java
-
-> [github](https://github.com/neoclide/coc-java)
-
-```
-:CocInstall coc-java
-```
-
-##### 参数补全 / 片段补全
+##### install - 参数补全 / 片段补全
 
 > [github](https://github.com/neoclide/coc-snippets)
 
@@ -248,6 +218,38 @@ Plug 'neoclide/coc.nvim', {'branch': 'release'}
   ```
   :CocInstall coc-snippets
   ```
+
+##### install - python
+
+> [github](https://github.com/fannheyward/coc-pyright)
+
+- 安装补全插件  
+
+  ```
+  :CocInstall coc-pyright
+  或
+  :CocInstall coc-python (停止更新了)
+  ```
+
+- 编辑 coc-setting.json(未使用)
+
+  ```json
+  
+  ```
+
+- pip 包. 会使用当前的 python 环境
+
+  ```
+  pip install autopep8
+  ```
+
+##### install - java
+
+> [github](https://github.com/neoclide/coc-java)
+
+```
+:CocInstall coc-java
+```
 
 ##### 配置文件
 
@@ -632,28 +634,18 @@ https://blog.csdn.net/weixin_39795268/article/details/111344410
   ```
   
 
-##### vim-colors-violet 配色
+##### gruvbox 配色
 
-> [github](https://github.com/ashfinal/vim-colors-violet)
+> [github](https://github.com/morhetz/gruvbox)
+>
+> [详细设置](https://github.com/morhetz/gruvbox/wiki/Configuration#ggruvbox_contrast_dark)
 
 - install
 
   ```
-  Plug 'ashfinal/vim-colors-violet'
+  Plug 'morhetz/gruvbox'
   ```
 
-- setting
-
-  ```
-  nnoremap <silent> <Leader>b :call ToggleBackground()<CR>
-  function! ToggleBackground()
-      if &background == "light"
-          set background=dark
-      else
-          set background=light
-      endif
-  endfunction
-  ```
 
 ## 断点调试
 
@@ -833,45 +825,8 @@ pip install line_profiler
 ## config - neovim
 
 ```
-let mapleader=','
-
-set encoding=utf-8
-set fenc=utf-8
-set hidden
-set number         " 显示行号
-set noswapfile     " 不要生成swap文件
-set nobackup       " 不要备份文件
-set relativenumber " 行都为相对于该行的相对行号
-set showmatch      " 括号匹配
-set tabstop=4      " 设置Tab长度为4空格
-set shiftwidth=4   " 设置自动缩进长度为4空格
-set expandtab      " 使用空格代替制表符
-set history=1000   " 操作历史记录数
-set autoindent     " 继承前一行的缩进方式，适用于多行注释
-set nocompatible   " 关闭与vi的兼容模式
-set nowrap         " 不自动折行
-set ignorecase     " 搜索时忽略大小写
-set cursorline     " 高亮行
-set t_Co=256       " 开启256色支持
-set ma             " defx 插件操作文件需要
-
-nnoremap <C-J> <C-W><C-J> " 移动窗口快捷键
-nnoremap <C-K> <C-W><C-K>
-nnoremap <C-L> <C-W><C-L>
-nnoremap <C-H> <C-W><C-H>
-
-noremap <Tab> :bn<CR> " buffer 切换
-noremap <S-Tab> :bp<CR>
-noremap <Leader><Tab> :Bw<CR>
-noremap <Leader><S-Tab> :Bw!<CR>
-noremap <C-t> :tabnew split<CR>
-
-" 设置高亮的颜色
-"highlight CursorLine   cterm=NONE ctermbg=gray ctermfg=green guibg=NONE guifg=NONE
-"highlight CursorColumn cterm=NONE ctermbg=gray ctermfg=green guibg=NONE guifg=NONE
-
-
 call plug#begin('~/.vim/plugged')
+Plug 'morhetz/gruvbox'                                            " 主题
 Plug 'vim-airline/vim-airline'                                    " 状态栏
 Plug 'vim-airline/vim-airline-themes'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' } " 模糊查询
@@ -900,6 +855,51 @@ Plug 'honza/vim-snippets'
 call plug#end()
 
 
+" ************************************* setting
+let mapleader=','
+
+set encoding=utf-8 " 编码
+set fenc=utf-8
+set number         " 显示行号
+set noswapfile     " 不生成swap文件
+set nobackup       " 不备份文件
+set relativenumber " 行都为相对于该行的相对行号
+set showmatch      " 括号匹配
+set tabstop=4      " 设置Tab长度为4空格
+set shiftwidth=4   " 设置自动缩进长度为4空格
+set expandtab      " 使用空格代替制表符
+set history=1000   " 操作历史记录数
+set autoindent     " 继承前一行的缩进方式，适用于多行注释
+set nocompatible   " 关闭与vi的兼容模式
+set nowrap         " 不自动折行
+set ignorecase     " 搜索时忽略大小写
+set cursorline     " 高亮行
+set t_Co=256       " 开启256色支持
+set cmdheight=2    " 底部命令行高度
+set ma             " defx 插件操作文件需要
+set guioptions=    " 去掉两边的scrollbar(?)
+set hidden
+set updatetime=300
+set shortmess+=c
+
+nnoremap <C-J> <C-W><C-J> " 移动窗口快捷键
+nnoremap <C-K> <C-W><C-K>
+nnoremap <C-L> <C-W><C-L>
+nnoremap <C-H> <C-W><C-H>
+
+noremap <Tab> :bn<CR> " buffer 切换
+noremap <S-Tab> :bp<CR>
+noremap <Leader><Tab> :Bw<CR>
+noremap <Leader><S-Tab> :Bw!<CR>
+noremap <C-t> :tabnew split<CR>
+
+" ************************************* morhetz/gruvbox 主题
+set background=dark                  " 设置背景为黑色 light / dark
+colorscheme gruvbox                  " 设置主题为 gruvbox
+let g:gruvbox_contrast_dark = 'soft' " soft / medium / hard
+let g:gruvbox_contrast_dark = 'soft'
+
+
 " ************************************* jlanzarotta/bufexplorer
 let g:bufExplorerDefaultHelp = 0      " 不显示帮助说明
 let g:bufExplorerShowRelativePath = 0 " 显示绝对路径
@@ -908,7 +908,21 @@ let g:bufExplorerSortBy = 'number'    " 按照 buffer 序号排序
 
 " ************************************* neoclide/coc.nvim
 nmap <leader>rn <Plug>(coc-rename) " 重命名
+xmap <leader>qq <Plug>(coc-format)  " 格式化代码
+nmap <leader>qq <Plug>(coc-format)
+inoremap <silent><expr> <c-space> coc#refresh() " 手动触发补全
 
+" 使用 tab 切换补全
+inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
+inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+
+
+nmap <silent> [g <Plug>(coc-diagnostic-prev) " 上一个参数
+nmap <silent> ]g <Plug>(coc-diagnostic-next) " 下一个参数
+nmap <silent> gd <Plug>(coc-definition) " 跳转到源代码
+nmap <silent> gy <Plug>(coc-type-definition)
+nmap <silent> gi <Plug>(coc-implementation)
+nmap <silent> gr <Plug>(coc-references) " 在当前文件/目录下跳转
 
 " ************************************* glepnir/dashboard-nvim
 let g:dashboard_default_executive ='fzf' " 这里使用 fzf
@@ -1039,17 +1053,6 @@ endfunction
 set statusline+=%{NearestMethodOrFunction()}
 
 
-" 格式化代码
-xmap <leader>qq <Plug>(coc-format) 
-nmap <leader>qq <Plug>(coc-format)
-" 使用 tab 切换补全
-inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
-inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
-" 手动触发补全
-inoremap <silent><expr> <c-space> coc#refresh()
-
-
-
 " ************************************* puremourning/vimspector
 let g:vimspector_enable_mappings = 'HUMAN' 
 nmap <LocalLeader><F11> <Plug>VimspectorRestart
@@ -1151,6 +1154,7 @@ function! s:defx_my_settings() abort
   nnoremap <silent><buffer><expr> cd
   \ defx#do_action('change_vim_cwd')
 endfunction
+
 
 ```
 
