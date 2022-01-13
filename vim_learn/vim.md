@@ -147,6 +147,45 @@ let fmt = get(g:, 'plug_url_format', 'https://git::@github.com.cnpmjs.org/%s.git
 \ '^https://git::@github.com.cnpmjs\.org', 'https://github.com.cnpmjs.org', '')
 ```
 
+## 依赖
+
+##### node.js 支持
+
+- 安装 yarn
+
+  - fedora / centos
+
+    ```bash
+    $ curl -sL https://dl.yarnpkg.com/rpm/yarn.repo -o /etc/yum.repos.d/yarn.repo
+    $ dnf install yarn
+    ```
+
+  - ubuntu
+
+    ```bash
+    $ aptitude install dnf
+    ```
+
+- 设置
+
+  ```bash
+  $ npm install -g neovim
+  ```
+
+##### clipboard 支持
+
+查看帮助信息
+
+```
+:help clipboard
+```
+
+安装
+
+```bash
+$ aptiotude install xsel
+```
+
 ## coc
 
 > [github](https://github.com/neoclide/coc.nvim)
@@ -158,16 +197,6 @@ let fmt = get(g:, 'plug_url_format', 'https://git::@github.com.cnpmjs.org/%s.git
 > 快捷键参考 https://www.starky.ltd/2021/05/30/vim-configuration-with-coc-support-rust-c-python-complete/
 
 coc.nvim 是针对 neovim 的智能感知插件, 基于微软的  LSP (Language Server Protocol) 协议
-
-##### 安装 nodejs 和 yarn
-
-- fedora / centos
-
-  ```bash
-  # 在安装 yarn 时会自动安装 nodejs
-  $ curl -sL https://dl.yarnpkg.com/rpm/yarn.repo -o /etc/yum.repos.d/yarn.repo
-  $ dnf install yarn
-  ```
 
 ##### 安装
 
@@ -309,6 +338,18 @@ https://github.com/microsoft/pyright/blob/main/docs/configuration.md
 
 ## plugin
 
+##### gruvbox 配色
+
+> [github](https://github.com/morhetz/gruvbox)
+>
+> [详细设置](https://github.com/morhetz/gruvbox/wiki/Configuration#ggruvbox_contrast_dark)
+
+- install
+
+  ```
+  Plug 'morhetz/gruvbox'
+  ```
+
 ##### font - 字体(未使用)
 
 > [github](https://github.com/ryanoasis/nerd-fonts)
@@ -336,17 +377,6 @@ $ sudo ./install.sh
 
 > [github](https://github.com/junegunn/fzf.vim)
 
-```
-参考
-https://www.jianshu.com/p/bb91582317ed
-https://blog.zfanw.com/fzf-vim-usage/
-
-
-fzf executable not found. Download binary? (y/n)
-
-
-```
-
 - install
 
   ```
@@ -361,6 +391,10 @@ fzf executable not found. Download binary? (y/n)
   :Files /opt		指定目录
   
   :Buffer			打开 buffer
+  
+  
+  Files 模式下使用 tab 多选文件
+  
   ```
 
 - 命令
@@ -436,9 +470,9 @@ fzf executable not found. Download binary? (y/n)
 - use
 
   ```
-  Vista
-  Vista!
-  Vista!!
+  Vista 打开
+  Vista! 关闭
+  Vista!! 打开/关闭
   ```
 
 ##### defx.nvim 文件树
@@ -486,7 +520,18 @@ fzf executable not found. Download binary? (y/n)
   
   ```
 
+- 问题1
 
+  ```
+  描述: 
+  remote/host: python3 host registered plugins ['defx']
+  remote/host: generated rplugin manifest: /home/glfadd/.local/share/nvim/rplugin.vim
+  
+  
+  :checkhealth
+  ```
+
+  
 
 ```
 
@@ -529,7 +574,7 @@ fzf executable not found. Download binary? (y/n)
 - setting
 
   ```
-  <Leader>be 普通打开
+  nmap <Leader>bl :BufExplorer<CR> 普通打开
   <Leader>bt 切换打开/关闭
   <Leader>bs 强制水平拆分打开
   <Leader>bv 强制垂直劈开
@@ -678,18 +723,6 @@ https://blog.csdn.net/weixin_39795268/article/details/111344410
   ```
   
 
-##### gruvbox 配色
-
-> [github](https://github.com/morhetz/gruvbox)
->
-> [详细设置](https://github.com/morhetz/gruvbox/wiki/Configuration#ggruvbox_contrast_dark)
-
-- install
-
-  ```
-  Plug 'morhetz/gruvbox'
-  ```
-
 
 ## 断点调试
 
@@ -704,25 +737,38 @@ https://blog.csdn.net/weixin_39795268/article/details/111344410
 Plug 'puremourning/vimspector'
 ```
 
-##### 安装语言支持
+##### 语言支持
+
+会下载文件到 `~/.vim/plugged/vimspector/gadgets/linux/download` 目录下
+
+自动生成 `~/.vim/plugged/vimspector/gadgets/linux/.gadgets.json`文件
+
+- 方式 1
 
 ```bash
 $ cd /home/glfadd/.vim/plugged/vimspector
 $ ./install_gadget.py --help
 $ ./install_gadget.py --enable-python
 
-# 会自动生成 /home/glfadd/.vim/plugged/vimspector/gadgets/linux/.gadgets.json
+# 会自动生成 ~/.vim/plugged/vimspector/gadgets/linux/.gadgets.json
 # ${gadgetDir} 代表着存放.gadgets.json的目录
 ```
 
-##### 快捷键设置
+- 方式 2
 
 ```
-# vimspector预设了vscode mode和human mode两套键盘映射
+tab 补全
+:VimspectorInstall debugpy
+```
 
-let g:vimspector_enable_mappings = 'HUMAN'
-或
-let g:vimspector_enable_mappings = 'VISUAL_STUDIO'
+- 方式 3 (推荐)
+
+```
+let g:vimspector_install_gadgets = ['debugpy']
+
+执行
+:VimspectorInstall
+:VimspectorUpdate
 ```
 
 ##### 示例代码
@@ -870,68 +916,70 @@ pip install line_profiler
 
 ```
 call plug#begin('~/.vim/plugged')
-Plug 'morhetz/gruvbox'                                            " 主题
-Plug 'vim-airline/vim-airline'                                    " 状态栏
-Plug 'vim-airline/vim-airline-themes'
-" Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' } " 模糊查询
-Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+Plug 'morhetz/gruvbox'                                      " neovim 主题
+Plug 'vim-airline/vim-airline'                              " 状态栏
+Plug 'vim-airline/vim-airline-themes'                       " 状态栏主题
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }         " 模糊查询
 Plug 'junegunn/fzf.vim' 
-Plug 'glepnir/dashboard-nvim'                                     " 启动页面(依赖fzf)
-Plug 'neoclide/coc.nvim', {'branch': 'release'}                   " 代码补全
-if has('nvim')                                                    " 文件树
-  Plug 'Shougo/defx.nvim', { 'do': ':UpdateRemotePlugins' }
+Plug 'glepnir/dashboard-nvim'                               " 启动页面(依赖fzf)
+Plug 'neoclide/coc.nvim', {'branch': 'release'}             " 代码补全
+if has('nvim')                                      
+  Plug 'Shougo/defx.nvim', { 'do': ':UpdateRemotePlugins' } " 文件树
 else
   Plug 'Shougo/defx.nvim'
   Plug 'roxma/nvim-yarp'
   Plug 'roxma/vim-hug-neovim-rpc'
 endif
-Plug 'preservim/nerdcommenter'                                    " 代码注释
-Plug 'junegunn/vim-easy-align'                                    " 文本对齐
-Plug 'tpope/vim-fugitive'                                         " git
-Plug 'mbbill/undotree'                                            " 撤销树
-Plug 'voldikss/vim-translator'                                    " 翻译工具
-Plug 'liuchengxu/vista.vim'                                       " 函数和变量
-Plug 'puremourning/vimspector'                                    " 代码 debug
-Plug 'voldikss/vim-floaterm'                                      " 窗口内悬浮终端
-Plug 'akinsho/toggleterm.nvim'                                    " 内置窗口
-Plug 'jlanzarotta/bufexplorer'                                    " 列表切换 buffer
-Plug 'honza/vim-snippets'                                         " 代码块补全
+Plug 'preservim/nerdcommenter'                              " 代码注释
+Plug 'junegunn/vim-easy-align'                              " 文本对齐
+Plug 'tpope/vim-fugitive'                                   " git
+Plug 'mbbill/undotree'                                      " 撤销树
+Plug 'voldikss/vim-translator'                              " 翻译工具
+Plug 'liuchengxu/vista.vim'                                 " 函数和变量
+Plug 'puremourning/vimspector'                              " 代码调试
+Plug 'voldikss/vim-floaterm'                                " 窗口内悬浮终端
+Plug 'akinsho/toggleterm.nvim'                              " 内置窗口
+Plug 'jlanzarotta/bufexplorer'                              " 列表切换 buffer
+Plug 'honza/vim-snippets'                                   " 代码块补全
 call plug#end()
 
 
 " ************************************* setting
 let mapleader=','
 
-set encoding=utf-8 " 编码
+set encoding=utf-8         " 编码
 set fenc=utf-8
-set number         " 显示行号
-set noswapfile     " 不生成swap文件
-set nobackup       " 不备份文件
-set relativenumber " 行都为相对于该行的相对行号
-set showmatch      " 括号匹配
-set tabstop=4      " 设置Tab长度为4空格
-set shiftwidth=4   " 设置自动缩进长度为4空格
-set expandtab      " 使用空格代替制表符
-set history=1000   " 操作历史记录数
-set autoindent     " 继承前一行的缩进方式，适用于多行注释
-set nocompatible   " 关闭与vi的兼容模式
-set nowrap         " 不自动折行
-set ignorecase     " 搜索时忽略大小写
-set cursorline     " 高亮行
-set t_Co=256       " 开启256色支持
-set cmdheight=2    " 底部命令行高度
-set ma             " defx 插件操作文件需要
-set guioptions=    " 去掉两边的scrollbar(?)
+set number                 " 显示行号
+set noswapfile             " 不生成swap文件
+set nobackup               " 不备份文件
+set relativenumber         " 行都为相对于该行的相对行号
+set showmatch              " 括号匹配
+set tabstop=4              " 设置Tab长度为4空格
+set shiftwidth=4           " 设置自动缩进长度为4空格
+set expandtab              " 使用空格代替制表符
+set history=1000           " 操作历史记录数
+set autoindent             " 继承前一行的缩进方式，适用于多行注释
+set nocompatible           " 关闭与vi的兼容模式
+set nowrap                 " 不自动折行
+set ignorecase             " 搜索时忽略大小写
+set cursorline             " 高亮行
+set t_Co=256               " 开启256色支持
+set cmdheight=1            " 底部命令行高度
+set clipboard+=unnamedplus " 打通系统和 vim 剪切板
+set ma                     " defx 插件操作文件需要
+set guioptions=            " 去掉两边的scrollbar ???
 set hidden
 set updatetime=300
 set shortmess+=c
 
-nnoremap <C-J> <C-W><C-J> " 移动窗口快捷键
+" 移动窗口快捷键
+nnoremap <C-J> <C-W><C-J> 
 nnoremap <C-K> <C-W><C-K>
 nnoremap <C-L> <C-W><C-L>
 nnoremap <C-H> <C-W><C-H>
 
-noremap <Tab> :bn<CR> " buffer 切换
+" buffer 切换
+noremap <Tab> :bn<CR> 
 noremap <S-Tab> :bp<CR>
 noremap <Leader><Tab> :Bw<CR>
 noremap <Leader><S-Tab> :Bw!<CR>
@@ -946,9 +994,15 @@ let g:gruvbox_contrast_dark = 'soft'
 
 
 " ************************************* jlanzarotta/bufexplorer 切换 buffer 列表
-let g:bufExplorerDefaultHelp = 0      " 不显示帮助说明
-let g:bufExplorerShowRelativePath = 0 " 显示绝对路径
-let g:bufExplorerSortBy = 'number'    " 按照 buffer 序号排序
+let g:bufExplorerDefaultHelp = 0              " 不显示帮助说明
+let g:bufExplorerShowRelativePath = 0         " 显示绝对路径
+let g:bufExplorerSortBy = 'number'            " 按照 buffer 序号排序
+let g:bufExplorerDisableDefaultKeyMapping = 1 " 禁用默认按键
+
+nmap <Leader>bl :BufExplorer<CR> " 打开 buffer 列表
+
+
+" ************************************* fzf.vim 模糊查询文件
 
 
 " ************************************* neoclide/coc.nvim
@@ -982,13 +1036,13 @@ nnoremap <silent> <Leader>dn :DashboardNewFile<CR>
 
 " 按键说明
 let g:dashboard_custom_shortcut={
-  \ 'last_session'       : 'SPC d l',
-  \ 'find_history'       : 'SPC d h',
-  \ 'find_file'          : 'SPC d f',
-  \ 'new_file'           : 'SPC d n',
-  \ 'change_colorscheme' : 'SPC d c',
-  \ 'find_word'          : 'SPC d a',
-  \ 'book_marks'         : 'SPC d b',
+  \ 'last_session'       : 'Leader d l',
+  \ 'find_history'       : 'Leader d h',
+  \ 'find_file'          : 'Leader d f',
+  \ 'new_file'           : 'Leader d n',
+  \ 'change_colorscheme' : 'Leader d c',
+  \ 'find_word'          : 'Leader d a',
+  \ 'book_marks'         : 'Leader d b',
   \ }
 
 " 设置按键前面的图表, 必须先定义一个变量, 否则报错
@@ -1069,19 +1123,9 @@ vmap <silent> <Leader>w <Plug>TranslateWV "翻译光标下的文本，在窗口�
 " nmap <silent> <Leader>r <Plug>TranslateR " 替换光标下的文本为翻译内容
 " vmap <silent> <Leader>r <Plug>TranslateRV " 替换光标下的文本为翻译内容
 
-" "翻译Window的高亮配置
-" hi def link TranslatorQuery             Identifier
-" hi def link TranslatorDelimiter         Special
-" hi def link TranslatorExplain           Statement
-
-" "窗口背景
-" hi def link Translator                  Normal
-" hi def link TranslatorBorder            NormalFloat
-
 
 " ************************************* liuchengxu/vista.vim 文件函数变量
-let g:vista_default_executive = 'coc'            " 提取 tags 的工具
-let g:vista_finder_alternative_executives = ['coc']
+let g:vista_default_executive = 'coc'            " 默认显示 tags 的工具
 let g:vista_echo_cursor_strategy ='floating_win' " 启用悬浮窗预览
 let g:vista_sidebar_width = 30                   " 侧边栏宽度.
 let g:vista_echo_cursor = 1                      " 设置为0，以禁用光标移动时的回显.
@@ -1097,11 +1141,24 @@ function! NearestMethodOrFunction() abort
 endfunction
 set statusline+=%{NearestMethodOrFunction()}
 
+nmap <silent> <Leader>vl :Vista!!<CR> " 隐藏
+
 
 " ************************************* puremourning/vimspector
-let g:vimspector_enable_mappings = 'HUMAN' 
-nmap <LocalLeader><F11> <Plug>VimspectorRestart
-nmap <F7> <Plug>VimspectorRestart
+let g:vimspector_enable_mappings = 'HUMAN'  " 按键方案 HUMAN / VISUAL_STUDIO
+let g:vimspector_install_gadgets = ['debugpy'] " 安装语言支持, 使用 VimspectorInstall 安装
+
+
+nmap <Leader>dc <Plug>VimspectorContinue
+nmap <Leader>ds <Plug>VimspectorStop
+nmap <Leader>dr <Plug>VimspectorRestart
+nmap <Leader>dk <Plug>VimspectorPause
+nmap <Leader>dv <Plug>VimspectorToggleBreakpoint
+nmap <Leader>dp <Plug>VimspectorAddFunctionBreakpoint
+nmap <Leader>do <Plug>VimspectorStepOver
+nmap <Leader>di <Plug>VimspectorStepInto
+nmap <Leader>dt <Plug>VimspectorStepOut
+" nmap <F7> <Plug>VimspectorRestart
 
 
 " ************************************* voldikss/vim-floaterm 悬浮内置终端
@@ -1110,10 +1167,9 @@ let g:floaterm_keymap_toggle = '<Leader>fh' " 隐藏
 let g:floaterm_keymap_prev = '<Leader>fp'   " 上一个
 let g:floaterm_keymap_next = '<Leader>fn'   " 下一个
 let g:floaterm_keymap_kill = '<Leader>fc'   " 关闭
-
-let g:floaterm_width=0.8
-let g:floaterm_height=0.8
-let g:floaterm_position = 'center'
+let g:floaterm_position = 'center'          " 在中间显示
+let g:floaterm_width=0.9
+let g:floaterm_height=0.9
 
 
 " ************************************* akinsho/toggleterm.nvim 内置终端
@@ -1134,10 +1190,8 @@ call defx#custom#option('_', {
       \ 'resume': 1
       \ })
 
-nmap <silent> <Leader>e :Defx <cr>
 autocmd FileType defx call s:defx_my_settings()
 function! s:defx_my_settings() abort
-  " Define mappings
   nnoremap <silent><buffer><expr> <CR>
   \ defx#do_action('open')
   nnoremap <silent><buffer><expr> c
@@ -1199,7 +1253,6 @@ function! s:defx_my_settings() abort
   nnoremap <silent><buffer><expr> cd
   \ defx#do_action('change_vim_cwd')
 endfunction
-
 
 ```
 
