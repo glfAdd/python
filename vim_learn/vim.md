@@ -730,12 +730,43 @@ https://blog.csdn.net/weixin_39795268/article/details/111344410
 >
 > https://www.5axxw.com/wiki/content/jifl0q
 >
+> Vimpector 有两类配置: 调试适配器配置 和 调试会话配置
+
+##### 调试适配器配置
+
+优先级由低到高, 高优先级覆盖低优先级的 adapters
+
+- 由 `install_gadget.py` 自动生成的 `our-path-to-vimspector/gadgets/<os>/.gadgets.json`, 用户不应该修改
+- 在 `your-path-to-vimspector/gadgets/<os>/.gadgets.d/*.json` 用户自定义目录, 需要自己创建
+- 在 vim 工作目录向父目录递归搜索到的第一个 `.gadgets.json`
+- `.vimspector.json` 中定义的 adapters
+
+##### 调试会话配置
+
+- 每当打开一个新的调试会话时，vimspector 都会在当前目录向父目录递归搜索，如果查找到了 `.vimspector.json`，则使用其中的配置，并将其所在的目录设定为项目根目录. 
+- 如果未查找到, 则使用 `<your-path-to-vimspector>/configurations/<os>/<filetype>/*.json` 的配置文件, 将打开的文件的目录设置为项目根目录
+
+##### 示例代码
+
+```
+~/.vim/plugged/vimspector/support/test
+```
 
 ##### install
 
 ```
 Plug 'puremourning/vimspector'
 ```
+
+##### 日志
+
+```
+查看日志
+:VimspectorToggleLog
+:VimspectorDebugInfo
+```
+
+
 
 ##### 语言支持
 
@@ -769,12 +800,6 @@ let g:vimspector_install_gadgets = ['debugpy']
 执行
 :VimspectorInstall
 :VimspectorUpdate
-```
-
-##### 示例代码
-
-```
-/home/glfadd/.vim/plugged/vimspector/support/test
 ```
 
 ##### configurations 优先级
@@ -847,25 +872,28 @@ let g:vimspector_install_gadgets = ['debugpy']
 
   ```json
   {
-    "configurations": {
-      "run": {
-        "adapter": "debugpy",
-        "default": true,
-        "configuration": {
-          "request": "launch",
-          "program": "${workspaceRoot}/${file}",
-          "cwd": "${workspaceRoot}",
-          "stopOnEntry": true
-        },
-        "breakpoints": {
-          "exception": {
-            "raised": "N",
-            "uncaught": "",
-            "userUnhandled": ""
+      "configurations":{
+          "run":{
+              "adapter":"debugpy",
+              "default":true,
+              "configuration":{
+                  "request":"launch",
+                  "program":"${workspaceRoot}/${file}",
+                  "cwd":"${workspaceRoot}",
+                  "stopOnEntry":true,
+                  "logging":{
+                      "engineLogging":true
+                  }
+              },
+              "breakpoints":{
+                  "exception":{
+                      "raised":"N",
+                      "uncaught":"",
+                      "userUnhandled":""
+                  }
+              }
           }
-        }
       }
-    }
   }
   ```
 
