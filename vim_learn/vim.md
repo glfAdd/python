@@ -1,12 +1,9 @@
 ##### 参考案例
 
 ```
-http://47.112.232.56/github/zh/61928120c295597421382002.html
-https://github.com/vim-vdebug/vdebug
-
-
 Tmux + vim
 https://kxcblog.com/post/terminal/2.tmux-tutorial/
+
 
 
 https://zhuanlan.zhihu.com/p/267856388
@@ -17,15 +14,9 @@ plugin
 https://zhuanlan.zhihu.com/p/382092667
 https://github.com/ayamir/nvimdots/wiki/Plugins
 
-
-配色
-https://www.cnblogs.com/jhssd/p/6803689.html
-
-
-https://www.cnblogs.com/cniwoq/p/13272746.html
 ```
 
-## 安装 - vim  
+# 安装 - vim  
 
 ##### install
 
@@ -70,7 +61,7 @@ Vim 的全局配置一般在/etc/vim/vimrc或者/etc/vimrc，对所有用户生�
 $ vim --version
 ```
 
-## 安装 - neovim
+# 安装 - neovim
 
 ##### install
 
@@ -100,7 +91,7 @@ $ pip install neovim
 $ pip3 install neovim
 ```
 
-## vim plug
+# vim plug
 
 > [github](https://github.com/junegunn/vim-plug)
 
@@ -147,7 +138,7 @@ let fmt = get(g:, 'plug_url_format', 'https://git::@github.com.cnpmjs.org/%s.git
 \ '^https://git::@github.com.cnpmjs\.org', 'https://github.com.cnpmjs.org', '')
 ```
 
-## 依赖
+# 依赖
 
 ##### node.js 支持
 
@@ -186,7 +177,7 @@ let fmt = get(g:, 'plug_url_format', 'https://git::@github.com.cnpmjs.org/%s.git
 $ aptiotude install xsel
 ```
 
-## coc
+# coc
 
 > [github](https://github.com/neoclide/coc.nvim)
 >
@@ -336,7 +327,7 @@ https://github.com/microsoft/pyright/blob/main/docs/configuration.md
   ```
   
 
-## plugin
+# plugin
 
 ##### gruvbox 配色
 
@@ -349,6 +340,13 @@ https://github.com/microsoft/pyright/blob/main/docs/configuration.md
   ```
   Plug 'morhetz/gruvbox'
   ```
+
+##### shell 命令补全
+
+```
+,dq
+
+```
 
 ##### font - 字体(未使用)
 
@@ -723,14 +721,15 @@ https://blog.csdn.net/weixin_39795268/article/details/111344410
   ```
   
 
-
-## 断点调试
+# 断点调试
 
 > [github](https://github.com/puremourning/vimspector)
 >
 > https://www.5axxw.com/wiki/content/jifl0q
 >
 > Vimpector 有两类配置: 调试适配器配置 和 调试会话配置
+>
+> 示例代码 `~/.vim/plugged/vimspector/support/test`
 
 ##### 调试适配器配置
 
@@ -746,27 +745,31 @@ https://blog.csdn.net/weixin_39795268/article/details/111344410
 - 每当打开一个新的调试会话时，vimspector 都会在当前目录向父目录递归搜索，如果查找到了 `.vimspector.json`，则使用其中的配置，并将其所在的目录设定为项目根目录. 
 - 如果未查找到, 则使用 `<your-path-to-vimspector>/configurations/<os>/<filetype>/*.json` 的配置文件, 将打开的文件的目录设置为项目根目录
 
-##### 示例代码
-
-```
-~/.vim/plugged/vimspector/support/test
-```
-
 ##### install
 
 ```
 Plug 'puremourning/vimspector'
 ```
 
-##### 日志
+##### 命令
 
-```
-查看日志
+```bash
+# 查看日志
 :VimspectorToggleLog
+
+# 查看信息
 :VimspectorDebugInfo
+
+:VimspectorUpdate
+
+# 关闭调试模式
+:VimspectorReset
+或
+:call vimspector#Reset()
+
+# 清除所有断点
+:call vimspector#ClearBreakpoints()
 ```
-
-
 
 ##### 语言支持
 
@@ -800,15 +803,6 @@ let g:vimspector_install_gadgets = ['debugpy']
 执行
 :VimspectorInstall
 :VimspectorUpdate
-```
-
-##### configurations 优先级
-
-```
-1. vimspector 先在当前目录向父目录递归搜索, 如果查找到了 .vimspector.json, 则使用其中的配置，并将其所在的目录设定为项目根目录
-
-2. 如果未查找到，在 vimspector 安装目录 ./configurations/<os>/<filetype>/*.json 的配置文件, 将打开的文件的目录设置为项目根目录。
-	/home/glfadd/.vim/plugged/vimspector/configurations/linux/_all/python.json
 ```
 
 ##### .vimspector.json 文件参数
@@ -864,39 +858,6 @@ let g:vimspector_install_gadgets = ['debugpy']
 
 ![预定义变量](./image/预定义变量.png)
 
-##### use
-
->  在每个项目目录中创建 .vimspector.json 用来设置调试的参数
-
-- python
-
-  ```json
-  {
-      "configurations":{
-          "run":{
-              "adapter":"debugpy",
-              "default":true,
-              "configuration":{
-                  "request":"launch",
-                  "program":"${workspaceRoot}/${file}",
-                  "cwd":"${workspaceRoot}",
-                  "stopOnEntry":true,
-                  "logging":{
-                      "engineLogging":true
-                  }
-              },
-              "breakpoints":{
-                  "exception":{
-                      "raised":"N",
-                      "uncaught":"",
-                      "userUnhandled":""
-                  }
-              }
-          }
-      }
-  }
-  ```
-
 ##### 自定义按键
 
 ```
@@ -932,15 +893,128 @@ nmap <F5> <Plug>VimspectorContinue
 | `F11`           | Step Into                    | `vimspector#StepInto()`                         |
 | `Shift F11`     | 跳出当前功能范围             | `vimspector#StepOut()`                          |
 
-## pip
+##### 窗口
 
-##### 性能测试
+- vimspector.Variables
+
+  ```
+  变量
+  ```
+
+- vimspector.Variables
+
+  ```
+  监视窗口 (想看哪个变量在这里打印)
+  
+  insert 模式输入变量, <CR> 确定
+  <CR>展开/折叠
+  <DEL>删除
+  ```
+
+- vimspector.StackTrace 
+
+  ```
+  线程
+  <CR>展开/折叠
+  ```
+
+- 终端输出
+
+  ```bash
+  # 切换模式
+  :VimspectorShowOutput <TAB> 
+  
+  
+  # 有4中模式
+      vimspector.Output:stderr		
+      vimspector.Console				交互模式也是控制台输出命令的模式
+      _vimspector_log_Vimspector
+      vimspector.Output:server
+  
+  
+  # Console 模式
+  	insert 模式输入变量, <CR> 确定
+
+```bash
+
+```
+
+
+
+##### 示例
+
+> JSON配置文件允许C-style注释
+>
+> ​	`// comment to end of line ...`
+>
+> ​	`/* inline comment ... */` 
+
+- python.json
+
+  ```json
+  {
+      "configurations":{
+          "run":{
+              "adapter":"debugpy",
+              "default":true,
+              "configuration":{
+                  "request":"launch",
+                  "program":"${file}",
+                  "cwd":"${workspaceRoot}",
+                  "stopOnEntry":true,
+                  "logging":{
+                      "engineLogging":true
+                  }
+              },
+              "breakpoints":{
+                  "exception":{
+                      "raised":"N",
+                      "uncaught":"",
+                      "userUnhandled":""
+                  }
+              }
+          }
+      }
+  }
+  ```
+
+- java.json
+
+  ```json
+  
+  
+  
+  ```
+
+##### 远程调试
+
+```
+用debugpy启动应用程序，指定--listen参数。有关详细信息，请参阅debugpy文档。
+
+```
+
+##### 启动时指定参数
+
+```
+:call vimspector#LaunchWithSettings( dict )
+参数是带有以下键的dict：
+
+configuration：（可选）要启动的调试配置的名称
+<anything else>：（可选）要设置的变量的名称
+这使得一些集成和自动化。例如，如果您有一个名为Run Test的配置，其中包含一个名为${Test}的替换变量，则可以编写一个映射，该映射最终执行：
+
+vimspector#LaunchWithSettings( #{ configuration: 'Run Test'
+                                \Test: 'Name of the test' } )
+这将启动Run Test配置，并将${Test}设置为'Name of the test'，而vispector不会提示用户输入或确认这些内容。
+```
+
+# 性能测试
 
 ```
 pip install line_profiler
 ```
 
-## config - neovim
+# config - neovim
 
 ```
 call plug#begin('~/.vim/plugged')
@@ -1176,17 +1250,8 @@ nmap <silent> <Leader>vl :Vista!!<CR> " 隐藏
 let g:vimspector_enable_mappings = 'HUMAN'  " 按键方案 HUMAN / VISUAL_STUDIO
 let g:vimspector_install_gadgets = ['debugpy'] " 安装语言支持, 使用 VimspectorInstall 安装
 
-
-nmap <Leader>dc <Plug>VimspectorContinue
-nmap <Leader>ds <Plug>VimspectorStop
-nmap <Leader>dr <Plug>VimspectorRestart
-nmap <Leader>dk <Plug>VimspectorPause
-nmap <Leader>dv <Plug>VimspectorToggleBreakpoint
-nmap <Leader>dp <Plug>VimspectorAddFunctionBreakpoint
-nmap <Leader>do <Plug>VimspectorStepOver
-nmap <Leader>di <Plug>VimspectorStepInto
-nmap <Leader>dt <Plug>VimspectorStepOut
-" nmap <F7> <Plug>VimspectorRestart
+nmap <C-F11> <Plug>VimspectorStepInto
+" nmap <Leader>dq <Plug>VimspectorReset
 
 
 " ************************************* voldikss/vim-floaterm 悬浮内置终端
@@ -1281,6 +1346,8 @@ function! s:defx_my_settings() abort
   nnoremap <silent><buffer><expr> cd
   \ defx#do_action('change_vim_cwd')
 endfunction
+
+nmap <silent> <Leader>e :Defx <cr> " 打开/关闭
 
 ```
 
