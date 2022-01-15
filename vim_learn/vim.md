@@ -182,10 +182,6 @@ $ aptiotude install xsel
 > [github](https://github.com/neoclide/coc.nvim)
 >
 > [文档](https://github.com/neoclide/coc.nvim/wiki/Language-servers)
->
-> 参考 https://www.pythonf.cn/read/133307
->
-> 快捷键参考 https://www.starky.ltd/2021/05/30/vim-configuration-with-coc-support-rust-c-python-complete/
 
 coc.nvim 是针对 neovim 的智能感知插件, 基于微软的  LSP (Language Server Protocol) 协议
 
@@ -266,6 +262,10 @@ Plug 'neoclide/coc.nvim', {'branch': 'release'}
 ##### install - java
 
 > [github](https://github.com/neoclide/coc-java)
+>
+> 要求:
+>
+> ​	安装 jdk 或 openjdk, jdk >= 1.8
 
 ```
 :CocInstall coc-java
@@ -353,6 +353,7 @@ https://github.com/microsoft/pyright/blob/main/docs/configuration.md
 > [github](https://github.com/ryanoasis/nerd-fonts)
 
 ```bash
+$ wget https://github.com/ryanoasis/nerd-fonts/archive/refs/heads/master.zip
 $ sudo ./install.sh
 ```
 
@@ -645,6 +646,15 @@ $ sudo ./install.sh
   :Git diff
   ```
 
+- 查看文件历史版本
+
+  ```
+  :Gdiff
+  :Gdiff HEAD
+  :Gdiff aaffdfds (版本号)
+  :h :Gdiff
+  ```
+
 ##### markdown
 
 ```
@@ -720,6 +730,12 @@ https://blog.csdn.net/weixin_39795268/article/details/111344410
 
   ```
   
+
+### 未使用
+
+[代码运行](https://github.com/skywind3000/asyncrun.vim)
+
+
 
 # 断点调试
 
@@ -1013,6 +1029,58 @@ vimspector#LaunchWithSettings( #{ configuration: 'Run Test'
 ```
 pip install line_profiler
 ```
+
+# python
+
+##### import 管理
+
+>  [github](https://github.com/PyCQA/isort)
+>
+> https://blog.csdn.net/u010751000/article/details/119013304
+
+- 安装
+
+  ```bash
+  $ pip install isort
+  # 支持 requirements
+  $ pip install isort[requirements_deprecated_finder]
+  # 支持 requirements 和 pipfile
+  $ pip install isort[requirements_deprecated_finder,pipfile_deprecated_finder]
+  ```
+
+- 使用
+
+  ```bash
+  # 多个文件
+  $ isort a.py b.py
+  
+  # 文件夹
+  $ isort .
+  
+  # 智能平衡格式
+  $ isort a.py -e
+  
+  # 查看不同, 不执行
+  $ isort a.py --diff
+  
+  # 如果上面无法执行, 使用下面的命令
+  $ python -m isort code_test.py --diff
+  
+  # 忽略某行
+  import module  # isort:skip
+  或
+  from xyz import (abc,  # isort:skip
+                   yo,
+                   hey)                
+  ```
+
+  
+
+
+
+
+
+
 
 # config - neovim
 
