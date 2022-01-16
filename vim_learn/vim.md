@@ -223,8 +223,8 @@ Plug 'neoclide/coc.nvim', {'branch': 'release'}
 :CocConfig
 :CocInstall 插件名
 :CocUninstall 插件名
-查看已安装:CocList extensions
-更新命令:CocUpdate
+:CocList extensions		查看已安装
+:CocUpdate				更新命令
 ```
 
 ##### cos-settings.json
@@ -234,21 +234,25 @@ Plug 'neoclide/coc.nvim', {'branch': 'release'}
 ```json
 {
     "python.linting.flake8Enabled": false,
-    "python.linting.pylintEnabled": true 
+    "python.linting.pylintEnabled": true,
+    "coc.preferences.colorSupport": true,
+    "highlight.document.enable": true,
+    "highlight.colorNames.enable": true
 }
+
 ```
 
 ##### 面板
 
 ```
-安装面板
+# 安装面板
 :CocInstall coc-marketplace
 
 # 打开面板
 :CocList marketplace
 
 # 搜索python 相关子插件
-:CocList marketplace pythonjjjkk
+:CocList marketplace python
 ```
 
 ##### install - 参数补全 / 片段补全
@@ -304,6 +308,44 @@ Plug 'neoclide/coc.nvim', {'branch': 'release'}
 ```
 :CocInstall coc-java
 ```
+
+##### install - makrdown(未使用)
+
+> [github](https://github.com/fannheyward/coc-markdownlint)
+>
+> https://www.cnblogs.com/FLY_DREAM/p/13823769.html
+>
+> https://blog.csdn.net/longtype/article/details/103582331
+
+```
+:CocInstall coc-markdownlint
+
+
+
+
+
+ [markdownlint] [W] MD012/no-multiple-blanks: Multiple consecutive blank lines  
+~    [Expected: 1; Actual: 2] 
+```
+
+##### install - json
+
+> [github](https://github.com/fannheyward/coc-markdownlint)
+
+```
+
+
+
+```
+
+##### install - highlight
+
+> [github](https://github.com/neoclide/coc-highlight)
+
+```
+```
+
+
 
 ##### 配置文件
 
@@ -751,13 +793,29 @@ https://github.com/mhinz/vim-startify
 
 ##### markdown
 
+> [github](https://github.com/plasticboy/vim-markdown)
+
 ```
-https://github.com/plasticboy/vim-markdown
+```
+
+
+
+##### preview - markdown 实时预览
+
+> [github](https://github.com/iamcco/markdown-preview.nvim)
+
+```
 
 https://zhuanlan.zhihu.com/p/84773275
 
 
-https://github.com/iamcco/markdown-preview.nvim
+
+
+
+
+
+:MarkdownPreview
+:MarkDownPreviewStop
 
 
 
@@ -1211,6 +1269,9 @@ Plug 'voldikss/vim-floaterm'                                " 窗口内悬浮终
 Plug 'akinsho/toggleterm.nvim'                              " 内置窗口
 Plug 'jlanzarotta/bufexplorer'                              " 列表切换 buffer
 Plug 'honza/vim-snippets'                                   " 代码块补全
+
+
+Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && yarn install'  }
 call plug#end()
 
 
@@ -1275,6 +1336,7 @@ nmap <Leader>bl :BufExplorer<CR> " 打开 buffer 列表
 
 
 " ************************************* neoclide/coc.nvim
+let g:coc_global_extensions = ['coc-pyright','coc-java', 'coc-snippets', 'coc-marketplace', 'coc-yaml', 'coc-xml', 'coc-rime', 'coc-highlight'] " coc 启动时自动安装
 set signcolumn=number " 最左边符号列和序号列合并, 用来减少宽度
 
 " insert 模式下 <TAB> 触发补全
@@ -1316,8 +1378,7 @@ function! s:show_documentation()
   endif
 endfunction
 
-" Highlight the symbol and its references when holding the cursor.
-autocmd CursorHold * silent call CocActionAsync('highlight')
+autocmd CursorHold * silent call CocActionAsync('highlight') " 允许高亮
 
 
 augroup mygroup
@@ -1508,7 +1569,7 @@ nmap <C-F11> <Plug>VimspectorStepInto
 " nmap <Leader>dq <Plug>VimspectorReset
 
 
-" ************************************* voldikss/vim-floaterm 悬浮内置终端
+" ************************************* voldikss/vim-floaterm 内置悬浮终端
 let g:floaterm_keymap_new = '<Leader>ft'    " 新建
 let g:floaterm_keymap_toggle = '<Leader>fh' " 隐藏
 let g:floaterm_keymap_prev = '<Leader>fp'   " 上一个
@@ -1572,6 +1633,7 @@ function! s:defx_my_settings() abort
   nnoremap <silent><buffer><expr> <C-g> defx#do_action('print')
   nnoremap <silent><buffer><expr> cd defx#do_action('change_vim_cwd')
 endfunction
+
 
 ```
 
