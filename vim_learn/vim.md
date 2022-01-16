@@ -183,6 +183,29 @@ $ aptiotude install xsel
 >
 > [文档](https://github.com/neoclide/coc.nvim/wiki/Language-servers)
 
+```
+查看是否由其他快捷键使用 tab
+:verbose imap <tab>
+
+
+
+
+[coc.nvim]: Error on "jumpImplementation": implementation provider not found for current buffer, your language server
+ doesn't support it.
+ 
+ 
+ 
+ [coc.nvim]: Error on "rangeSelect": selectionRange provider not found for current buffer, your language server doesn
+'t support it.
+
+
+
+[coc.nvim]: Error on "doQuickfix": No quickfix action available
+
+```
+
+
+
 coc.nvim 是针对 neovim 的智能感知插件, 基于微软的  LSP (Language Server Protocol) 协议
 
 ##### 安装
@@ -197,11 +220,22 @@ Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
 ```
 :CocInfo
-
-安装命令:CocInstall 插件名
-移除命令:CocUninstall 插件名
+:CocConfig
+:CocInstall 插件名
+:CocUninstall 插件名
 查看已安装:CocList extensions
 更新命令:CocUpdate
+```
+
+##### cos-settings.json
+
+> ~/.config/nvim/coc-settings.json 目录
+
+```json
+{
+    "python.linting.flake8Enabled": false,
+    "python.linting.pylintEnabled": true 
+}
 ```
 
 ##### 面板
@@ -256,7 +290,7 @@ Plug 'neoclide/coc.nvim', {'branch': 'release'}
 - pip 包. 会使用当前的 python 环境
 
   ```
-  pip install autopep8
+  pip install autopep8 flake8 pylint
   ```
 
 ##### install - java
@@ -344,7 +378,11 @@ https://github.com/microsoft/pyright/blob/main/docs/configuration.md
 ##### shell 命令补全
 
 ```
-,dq
+
+
+
+
+https://github.com/Shougo/neocomplete.vim
 
 ```
 
@@ -545,8 +583,6 @@ $ sudo ./install.sh
 ##### vim-easy-align 文本对齐
 
 > [github](https://github.com/junegunn/vim-easy-align)
->
-> https://www.shuzhiduo.com/A/qVdePZb5Pg/
 
 - install
 
@@ -559,6 +595,55 @@ $ sudo ./install.sh
   ```
   
   ```
+
+- use
+
+  ```bash
+  # 原文本
+  abc   |    1901 |2300000
+  histort |19012021 |   C001H2
+  PersonAction    |2201        |             HHKI!HA
+  
+  
+  # ga|
+  abc          | 1901 |2300000
+  histort      | 19012021 |   C001H2
+  PersonAction | 2201        |             HHKI!HA
+  
+  
+  # ga2|
+  abc          | 1901     | 2300000
+  histort      | 19012021 | C001H2
+  PersonAction | 2201     | HHKI!HA
+  ```
+
+  
+
+  ```bash
+  # 原文本
+  abc,       1901
+  histort   ,19012021,     C001H2
+  PersonAction  ,    2201                     ,HHKI!HA
+  
+  
+  # ga*,
+  abc,          1901
+  histort,      19012021, C001H2
+  PersonAction, 2201,     HHKI!HA
+  
+  
+  # ga向右的箭头*,
+  abc          , 1901
+  histort      , 19012021 , C001H2
+  PersonAction , 2201     , HHKI!HA
+  ```
+
+  
+
+  ```
+  ```
+
+  
 
 ##### bufexplorer 列表切换 buffer
 
@@ -1168,7 +1253,6 @@ let g:bufExplorerDefaultHelp = 0              " 不显示帮助说明
 let g:bufExplorerShowRelativePath = 0         " 显示绝对路径
 let g:bufExplorerSortBy = 'number'            " 按照 buffer 序号排序
 let g:bufExplorerDisableDefaultKeyMapping = 1 " 禁用默认按键
-
 nmap <Leader>bl :BufExplorer<CR> " 打开 buffer 列表
 
 
@@ -1176,21 +1260,109 @@ nmap <Leader>bl :BufExplorer<CR> " 打开 buffer 列表
 
 
 " ************************************* neoclide/coc.nvim
-nmap <leader>rn <Plug>(coc-rename) " 重命名
-xmap <leader>qq <Plug>(coc-format)  " 格式化代码
-nmap <leader>qq <Plug>(coc-format)
-inoremap <silent><expr> <c-space> coc#refresh() " 手动触发补全
+set signcolumn=number " 最左边符号列和序号列合并, 用来减少宽度
 
-" 使用 tab 切换补全
-inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
-inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+" insert 模式下 <TAB> 触发补全
+inoremap <silent><expr> <TAB>
+      \ pumvisible() ? "\<C-n>" :
+      \ <SID>check_back_space() ? "\<TAB>" :
+      \ coc#refresh()
+inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+function! s:check_back_space() abort
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~# '\s'
+endfunction
 
-nmap <silent> [g <Plug>(coc-diagnostic-prev) " 上一个参数
-nmap <silent> ]g <Plug>(coc-diagnostic-next) " 下一个参数
-nmap <silent> gd <Plug>(coc-definition) " 跳转到源代码
-nmap <silent> gy <Plug>(coc-type-definition)
+" 按 <CR> 自动使用第一个补全
+inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm() : "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
+
+inoremap <silent><expr> <c-space> coc#refresh() " insert 模式下手动触发补全
+nmap <silent> [g <Plug>(coc-diagnostic-prev) " 上一个代码出问题的地方
+nmap <silent> ]g <Plug>(coc-diagnostic-next) " 下
+nmap <silent> gd <Plug>(coc-definition) " 跳转文件
+nmap <silent> gy <Plug>(coc-type-definition) 
 nmap <silent> gi <Plug>(coc-implementation)
-nmap <silent> gr <Plug>(coc-references) " 在当前文件/目录下跳转
+nmap <silent> gr <Plug>(coc-references)  " 当前文件内调跳转变量/方法
+
+nmap <leader>rn <Plug>(coc-rename) " 重命名
+xmap <leader>cfs <Plug>(coc-format-selected) " 格式化选中代码
+nmap <leader>cfs <Plug>(coc-format-selected)
+xmap <leader>cf <Plug>(coc-format) " 格式代码
+nmap <leader>cf <Plug>(coc-format)
+
+" 显示文档说明
+nnoremap <silent> K :call <SID>show_documentation()<CR> 
+function! s:show_documentation()
+  if (index(['vim','help'], &filetype) >= 0)
+    execute 'h '.expand('<cword>')
+  elseif (coc#rpc#ready())
+    call CocActionAsync('doHover')
+  else
+    execute '!' . &keywordprg . " " . expand('<cword>')
+  endif
+endfunction
+
+" Highlight the symbol and its references when holding the cursor.
+autocmd CursorHold * silent call CocActionAsync('highlight')
+
+
+augroup mygroup
+  autocmd!
+  " Setup formatexpr specified filetype(s).
+  autocmd FileType typescript,json setl formatexpr=CocAction('formatSelected')
+  " Update signature help on jump placeholder.
+  autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
+augroup end
+
+" Applying codeAction to the selected region.
+" Example: `<leader>aap` for current paragraph
+xmap <leader>a  <Plug>(coc-codeaction-selected)
+nmap <leader>a  <Plug>(coc-codeaction-selected)
+
+" Remap keys for applying codeAction to the current buffer.
+nmap <leader>ac  <Plug>(coc-codeaction)
+" Apply AutoFix to problem on the current line.
+nmap <leader>qf  <Plug>(coc-fix-current)
+
+" Run the Code Lens action on the current line.
+nmap <leader>cl  <Plug>(coc-codelens-action)
+
+" Map function and class text objects
+" NOTE: Requires 'textDocument.documentSymbol' support from the language server.
+xmap if <Plug>(coc-funcobj-i)
+omap if <Plug>(coc-funcobj-i)
+xmap af <Plug>(coc-funcobj-a)
+omap af <Plug>(coc-funcobj-a)
+xmap ic <Plug>(coc-classobj-i)
+omap ic <Plug>(coc-classobj-i)
+xmap ac <Plug>(coc-classobj-a)
+omap ac <Plug>(coc-classobj-a)
+
+
+" Use CTRL-S for selections ranges.
+" Requires 'textDocument/selectionRange' support of language server.
+nmap <silent> <C-s> <Plug>(coc-range-select)
+xmap <silent> <C-s> <Plug>(coc-range-select)
+
+command! -nargs=0 Format :call CocActionAsync('format') " command 中添加 :Format 命令
+" Add `:Fold` command to fold current buffer.
+command! -nargs=? Fold :call     CocAction('fold', <f-args>)
+" Add `:OR` command for organize imports of the current buffer.
+command! -nargs=0 OR   :call     CocActionAsync('runCommand', 'editor.action.organizeImport')
+
+" Add (Neo)Vim's native statusline support.
+" NOTE: Please see `:h coc-status` for integrations with external plugins that
+" provide custom statusline: lightline.vim, vim-airline.
+set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
+
+nnoremap <silent><nowait> <space>a :<C-u>CocList diagnostics<cr> " 列表展示由问题代码
+nnoremap <silent><nowait> <space>c :<C-u>CocList commands<cr> " 展示 coc 所有命令
+nnoremap <silent><nowait> <space>o :<C-u>CocList outline<cr> " 当前文件变量和函数列表
+nnoremap <silent><nowait> <space>s :<C-u>CocList -I symbols<cr> " Search workspace symbols.
+nnoremap <silent><nowait> <space>j :<C-u>CocNext<CR> " Do default action for next item.
+nnoremap <silent><nowait> <space>k :<C-u>CocPrev<CR> " Do default action for previous item.
+" nnoremap <silent><nowait> <space>e :<C-u>CocList extensions<cr> " 管理插件
+" nnoremap <silent><nowait> <space>p :<C-u>CocListResume<CR> " 重新打开最后" 一个coc列表
 
 
 " ************************************* glepnir/dashboard-nvim
@@ -1299,7 +1471,7 @@ let g:vista_default_executive = 'coc'            " 默认显示 tags 的工具
 let g:vista_echo_cursor_strategy ='floating_win' " 启用悬浮窗预览
 let g:vista_sidebar_width = 30                   " 侧边栏宽度.
 let g:vista_echo_cursor = 1                      " 设置为0，以禁用光标移动时的回显.
-let g:vista_cursor_delay = 400                   " 当前游标上显示详细符号信息的时间延迟.
+let g:vista_cursor_delay = 100                   " 当前游标上显示详细符号信息的时间延迟.
 let g:vista_close_on_jump = 0                    " 跳转到一个符号时，自动关闭vista窗口.
 let g:vista_stay_on_open = 1                     " 打开vista窗口后移动到它.
 let g:vista_blink = [2, 100]                     " 跳转到标记后闪烁光标2次，间隔100ms.
@@ -1329,8 +1501,8 @@ let g:floaterm_keymap_prev = '<Leader>fp'   " 上一个
 let g:floaterm_keymap_next = '<Leader>fn'   " 下一个
 let g:floaterm_keymap_kill = '<Leader>fc'   " 关闭
 let g:floaterm_position = 'center'          " 在中间显示
-let g:floaterm_width=0.9
-let g:floaterm_height=0.9
+let g:floaterm_width=0.95
+let g:floaterm_height=0.95
 
 
 " ************************************* akinsho/toggleterm.nvim 内置终端
@@ -1416,6 +1588,7 @@ function! s:defx_my_settings() abort
 endfunction
 
 nmap <silent> <Leader>e :Defx <cr> " 打开/关闭
+
 
 ```
 

@@ -57,12 +57,6 @@ $ which pip3
   eval "$(pyenv virtualenv-init -)"
   ```
 
-  
-
-```
-pip2 install virtualenv
-pip3 install virtualenv
-```
 
 ##### 问题
 
