@@ -16,6 +16,20 @@ https://github.com/ayamir/nvimdots/wiki/Plugins
 
 ```
 
+##### 命令
+
+```
+
+
+
+
+:set filetype		查看编码
+
+
+
+
+```
+
 # 安装 - vim  
 
 ##### install
@@ -239,7 +253,6 @@ Plug 'neoclide/coc.nvim', {'branch': 'release'}
     "highlight.document.enable": true,
     "highlight.colorNames.enable": true
 }
-
 ```
 
 ##### 面板
@@ -795,31 +808,77 @@ https://github.com/mhinz/vim-startify
 
 > [github](https://github.com/plasticboy/vim-markdown)
 
-```
+- install
+
+  ```
+  ```
+
+- use
+
+  ```
+  ```
+
+  
+
 ```
 
-
+```
 
 ##### preview - markdown 实时预览
 
 > [github](https://github.com/iamcco/markdown-preview.nvim)
 
-```
+- install
 
-https://zhuanlan.zhihu.com/p/84773275
+  ```
+  Plug 'iamcco/markdown-preview.nvim', {'do': 'cd app & yarn install'}
+  ```
 
+- use
 
+  ```
+  web:
+  http://127.0.0.1:8151/page/1
+  
+  打开预览
+  :MarkdownPreview
+  
+  停止预览
+  :MarkDownPreviewStop
+  ```
 
+- 问题 1
 
+  - 问题描述
 
+    ```
+    安装失败
+    ```
 
+  - 解决办法
 
-:MarkdownPreview
-:MarkDownPreviewStop
+    ```bash
+    进入插件 app 目录
+    $ ~/.vim/plugged/markdown-preview.nvim/app
+    
+    执行 install.sh 脚本
+    $ ./install.sh
+    ```
 
+- 问题 2
 
+  - 描述
 
-```
+    ```
+    执行 MarkdownPreview 时报错: 
+    E492: Not an editor command: MarkdownPreview
+    ```
+
+  - 原因
+
+    ```
+    打开的文件不是 .md
+    ```
 
 ##### vim-floaterm 内置终端
 
@@ -1244,34 +1303,32 @@ pip install line_profiler
 
 ```
 call plug#begin('~/.vim/plugged')
-Plug 'morhetz/gruvbox'                                      " neovim 主题
-Plug 'vim-airline/vim-airline'                              " 状态栏
-Plug 'vim-airline/vim-airline-themes'                       " 状态栏主题
-Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }         " 模糊查询
+Plug 'morhetz/gruvbox'                                               " neovim 主题
+Plug 'vim-airline/vim-airline'                                       " 状态栏
+Plug 'vim-airline/vim-airline-themes'                                " 状态栏主题
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }                  " 模糊查询
 Plug 'junegunn/fzf.vim' 
-Plug 'glepnir/dashboard-nvim'                               " 启动页面(依赖fzf)
-Plug 'neoclide/coc.nvim', {'branch': 'release'}             " 代码补全
+Plug 'glepnir/dashboard-nvim'                                        " 启动页面(依赖fzf)
+Plug 'neoclide/coc.nvim', {'branch': 'release'}                      " 代码补全
 if has('nvim')                                      
-  Plug 'Shougo/defx.nvim', { 'do': ':UpdateRemotePlugins' } " 文件树
+  Plug 'Shougo/defx.nvim', { 'do': ':UpdateRemotePlugins' }          " 文件树
 else
   Plug 'Shougo/defx.nvim'
   Plug 'roxma/nvim-yarp'
   Plug 'roxma/vim-hug-neovim-rpc'
 endif
-Plug 'preservim/nerdcommenter'                              " 代码注释
-Plug 'junegunn/vim-easy-align'                              " 文本对齐
-Plug 'tpope/vim-fugitive'                                   " git
-Plug 'mbbill/undotree'                                      " 撤销树
-Plug 'voldikss/vim-translator'                              " 翻译工具
-Plug 'liuchengxu/vista.vim'                                 " 函数和变量
-Plug 'puremourning/vimspector'                              " 代码调试
-Plug 'voldikss/vim-floaterm'                                " 窗口内悬浮终端
-Plug 'akinsho/toggleterm.nvim'                              " 内置窗口
-Plug 'jlanzarotta/bufexplorer'                              " 列表切换 buffer
-Plug 'honza/vim-snippets'                                   " 代码块补全
-
-
-Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && yarn install'  }
+Plug 'preservim/nerdcommenter'                                       " 代码注释
+Plug 'junegunn/vim-easy-align'                                       " 文本对齐
+Plug 'tpope/vim-fugitive'                                            " git
+Plug 'mbbill/undotree'                                               " 撤销树
+Plug 'voldikss/vim-translator'                                       " 翻译工具
+Plug 'liuchengxu/vista.vim'                                          " 函数和变量
+Plug 'puremourning/vimspector'                                       " 代码调试
+Plug 'voldikss/vim-floaterm'                                         " 窗口内悬浮终端
+Plug 'akinsho/toggleterm.nvim'                                       " 内置窗口
+Plug 'jlanzarotta/bufexplorer'                                       " 列表切换 buffer
+Plug 'honza/vim-snippets'                                            " 代码块补全
+Plug 'iamcco/markdown-preview.nvim', {'do': 'cd app & yarn install'} " markdown 实时预览
 call plug#end()
 
 
@@ -1329,14 +1386,24 @@ let g:bufExplorerDefaultHelp = 0              " 不显示帮助说明
 let g:bufExplorerShowRelativePath = 0         " 显示绝对路径
 let g:bufExplorerSortBy = 'number'            " 按照 buffer 序号排序
 let g:bufExplorerDisableDefaultKeyMapping = 1 " 禁用默认按键
+
 nmap <Leader>bl :BufExplorer<CR> " 打开 buffer 列表
 
 
-" ************************************* fzf.vim 模糊查询文件
+" ************************************* iamcco/markdown-preview.nvim markdown 实时预览
+let g:mkdp_brower = 'google-chrome' " 设置默认浏览器
 
+autocmd Filetype markdown nmap <Leader>mp <Plug>MarkdownPreview " 打开预览, 文件类型为 markdown 时快捷键才生效
+autocmd Filetype markdown nmap <Leader>ms <Plug>MarkdownPreviewStop " 停止预览
+autocmd Filetype markdown nmap <Leader>mh <Plug>MarkdownPreviewToggle " 隐藏预览
+
+
+
+" ************************************* fzf.vim 模糊查询文件
+"
 
 " ************************************* neoclide/coc.nvim
-let g:coc_global_extensions = ['coc-pyright','coc-java', 'coc-snippets', 'coc-marketplace', 'coc-yaml', 'coc-xml', 'coc-rime', 'coc-highlight'] " coc 启动时自动安装
+let g:coc_global_extensions = ['coc-pyright','coc-java', 'coc-snippets', 'coc-yaml', 'coc-xml', 'coc-rime', 'coc-highlight'] " coc 启动时自动安装
 set signcolumn=number " 最左边符号列和序号列合并, 用来减少宽度
 
 " insert 模式下 <TAB> 触发补全
@@ -1633,7 +1700,6 @@ function! s:defx_my_settings() abort
   nnoremap <silent><buffer><expr> <C-g> defx#do_action('print')
   nnoremap <silent><buffer><expr> cd defx#do_action('change_vim_cwd')
 endfunction
-
 
 ```
 
