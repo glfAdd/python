@@ -215,7 +215,6 @@ $ aptiotude install xsel
 
 
 [coc.nvim]: Error on "doQuickfix": No quickfix action available
-
 ```
 
 
@@ -322,13 +321,9 @@ Plug 'neoclide/coc.nvim', {'branch': 'release'}
 :CocInstall coc-java
 ```
 
-##### install - makrdown(未使用)
+##### install - makrdown
 
 > [github](https://github.com/fannheyward/coc-markdownlint)
->
-> https://www.cnblogs.com/FLY_DREAM/p/13823769.html
->
-> https://blog.csdn.net/longtype/article/details/103582331
 
 ```
 :CocInstall coc-markdownlint
@@ -347,8 +342,6 @@ Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
 ```
 
-
-
 ```
 
 ##### install - highlight
@@ -356,9 +349,8 @@ Plug 'neoclide/coc.nvim', {'branch': 'release'}
 > [github](https://github.com/neoclide/coc-highlight)
 
 ```
+
 ```
-
-
 
 ##### 配置文件
 
@@ -1291,13 +1283,6 @@ pip install line_profiler
                    hey)                
   ```
 
-  
-
-
-
-
-
-
 
 # config - neovim
 
@@ -1366,13 +1351,6 @@ nnoremap <C-K> <C-W><C-K>
 nnoremap <C-L> <C-W><C-L>
 nnoremap <C-H> <C-W><C-H>
 
-" buffer 切换
-noremap <Tab> :bn<CR> 
-noremap <S-Tab> :bp<CR>
-noremap <Leader><Tab> :Bw<CR>
-noremap <Leader><S-Tab> :Bw!<CR>
-noremap <C-t> :tabnew split<CR>
-
 
 " ************************************* morhetz/gruvbox 主题
 set background=dark                  " 设置背景为黑色 light / dark
@@ -1397,13 +1375,33 @@ autocmd Filetype markdown nmap <Leader>mp <Plug>MarkdownPreview " 打开预览, 
 autocmd Filetype markdown nmap <Leader>ms <Plug>MarkdownPreviewStop " 停止预览
 autocmd Filetype markdown nmap <Leader>mh <Plug>MarkdownPreviewToggle " 隐藏预览
 
+autocmd Filetype markdown inoremap <buffer> <silent> ;, <++>
+autocmd Filetype markdown inoremap <buffer> <silent> ;f <Esc>/<++><CR>:nohlsearch<CR>c4l
+autocmd Filetype markdown nnoremap <buffer> <silent> ;f <Esc>/<++><CR>:nohlsearch<CR>c4l
+autocmd Filetype markdown inoremap <buffer> <silent> ;s <Esc>/ <++><CR>:nohlsearch<CR>c5l
+autocmd Filetype markdown inoremap <buffer> <silent> ;- ---<Enter><Enter>
+autocmd Filetype markdown inoremap <buffer> <silent> ;b **** <++><Esc>F*hi
+autocmd Filetype markdown inoremap <buffer> <silent> ;x ~~~~ <++><Esc>F~hi
+autocmd Filetype markdown inoremap <buffer> <silent> ;x ** <++><Esc>F*i
+autocmd Filetype markdown inoremap <buffer> <silent> ;q `` <++><Esc>F`i
+autocmd Filetype markdown inoremap <buffer> <silent> ;c ```<Enter><++><Enter>```<Enter><Enter><++><Esc>4kA
+autocmd Filetype markdown inoremap <buffer> <silent> ;g - [ ] <Enter><++><ESC>kA
+autocmd Filetype markdown inoremap <buffer> <silent> ;u <u></u><++><Esc>F/hi
+autocmd Filetype markdown inoremap <buffer> <silent> ;p ![](<++>) <Enter><++><Esc>kF[a
+autocmd Filetype markdown inoremap <buffer> <silent> ;a [](<++>) <++><Esc>F[a
+autocmd Filetype markdown inoremap <buffer> <silent> ;1 #<Space><Enter><++><Esc>kA
+autocmd Filetype markdown inoremap <buffer> <silent> ;2 ##<Space><Enter><++><Esc>kA
+autocmd Filetype markdown inoremap <buffer> <silent> ;3 ###<Space><Enter><++><Esc>kA
+autocmd Filetype markdown inoremap <buffer> <silent> ;4 ####<Space><Enter><++><Esc>kA
+autocmd Filetype markdown inoremap <buffer> <silent> ;t <C-R>=strftime("%Y-%m-%d %H:%M:%S")<CR>
 
 
 " ************************************* fzf.vim 模糊查询文件
-"
+
 
 " ************************************* neoclide/coc.nvim
-let g:coc_global_extensions = ['coc-pyright','coc-java', 'coc-snippets', 'coc-yaml', 'coc-xml', 'coc-rime', 'coc-highlight'] " coc 启动时自动安装
+" coc 启动时自动安装
+let g:coc_global_extensions = [ 'coc-pyright', 'coc-java', 'coc-snippets', 'coc-yaml', 'coc-xml', 'coc-rime', 'coc-highlight', 'coc-marketplace', 'coc-markdownlint' ] 
 set signcolumn=number " 最左边符号列和序号列合并, 用来减少宽度
 
 " insert 模式下 <TAB> 触发补全
@@ -1564,9 +1562,10 @@ let g:dashboard_custom_header = [
 
 " ************************************* vim-airline/vim-airline 状态栏
 let g:airline#extensions#tabline#enabled = 1        " 开启tabline
+let g:airline#extensions#tagbar#enabled = 1
 let g:airline#extensions#tabline#buffer_nr_show = 1 " 显示buffer编号
 let g:bufferline_modified = '+'                     " 缓冲区已修改的符号
-let g:airline_theme='silver'
+let g:airline_theme = 'silver'
 
 " 切换 buffer 快捷键
 nmap <leader>1 <Plug>AirlineSelectTab1
@@ -1580,6 +1579,12 @@ nmap <leader>8 <Plug>AirlineSelectTab3
 nmap <leader>9 <Plug>AirlineSelectTab3
 nmap <leader>0 <Plug>AirlineSelectTab3
 
+" buffer 切换
+noremap <Tab> :bn<CR> 
+noremap <S-Tab> :bp<CR>
+noremap <Leader><Tab> :Bw<CR>
+noremap <Leader><S-Tab> :Bw!<CR>
+noremap <C-t> :tabnew split<CR>
 
 " ************************************* preservim/nerdcommenter 注释
 let g:NERDSpaceDelims = 1 " 注释后面增加 1 个空格
@@ -1700,6 +1705,7 @@ function! s:defx_my_settings() abort
   nnoremap <silent><buffer><expr> <C-g> defx#do_action('print')
   nnoremap <silent><buffer><expr> cd defx#do_action('change_vim_cwd')
 endfunction
+
 
 ```
 
