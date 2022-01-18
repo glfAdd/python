@@ -1,6 +1,8 @@
+##### 安装时驱动选择 “notfree”
 
-安装时驱动选择 “notfree”
-1. ×××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××× 源
+##### 源
+
+```
 1. sudo vi /etc/pacman.conf
 在文件最后添加如下内容：
 [archlinuxcn]
@@ -15,7 +17,11 @@ sudo pacman-mirrors -i -c China -m rank
 sudo pacman -S archlinux-keyring
 sudo pacman -Syy
 sudo pacman -Syu
-2. ×××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××× yay
+```
+
+##### yay
+
+```
 安装yay
 sudo pacman -S yay
 
@@ -25,17 +31,21 @@ $ yay -S package
 
 要删除包，请使用-Rns选项：
 $ yay -Rns package
-3. ×××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××× system
+```
 
+##### system
+
+```
 yay -S core/binutils  
 # 打包基本工具
 yay -S base-devel
 
 yay -S cmake
+```
 
-5. ×××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××× nvidia
-#### 安装的时候连接上外接显示器，笔记本屏幕和外接显示器不一定哪个可以使用
+##### nvidia
 
+```
 0. 查看电脑硬件信息
 inxi -Fx
 
@@ -83,8 +93,11 @@ nvidia-smi
 12. 重启
 13. 删除 /etc/X11/xorg.conf
 14. 重启
+```
 
-4. ×××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××× 输入法
+##### 输入法
+
+```
 yay -S fcitx
 yay -S fcitx-im fcitx-configtool
 yay -S fcitx-sogoupinyin
@@ -96,8 +109,11 @@ export LC_ALL=zh_CN.UTF-8
 export GTK_IM_MODULE=fcitx
 export QT_IM_MODULE=fcitx
 export XMODIFIERS="@im=fcitx"
+```
 
-5. ×××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××× 开关机速度
+##### 开关机速度
+
+```
 1. 关机
 减少默认停止超时, 编辑 /etc/systemd/system.conf
 DefaultTimeoutStopSec=5s
@@ -115,52 +131,25 @@ sudo update-grub
 [FAILED] Failed to start Load/Save mess of backlight:acpi_video0. 
 [FAILED] Failed to start Load/Save Screen Backlight Brightness of backlight:amdgpu_bl0.
 
+```
 
+##### 触控板
 
-×××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××× 触控板
+```
 yay -S kcm-pointing-devices-git
 
+```
 
+##### 常用软件
 
-××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××
-网易音乐/chrome/pdf
+```
 yay -S netease-cloud-music google-chrome okular typora htop screenfetch smplayer vim docker postman
 
+```
 
-falish player
-yay -S flashplugin
+##### 安装中的问题错误解决办法
 
-×××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××× 微信 (不好用卸载了)
-yay -S deepin-wine-wechat
-yay -S deepin-wine-tim
-
-卸载
-yay -Rs deepin-wine-wechat
-yay -Rs deepin-wine-tim
-××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××
-安装 Sublime Text
-
-激活码
-—– BEGIN LICENSE —–
-TwitterInc
-200 User License
-EA7E-890007
-1D77F72E 390CDD93 4DCBA022 FAF60790
-61AA12C0 A37081C5 D0316412 4584D136
-94D7F7D4 95BC8C1C 527DA828 560BB037
-D1EDDD8C AE7B379F 50C9D69D B35179EF
-2FE898C4 8E4277A8 555CE714 E1FB0E43
-D5D52613 C3D12E98 BC49967F 7652EED2
-9D2D2E61 67610860 6D338B72 5CF95C69
-E36B85CC 84991F19 7575D828 470A92AB
-—— END LICENSE ——
-
-关闭自动更新
-Preferences -> Settings-User
-写入 
-"update_check":false,
-××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××
-安装中的问题错误解决办法
+```
 [gladd@G ~]$ sudo pacman -S fcitx-sogoupinyin
 resolving dependencies...
 looking for conflicting packages...
@@ -190,8 +179,11 @@ Errors occurred, no packages were upgraded.
 修改/etc/pacman.conf，将原有的SigLevel=××××××注释掉，添加SigLevel = Never即可。
 所有的SigLevel都要修改
 
+```
 
-×××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××× VirtualBox
+##### VirtualBox
+
+```
 # 1. 查看当前系统的内核版本
 uname -r 
 
@@ -204,17 +196,22 @@ sudo pacman -Ss virtualbox-ext-oracle
 # 4. 重新启动系统或执行以下命令自动载入vboxdrv模块，不然打开虚拟机可能会提示'modprobe vboxdrv'错误。
 sudo modprobe vboxdrv
 
-×××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××× sublime-text
+```
+
+##### sublime-text
+
+```
 curl -O https://download.sublimetext.com/sublimehq-pub.gpg && sudo pacman-key --add sublimehq-pub.gpg && sudo pacman-key --lsign-key 8A8F901A && rm sublimehq-pub.gpg
  
 echo -e "\n[sublime-text]\nServer = https://download.sublimetext.com/arch/stable/x86_64" | sudo tee -a /etc/pacman.conf
  
 sudo pacman -Syu sublime-text
 
+```
 
+##### 美化
 
-
-×××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××× 美化
+```
 https://www.cnblogs.com/zryabc/p/11408297.html
 
 系统设置->图标->获取新的图标->搜索Mojave CT Icon安装
@@ -225,9 +222,7 @@ https://www.cnblogs.com/zryabc/p/11408297.html
 
 
 窗口图标 MacBreeze Shadowless
-
-
-
+```
 
 
 

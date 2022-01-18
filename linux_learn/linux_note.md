@@ -1,7 +1,205 @@
-"""
-poweroff用于关闭系统
-"""
-""" ============================ su
+##### 用户 / 用户组
+
+```bash
+# cat /etc/group							所有用户组
+# groups glfadd								查看用户所在的组
+# groupadd test								新建用户组
+# cat /etc/passwd							所用用户
+# cat /etc/passwd|grep xxx		查看某个用户
+
+将glfadd用户添加到test组
+usermod -s /bin/bash -g test glfadd
+```
+
+##### 定时任务
+
+```bash
+查看定时任务
+# crontab -l
+
+编辑定时任务
+# crontab -e
+
+0 1 * * * nohup pyton /sources/LFFlightChange/tools/ak_change.py > /dev/null 2>&1 &
+01 0 * * * sh /root/source/log_split.sh
+```
+
+##### 目录文件
+
+```bash
+查看SL目录大小
+# du -sh aaa
+将5J、SL目标打包成5j_sl.tar.gz压缩包
+# tar zcf 5j_sl.tar.gz aaa/ bbb/ 
+查看文件个数
+# ll SL|wc -l
+查看磁盘空间
+# df -h
+```
+
+
+
+```bash
+查看ip
+netstat -anp|grep postmaster
+
+查看占用端口的进程
+netstat -antup | grep 5432
+
+将引号中内容写入某文件中 echo
+echo 'export PYENV_ROOT="$HOME/.pyenv"' >> ~/.bash_profile
+
+访问网址看看返回什么
+curl https://www.baidu.com
+
+查看源
+yum list | grep postgresql
+
+检查80端口是否被占用
+netstat -ano|grep 80
+```
+
+##### 环境变量
+
+```bash
+查看设置的变量
+export
+
+当前窗口临时添加
+export PYTHONPATH=$PYTHONPATH:/root/code/Web/website
+```
+
+##### 服务器端口
+
+```bash
+netstat -anp																			查看开放的端口
+firewall-cmd --query-port=666/tcp									查询端口是否开放
+firewall-cmd --add-port=123/tcp --permanent				开放的端口
+firewall-cmd --permanent --remove-port=123/tcp		移除指定端口
+
+
+systemctl status firewalld				查看防火墙状态 
+systemctl start firewalld  				开启防火墙 
+systemctl stop firewalld					关闭防火墙 
+firewall-cmd --reload							重载入添加的端口
+```
+
+##### linux 查看图片
+
+```bash
+1.开放端口
+
+2.在图片目录下启动
+python -m SimpleHTTPServer
+
+3.浏览区查看图片
+http://10.211.55.3:8000/
+```
+
+##### 防火墙
+
+```bash
+开启防火墙
+# systemctl start firewalld
+查看已打开的端口  
+# netstat -anp
+查看想开的端口是否已开, 提示no表示未开, yes表示成功
+# firewall-cmd --query-port=666/tcp
+开永久端口号. success表示成功
+# firewall-cmd --add-port=666/tcp --permanent
+若移除端口 
+# firewall-cmd --permanent --remove-port=666/tcp
+重新载入
+# firewall-cmd --reload
+```
+
+##### 文件目录
+
+```bash
+/usr
+系统级的目录，可以理解为C:/Windows/
+
+/usr/lib
+理解为C:/Windows/System32
+
+/usr/local
+用户级的程序目录，可以理解为C:/Progrem Files/。
+用户自己编译的软件默认会安装到这个目录下. 里主要存放那些手动安装的软件，即不是通过apt-get安装的软件。
+它和/usr目录具有相类似的目录结构。让软件包管理器来管理/usr目录，而把自定义的脚本(scripts)放到/usr/local目录下面，我想这应该是个不错的主意。
+
+/usr/src
+系统级的源码目录
+
+/usr/local/src
+用户级的源码目录
+
+/opt
+用户级的程序目录，可以理解为D:/Software，这里可以用于放置第三方大型软件（或游戏），当你不需要时，直接rm -rf掉即可。在硬盘容量不够时，也可将/opt单独挂载到其他磁盘上使用
+这里主要存放那些可选的程序。
+你想尝试最新的firefox测试版吗?那就装到/opt目录下吧，这样，当你尝试完，想删掉firefox的时候，你就可 以直接删除它，而不影响系统其他任何设置。
+安装到/opt目录下的程序，它所有的数据、库文件等等都是放在同个目录下面。
+举个例子：刚才装的测试版firefox，就可以装到/opt/firefox_beta目录下，/opt/firefox_beta目录下面就包含了运 行firefox所需要的所有文件、库、数据等等。要删除firefox的时候，你只需删除/opt/firefox_beta
+
+/etc
+习惯上存放配置文件的目录，.d 的意思是目录，里面包含了配置文件，前面的名字你可以自己起，这是 linux 的惯例。
+```
+
+
+
+```
+ctrl + c 杀死结束程序
+ctrl + z 程序后台运行
+bg 查看当前终端后台运行的程序
+fg 把当前终端后台后台运行的拿到前台运行
+```
+
+##### ssh不输入密码
+
+```
+在目标机器的 〜/.ssh/authorized_keys 中添加自己的ssh公钥
+```
+
+##### ssh 简化输入IP
+
+```
+vim ~/.ssh/config
+
+Host github-A
+    HostName github.com
+    User git
+    IdentityFile /Users/xxx/.ssh/id_rsa_A
+    IdentitiesOnly yes
+Host github-B
+    HostName github.com
+    User git
+    IdentityFile /Users/xxx/.ssh/id_rsa_B
+    IdentitiesOnly yes
+
+Host: 名字随便起
+Hostname: ip
+User: 用户名
+Port: 端口
+IdentityFile: ssh私钥路径
+IdentitiesOnly yes就可以
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+##### su
+
+```bash
 1. su为switch user, 即切换用户的简写。
 2. 默认username是root, 切换方式
         su
@@ -23,9 +221,13 @@ su [-fmp] [-c command] [-s shell] [--help] [--version] [-] [USER [ARG]]
     ARG         传入新的 shell 参数
     --help 
     --version 
-"""
+```
 
-""" ============================ sudo
+
+
+##### sudo
+
+```bash
 https://www.cnblogs.com/ftl1012/p/sudo.html
 
 1. sudo是一种权限管理机制, 依赖于/etc/sudoers, 其定义了授权给哪个用户可以以管理员的身份能够执行什么样的管理命令, 更灵活.
@@ -66,9 +268,14 @@ ftl     ALL=(ALL)   /bin/cp,/bin/touch   # 只允许ftl用户只需root用户的
 
 nick   192.168.10.0/24=(root) /usr/sbin/useradd
 允许 nick 在 192.168.10.0/24 网段上连接主机并且以 root 权限执行 useradd 命令
-"""
+```
 
-""" ============================ cat
+
+
+##### cat
+
+```bash
+
     -n 输出行号
     -b 输出行号, 除了空行
     -s 当遇到有连续两行以上的空白行，就代换为一行的空白行。
@@ -88,9 +295,14 @@ cat -n a > b
 
 3. 将几个文件合并为一个文件
 cat file1 file2 > file
-"""
+```
 
-""" ============================ ifconfig
+
+
+##### ifconfig
+
+```bash
+
     eth0        网卡的代号 
     lo          回环地址loopback
     inet        IPv4的Ip地址
@@ -101,26 +313,28 @@ cat file1 file2 > file
     errors      数据包错误数
     dropped     数据包有问题被丢弃的数量
     collisions  数据包碰撞情况，数值太多代表网络状况差
-"""
+```
 
-""" ============================ 用户
+
+
+##### 用户
+
+```bash
+
 useradd oldboy      添加用户
 passwd redhat       设置密码       
 su - username       切换用户. su命令中间的-号很重要，意味着完全切换到新的用户，即环境变量信息也变更为新用户的信息
 whoami              当前用户
 logout              退出用户登录
 ctrl + d            退出用户登录
-"""
+```
 
-""" ============================ 定向输出
->     覆盖, 不存在则创建
->>    追加, 不存在则创建
 
-echo "oldboy-python666" > /tmp/oldboy.txt
-echo "chaoge666" >> /tmp/oldboy.txt
-"""
 
-""" ============================ 定向输出
+##### 定向输出
+
+```bash
+
 <     覆盖, 不存在则创建
 <<    追加, 不存在则创建
 
@@ -141,9 +355,14 @@ echo "chaoge666" >> /tmp/oldboy.txt
 abc abc
 111
 [root@centos1 tests]#
-"""
+```
 
-""" ============================ ls
+
+
+##### ls
+
+```bash
+
     -a 
     -A 列出除.及..的其它文件
     -r 反序排列
@@ -152,39 +371,26 @@ abc abc
     -h 以易读大小显示
     -l 
     -i 参数显示文件的 inode 节点信息
-"""
+```
 
-""" ============================ mkdir
-    -p 目录不存在则创
-"""
 
-""" ============================ rm
+
+##### rm
+
+```bash
+
 删除文件
     -i 逐一询问
     -f 不逐一询问删除, 只读也可以删
     -r 逐一询问删除目录和文件
-"""
+```
 
-""" ============================ firewall
-systemctl status firewalld                      查看防火墙状态
-systemctl stop firewalld                        关闭防火墙
-systemctl disable firewalld                     关闭防火墙开机启动
-systemctl is-enabled firewalld.service          检查防火墙是否启动
-"""
 
-""" ============================ mv
-    - i 逐一询问
-    
-​mv * ../                                       移动当前文件夹下的所有文件到上一级目录
-"""
 
-""" ============================ cp
-    - i 逐一询问
-    ​- r 复制目录及目录内所有项目
-    ​- a 复制的文件与原文件时间一样
-"""
+##### 链接
 
-""" ============================ 链接
+```bash
+
 硬链接 软链接
 ln      硬链接
 ln -s   软链接
@@ -225,9 +431,14 @@ cat: a3: 没有那个文件或目录
 1. 硬链接 a a2 的inode节点相同都是34209411, 软连接的不同
 2. 删除原始文件a后, 硬链接a2不受影响, 但软连接a3文件无效
 3. 硬链接文件都删除才能真正删除
-"""
+```
 
-""" ============================ pwd
+
+
+##### pwd
+
+```bash
+
     - P 查看软连接的实际路径
     
 [root@centos1 tests]# mkdir a
@@ -242,9 +453,14 @@ lrwxrwxrwx. 1 root root 1 2月   4 10:43 a2 -> a
 [root@centos1 a2]# pwd -P
 /root/tests/a
 [root@centos1 a2]#
-"""
+```
 
-""" ============================ more
+
+
+##### more
+
+```bash
+
 参数
     +num        从第 num 行开始显示
     -num        一次显示的行数
@@ -270,9 +486,14 @@ lrwxrwxrwx. 1 root root 1 2月   4 10:43 a2 -> a
     V           调用vi编辑器
     !命令        调用Shell，并执行命令
     q           退出more
-"""
+```
 
-""" ============================ head
+
+
+##### head
+
+```bash
+
 默认显示文件前10行
 
 
@@ -280,9 +501,14 @@ lrwxrwxrwx. 1 root root 1 2月   4 10:43 a2 -> a
     - c 显示前x个字节
 
 head -n 5 aaa
-"""
+```
 
-""" ============================ which
+
+
+##### which
+
+```bash
+
 在环境变量$PATH指定的路径中, 搜索某个系统命令的位置, 并且返回第一个搜索结果
 
 
@@ -290,9 +516,14 @@ head -n 5 aaa
     -p 与-n参数相同，但此处的包括了文件的路径。
     -w 指定输出时栏位的宽度。
     -V 显示版本信息
-"""
+```
 
-""" ============================ whereis
+
+
+##### whereis
+
+```bash
+
 在特定目录中查找符合条件的文件
 
 
@@ -304,11 +535,14 @@ head -n 5 aaa
 -s 　只查找原始代码文件。
 -S<目录> 　只在设置的目录下查找原始代码文件。
 -u 　查找不包含指定类型的文件。
+```
 
 
-"""
 
-""" ============================ locate
+##### locate
+
+```bash
+
 查找文件或目录
 locate命令要比find -name快得多, 因为它不搜索具体目录, 而是搜索一个数据库/var/lib/mlocate/mlocate.db
 这个数据库中含有本地所有文件信息
@@ -320,12 +554,14 @@ Linux系统自动创建这个数据库, 并且每天自动更新一次, 因此�
 /usr/bin/locate                 查询文件位置
 /etc/updatedb.conf              updatedb的配置文件
 /var/lib/mlocate/mlocate.db     存放文件信息的文件
+```
 
 
 
-"""
+##### find
 
-""" ============================ find
+```bash
+
 查找文件
 
 
@@ -356,9 +592,14 @@ find <目录> <条件> <动作>
 
 # 查找 /etc 目录下以 conf 结尾的文件，文件名区分大小写
 find /etc -name '*.conf'
-"""
+```
 
-""" ============================ gerp 
+
+
+##### gerp
+
+```bash
+ 
 用于查找文件里符合条件的字符串
 
 grep [选项] [文本] [文件] 
@@ -425,9 +666,14 @@ grep "aaa" . -r --exclude-from filelist
 # 特殊字符
 grep -F ".*" a
 grep -G ".*" a
-"""
+```
 
-""" ============================ chmod
+
+
+##### chmod
+
+```bash
+
 
 参数
     -c          若该文件权限确实已经更改，才显示其更改动作
@@ -477,26 +723,12 @@ chmod -R a+r *
 
 chmod a=rwx file
 chmod 777 file
-"""
+```
 
-""" ============================ df
-查看磁盘空间
-    -a 查看全部文件系统，单位默认KB
-    -h KB、MB、GB的单位来显示
-"""
+##### du
 
-""" ============================ free
-显示系统使用和空闲的内存情况，包括物理内存、交互区内存(swap)和内核缓冲区内存
-    -b 以Byte为单位
-    -k 以KB为单位
-    -m 以MB为单位
-    -g 以GB为单位
-    -s<间隔秒数> 持续观察内存使用状况。 
-    -t 显示内存总和列。 
-    -V 显示版本信息。 
-"""
+```bash
 
-""" ============================ du
 显示文件或目录大小
 
 du [选项][文件]
@@ -509,9 +741,12 @@ du [选项][文件]
     -h 以易读方式显示文件大小
     -s 仅显示总计
     -c 显示所有文件和总计
-"""
+```
 
-""" ============================ wc
+##### wc
+
+```bash
+
 计算文件的Byte数、字数、或是列
 
     -c 字节数
@@ -528,11 +763,14 @@ $ wc testfile testfile_1 testfile_2  #统计三个文件的信息
 9 18 78 testfile_1
 3 6 32 testfile_2 
 15 116 708 总用量                    #三个文件总共的行数为15、单词数116、字节数708 
+```
 
 
-"""
 
-""" ============================ ps
+##### ps
+
+```bash
+
 执行ps命令的那个时刻的进程
 如果想要动态的显示进程信息，就可以使用top命令
 
@@ -634,9 +872,14 @@ ps -aux --sort -pmem | less
 
 # 合并到一个命令，并通过管道显示前10个结果：
 ps -aux --sort -pcpu,+pmem | head -n 10
-"""
+```
 
-""" ============================ kill
+
+
+##### kill
+
+```bash
+
 会向操作系统内核发送一个信号和目标进程的PID, 然后系统内核根据收到的信号, 对指定进程进行相应的操作
 
 
@@ -658,9 +901,14 @@ ps -aux --sort -pcpu,+pmem | head -n 10
 15	TERM	    正常结束进程(默认)
 18  CONT        继续（与STOP相反， fg/bg命令）
 19  STOP        暂停（同 Ctrl + Z）
-"""
+```
 
-""" ============================ scp
+
+
+##### scp
+
+```bash
+
 基于ssh远程文件拷贝
 
 
@@ -686,9 +934,14 @@ scp work@192.168.0.10:/home/work/source.txt work@192.168.0.11:/home/work/
 
 # 文件夹
 scp -r /home/work/sourcedir work@192.168.0.10:/home/work/
-"""
+```
 
-""" ============================ PATH
+
+
+##### PATH
+
+```bash
+
 PATH中的环境变量有顺序,如果你添加的变量需要优先被搜索出,需要添加在变量首,否则放在尾部
 
 
@@ -706,12 +959,16 @@ source ~/.bashrc
 # 全局修改PATH变量
 vim /etc/profile
 export PATH=/usr/local/mongodb/bin:$PATH
-"""
+```
 
-""" ============================ |
-管道左边输出作为右边输入
-"""
 
-""" ============================ 查看进程占用的端口
+
+##### 查看进程占用的端口
+
+```bash
+
 ss -tlnp | grep mongo
-"""
+```
+
+
+
