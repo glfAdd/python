@@ -1706,7 +1706,6 @@ function! s:defx_my_settings() abort
   nnoremap <silent><buffer><expr> cd defx#do_action('change_vim_cwd')
 endfunction
 
-
 ```
 
 

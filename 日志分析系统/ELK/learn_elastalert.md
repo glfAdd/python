@@ -27,6 +27,8 @@ https://zhuanlan.zhihu.com/p/81922802
 > ElastAlert, 是Yelp 公司基于python开发的ELK 日志报警插件，Elastalert 通过查询 ElasticSearch 中的记录进行比对，通过配置报警规则对匹配规则的日志进行警报. 独立于应用程序, 架构耦合性低
 >
 > 需要安装的命令可以在服务的python环境中可以执行
+>
+> python 3.6.13
 
 ```
 # github
