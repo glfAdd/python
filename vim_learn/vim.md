@@ -1253,6 +1253,19 @@ let g:vimspector_install_gadgets = ['debugpy']
 :VimspectorUpdate
 ```
 
+##### 语言支持 - 指定版本(启动失败)
+
+```
+1. 到 github 上下载 zip 的文件
+
+2. 使用命令计算 sha256
+$ sha256sum debugpy-1.5.1.zip
+
+3. 修改 ~/.vim/plugged/vimspector/python3/vimspector/gadgets.py 文件中的 version 和 checksum
+
+4. 重新安装
+```
+
 ##### .vimspector.json 文件参数
 
 | 参数           | 说明                                                        | 是否必填 |
