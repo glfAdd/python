@@ -1,21 +1,21 @@
+# -*-coding=utf-8-*-
+
+import datetime
 import json
 
+from flask import Flask, request
 
-def aaa(a: int=None):
+app = Flask(__name__)
+
+
+@app.route('/test', methods=['GET', 'POST'])
+def error_api_status():
     print(123)
+    print('test ---------------')
+    return 'error api_status'
 
-    
-
-def test():
-
-    a = 1
-    print(1111)
-    a = a + 1
-    print(222)
-    print(333)
-    print(333)
-    print(a)
 
 
 if __name__ == '__main__':
-    test()
+    app.run(host='0.0.0.0', port=10421, debug=True, processes=1,threaded=True)
+

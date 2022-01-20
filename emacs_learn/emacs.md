@@ -6,9 +6,7 @@ https://github.com/cabins/.emacs.d
 elpa包管理功能
 ```
 
-
-
-## 安装
+# 安装
 
 > [官网](http://www.gnu.org/software/emacs/emacs.html)
 >
@@ -57,14 +55,115 @@ $ emacs -nw
 $ emacs
 ```
 
-## 配置
+# 配置
 
-##### 文件
+> 使用语法 elisp
+
+> 参考
+>
+> https://www.jianshu.com/p/e9f9a5df96c2
+>
+> https://www.scanbuf.net/post/manual/basic-config/
+>
+> https://scheng52123.com/index.php/2021/01/31/learnemacs/
+>
+> https://blog.csdn.net/neo_liukun/article/details/115189475?spm=1035.2023.3001.6557&utm_medium=distribute.pc_relevant_bbs_down.none-task-blog-2~default~OPENSEARCH~Rate-5.nonecase&depth_1-utm_source=distribute.pc_relevant_bbs_down.none-task-blog-2~default~OPENSEARCH~Rate-5.nonecase
+>
+> https://zhuanlan.zhihu.com/p/23444981
+
+##### ~/.emacs.d 目录结构
+
+
 
 ```
-~/.emacs
-~/.emacs.d/init.el
+load-path 定义Emacs 的 package 搜索目录
+emacs-config-dir
+default-directory
+
+
+
+
 ```
+
+##### 配置文件分类
+
+```
+
+Emacs 还可以有一个默认的初始化文件 default.el ，位于 Emacs 的任何标准的 package 搜索目录下
+
+Emacs 还有配置文件 (site-wide startup file)，称为 site-start.el ，也位于 Emacs 的任何标准的 package 搜索目录下
+
+Emacs 加载 package 中的配置是优先加载 site-start.el , 最后加载 default.el
+Emacs 启动时，可以使用 -q 或 –no-init-file 选项来阻止 Emacs 加载初始化文件
+
+inhibit-default-init 设置为 t ，那么 Emacs 不会加载 default.el
+可以使用 –no-site-file 来禁止 Emacs 加载 site-start.el 配置文件
+
+early-init.el 特殊的初始化配置文件.该配置文件在初始化 package 系统和 GUI 之前加载。
+
+```
+
+#####
+
+```
+
+
+after-init-hook 之后完成的（参看 startup 简介）如果用户选项 package-enable-at-startup 被禁用，也就是 package-enable-at-startup 的值为 nil ，那么自动加载就不会被执行。 所以可以控制 package 的加载
+
+
+```
+
+
+
+
+
+##### ~/.emacs.d/early-init.el
+
+> 最先执行的配置文件
+
+```lisp
+;; 关闭自动加载
+(setq package-enable-at-startup nil)
+;; 禁止改变 frame 大小
+(setq frame-inhibit-implied-resize t)
+;; 隐藏菜单栏
+(push '(menu-bar-lines . 0) default-frame-alist)
+;; 隐藏工具栏
+(push '(tool-bar-lines . 0) default-frame-alist)
+;; 隐藏滚动条
+(push '(vertical-scroll-bars) default-frame-alist)
+```
+
+##### ~/.emacs.d/init.el
+
+> 配置文件入口
+
+```
+;;Emacs 启动时自动调用 package-initialize 来导入已经安装了的包
+(package-initialize)
+```
+
+
+
+```lisp
+
+
+
+(defun custom-config-load-path (&rest _)
+  "Load lisp path"
+  (dolist (dir '("lisp" "site-lisp"))
+    (push (expand-file-name dir user-emacs-directory) load-path)))
+
+(advice-add #'package-initialize :after #'custom-config-load-path)
+(custom-config-load-path)
+```
+
+```
+把核心配置放在 lisp 目录下，自定义的一些配置放入 site-lisp 目录下。在 ~/.emacs.d 分别创建 lisp 和 site-lisp 文件夹
+
+```
+
+
 
 ##### 配置扩展仓库
 
@@ -341,6 +440,12 @@ C-/ 撤销
 ```
 
 
+
+# python
+
+```
+https://fhxisdog.github.io/2019/11/emacs%E6%90%AD%E5%BB%BApython%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83/
+```
 
 
 

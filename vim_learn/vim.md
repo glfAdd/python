@@ -26,15 +26,7 @@ https://github.com/ycm-core/ycmd/blob/master/.vimspector.json
 ##### 命令
 
 ```
-
-
-
-
 :set filetype		查看编码
-
-
-
-
 ```
 
 # 安装 - vim  
@@ -1262,8 +1254,12 @@ let g:vimspector_install_gadgets = ['debugpy']
 $ sha256sum debugpy-1.5.1.zip
 
 3. 修改 ~/.vim/plugged/vimspector/python3/vimspector/gadgets.py 文件中的 version 和 checksum
-
+1.5.1
+00cf8235b88880bc2d8f59e8f6585208a43e6f14017cdf11d3a0bb2aeb4fff79
 4. 重新安装
+
+
+Downloading https://github.com/microsoft/debugpy/archive/v1.5.1.zip to /home/glfadd/.vim/plugged/vimspector/gadgets/linux/download/debugpy/1.5.1/v1.5.1.zip
 ```
 
 ##### .vimspector.json 文件参数
@@ -1399,6 +1395,8 @@ nmap <F5> <Plug>VimspectorContinue
 ##### 示例 - python.json
 
 路径 `~/.vim/plugged/vimspector/configurations/linux/python/python.json`
+
+[python debug 完整设置](https://github.com/microsoft/debugpy/wiki/Debug-configuration-settings)
 
 > JSON配置文件允许C-style注释
 >
@@ -1547,11 +1545,68 @@ vimspector#LaunchWithSettings( #{ configuration: 'Run Test'
 这将启动Run Test配置，并将${Test}设置为'Name of the test'，而vispector不会提示用户输入或确认这些内容。
 ```
 
+##### 问题 1
+
+```
+flask 断点不停止
+https://github.com/puremourning/vimspector/discussions/412
+https://github.com/puremourning/vimspector/discussions/482
+
+
+原因, 不支持 python 多线程应用调试
+
+```
+
+
+
+# 断点调试
+
+```
+https://github.com/vim-vdebug/vdebug
+https://github.com/vim-vdebug/vdebug/blob/master/doc/Vdebug.txt
+
+
+
+
+
+
+:python3 debugger.set_breakpoint()
+
+
+
+
+
+:help Vdebug
+
+官网 https://code.activestate.com/komodo/remotedebugging/
+$ wget http://downloads.activestate.com/Komodo/releases/12.0.1/remotedebugging/Komodo-PythonRemoteDebugging-12.0.1-91869-linux-x86_64.tar.gz
+$ gzip -d Komodo-PythonRemoteDebugging-12.0.1-91869-linux-x86_64.tar.gz
+$ tar xvf Komodo-PythonRemoteDebugging-12.0.1-91869-linux-x86_64.tar
+
+pip install vim-debug dbgp
+
+
+
+:VdebugOpt debug_file /home/glfadd/Desktop/vdebug.log
+:VdebugOpt debug_file_level 2
+
+```
+
+
+
 # 性能测试
 
 ```
 pip install line_profiler
 ```
+
+# spacevim
+
+```
+https://spacevim.org/documentation/
+```
+
+
 
 # python
 
