@@ -4,6 +4,10 @@
 https://github.com/cabins/.emacs.d
 
 elpa包管理功能
+
+Emacs高手修炼手册: https://www.jianshu.com/p/42ef1b18d959
+视频
+https://www.zhihu.com/search?type=content&q=Emacs%E9%AB%98%E6%89%8B%E4%BF%AE%E7%82%BC%E6%89%8B%E5%86%8C%2015
 ```
 
 # 安装
@@ -65,24 +69,38 @@ $ emacs
 >
 > https://www.scanbuf.net/post/manual/basic-config/
 >
-> https://scheng52123.com/index.php/2021/01/31/learnemacs/
+> 
 >
 > https://blog.csdn.net/neo_liukun/article/details/115189475?spm=1035.2023.3001.6557&utm_medium=distribute.pc_relevant_bbs_down.none-task-blog-2~default~OPENSEARCH~Rate-5.nonecase&depth_1-utm_source=distribute.pc_relevant_bbs_down.none-task-blog-2~default~OPENSEARCH~Rate-5.nonecase
 >
-> https://zhuanlan.zhihu.com/p/23444981
+> 
+>
+> https://www.cnblogs.com/eat-and-die/p/10309681.html !!!!!!!
+
+##### 源分类
+
+```
+gnu: 一般是必备的，其它的 elpa 中的包会依赖 gnu 中的包
+melpa: 滚动升级，收录了的包的数量最大
+melpa-stable: 依据源码的 Tag （Git）升级，数量比 melpa 少，因为很多包作者根本不打 Tag
+org: 仅仅为了 org-plus-contrib 这一个包，org 重度用户使用
+marmalade: 似乎已经不维护了，个人不推荐
+```
 
 ##### ~/.emacs.d 目录结构
 
-
-
 ```
-load-path 定义Emacs 的 package 搜索目录
-emacs-config-dir
-default-directory
+
+~/.emacs.d/lisp
+插件配置文件目录，配置文件命名格式为init-xxx.el
+~/.emacs.d/site-lisp
+放置无法从elpa或其它仓库获取的第三方插件，本目录及其子目录须在启动时添加到load-path
+~/.emacs.d/init.el
+初始化load-path，初始化elpa，加载各插件配置文件等
 
 
-
-
+mkdir -p ~/.emacs.d/lisp
+mkdir -p ~/.emacs.d/site-lisp
 ```
 
 ##### 配置文件分类
@@ -122,8 +140,10 @@ after-init-hook 之后完成的（参看 startup 简介）如果用户选项 pac
 > 最先执行的配置文件
 
 ```lisp
+;; 关闭启动界面
+(setq inhibit-startup-screen t)
 ;; 关闭自动加载
-(setq package-enable-at-startup nil)
+;;(setq package-enable-at-startup nil)
 ;; 禁止改变 frame 大小
 (setq frame-inhibit-implied-resize t)
 ;; 隐藏菜单栏
@@ -132,60 +152,106 @@ after-init-hook 之后完成的（参看 startup 简介）如果用户选项 pac
 (push '(tool-bar-lines . 0) default-frame-alist)
 ;; 隐藏滚动条
 (push '(vertical-scroll-bars) default-frame-alist)
+;; 前景色(设置后影响主题)
+;;(add-to-list 'default-frame-alist '(foreground-color . "#E0DFDB"))
+;; 背景色(设置后影响主题)
+;;(add-to-list 'default-frame-alist '(background-color . "#102372"))
+;; 行号类型: relative(相对行号), visual
+(setq display-line-numbers-type 'relative)
+;; 显示行号
+(global-display-line-numbers-mode t)
+;; 自动补全括号
+(electric-pair-mode t)
+;; 括号匹配高亮
+(show-paren-mode t)
+
+;; 设置系统的编码,避免各处的乱码
+(prefer-coding-system 'utf-8)
+(set-default-coding-systems 'utf-8)
+(set-terminal-coding-system 'utf-8)
+(set-keyboard-coding-system 'utf-8)
+(setq default-buffer-file-coding-system 'utf-8)
+;; 设置垃圾回收阈值, 加速启动速度
+(setq gc-cons-threshold most-positive-fixnum)
 ```
 
 ##### ~/.emacs.d/init.el
 
 > 配置文件入口
 
-```
-;;Emacs 启动时自动调用 package-initialize 来导入已经安装了的包
-(package-initialize)
-```
-
-
-
 ```lisp
+;; 添加源
+(setq package-archives '(
+    ("melpa" . "http://mirrors.tuna.tsinghua.edu.cn/elpa/melpa/")
+    ("gnu" . "http://mirrors.tuna.tsinghua.edu.cn/elpa/gnu/")
+    ("org" . "http://mirrors.tuna.tsinghua.edu.cn/elpa/org/")))
+
+;; 个别时候会出现签名校验失败
+(setq package-check-signature nil)
+;; 初始化包管理器
+(require 'package)
+;; 刷新软件源索引
+(unless (bound-and-true-p package--initialized)
+    (package-initialize))
+(unless package-archive-contents
+    (package-refresh-contents))
 
 
+;; 使用 use-package 管理扩展
+(unless (package-installed-p 'use-package) 
+    (package-refresh-contents) 
+    (package-install 'use-package))
 
-(defun custom-config-load-path (&rest _)
-  "Load lisp path"
-  (dolist (dir '("lisp" "site-lisp"))
-    (push (expand-file-name dir user-emacs-directory) load-path)))
 
-(advice-add #'package-initialize :after #'custom-config-load-path)
-(custom-config-load-path)
+;; use-package 全局设置
+(eval-and-compile 
+    (setq use-package-always-ensure t)
+    (setq use-package-always-defer t)
+    (setq use-package-always-demand nil) 
+    (setq use-package-expand-minimally t) 
+    (setq use-package-verbose t))
+
+(require 'use-package)
+
+;; 主题
+(use-package gruvbox-theme 
+    :init (load-theme 'gruvbox-dark-soft t))
+
+;; 底部状态栏
+(use-package smart-mode-line 
+    :init 
+    (setq sml/no-confirm-load-theme t) 
+    (setq sml/theme 'respectful) 
+    (sml/setup))
+
+
+;; 测试启动耗时
+(use-package benchmark-init 
+  :init (benchmark-init/activate) 
+  :hook (after-init . benchmark-init/deactivate))
+
+
+;; 快捷键提示
+(use-package which-key 
+  :defer nil 
+  :config (which-key-mode))
+
+
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(package-selected-packages '(gruvbox-theme use-package)))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
 ```
 
-```
-把核心配置放在 lisp 目录下，自定义的一些配置放入 site-lisp 目录下。在 ~/.emacs.d 分别创建 lisp 和 site-lisp 文件夹
 
-```
-
-
-
-##### 配置扩展仓库
-
-```
-(setq package-archives '(("gnu" . "http://mirrors.ustc.edu.cn/elpa/gnu/")
-                         ("melpa" . "http://mirrors.ustc.edu.cn/elpa/melpa/")
-                         ("melpa-stable" . "http://mirrors.ustc.edu.cn/elpa/melpa-stable/")
-                         ("org" . "http://mirrors.ustc.edu.cn/elpa/org/")))
-```
-
-##### use-package
-
-```
- (use-package smooth-scrolling 
-    :ensure t ;是否一定要确保已安装
-    :defer nil ;是否要延迟加载 
-    :init (setq smooth-scrolling-margin 2) ;初始化参数 
-    :config (smooth-scrolling-mode t) ;基本配置参数 
-    :bind ;快捷键的绑定 
-    :hook) ;hook模式的绑定
-
-```
 
 
 
@@ -203,13 +269,137 @@ x - 执行操作
 d - 选择要删除的包
 ```
 
-##### 自定义包安装路径
+# packages
+
+##### use-package
+
+> 管理包安装
 
 ```
-~/.emacs.d/package
-
+ (use-package smooth-scrolling 
+    :ensure t ;是否一定要确保已安装
+    :defer nil ;是否要延迟加载 
+    :init (setq smooth-scrolling-margin 2) ;初始化参数 
+    :config (smooth-scrolling-mode t) ;基本配置参数 
+    :bind ;快捷键的绑定 
+    :hook) ;hook模式的绑定
 
 ```
+
+- install
+
+  ```lisp
+  ;; 使用 use-package 管理扩展
+  (unless (package-installed-p 'use-package) 
+      (package-refresh-contents) 
+      (package-install 'use-package))
+  
+  
+  ;; use-package 全局设置
+  (eval-and-compile 
+      (setq use-package-always-ensure t)
+      (setq use-package-always-defer t)
+      (setq use-package-always-demand nil) 
+      (setq use-package-expand-minimally t) 
+      (setq use-package-verbose t))
+  
+  (require 'use-package)
+  ```
+
+- setting
+
+  ```
+  ```
+
+- use
+
+  ```
+  
+  ```
+
+##### 主题
+
+> [github](https://github.com/greduan/emacs-theme-gruvbox)
+
+- install
+
+  ```lisp
+  (use-package gruvbox-theme 
+      :init (load-theme 'gruvbox-dark-soft t))
+  ```
+
+- setting
+
+  ```
+  ```
+
+- use
+
+  ```
+  ```
+
+##### 底部状态栏
+
+- install
+
+  ```
+  (use-package smart-mode-line 
+      :init 
+      (setq sml/no-confirm-load-theme t) 
+      (setq sml/theme 'respectful) 
+      (sml/setup))
+  ```
+
+##### 启动耗时工具
+
+> 自带的  `M-x emacs-init-time` 显示信息少
+
+- install
+
+  ```
+  (use-package benchmark-init 
+    :init (benchmark-init/activate) 
+    :hook (after-init . benchmark-init/deactivate))
+  ```
+
+- setting
+
+  ```
+  
+  ```
+
+- use
+
+  ```
+  树状统计图
+  M-x benchmark-init/show-durations-tree
+  
+  列表统计图
+  M-x benchmark-init/show-durations-tabulated
+  ```
+
+##### 快捷键提示
+
+- install
+
+  ```
+  (use-package which-key 
+    :defer nil 
+    :config (which-key-mode))
+  ```
+
+- setting
+
+  ```
+  ```
+
+- use
+
+  ```
+  输入完停顿一下会出现提示框
+  ```
+
+  
 
 ##### 代码补全
 
@@ -239,29 +429,6 @@ d - 选择要删除的包
   M-x auto-complete-mode
   ```
 
-##### 主题
-
-> [github](https://github.com/sellout/emacs-color-theme-solarized)
-
-```
-$ git clone https://github.com/sellout/emacs-color-theme-solarized.git
-
-$ wget https://github.com/sellout/emacs-color-theme-solarized/archive/refs/heads/master.zip
-$ unzip https://github.com/sellout/emacs-color-theme-solarized/archive/refs/heads/master.zip
-
-
-
-
-
-
-
-
-
-
-
-
-```
-
 
 
 ```
@@ -269,14 +436,7 @@ $ unzip https://github.com/sellout/emacs-color-theme-solarized/archive/refs/head
 elpy python 
 jedi
 company
-
-
-
 auto-complete 
-
-
-
-
 ```
 
 
@@ -370,27 +530,14 @@ C-u 12 C-n		向下 12 行, 默认是 4 次
 3. C-u C-SPC 回刚刚的位置
 ```
 
-##### 
-
-```
 
 
 ```
-
-
-
-```
-
 evil 插件，可以在 Emacs 上使用 Vi 的操作
-
-
-
-
 
 
 mac 改键盘按键
 https://karabiner-elements.pqrs.org/
-
 
 ```
 
@@ -398,9 +545,7 @@ https://karabiner-elements.pqrs.org/
 
 > https://aifreedom.com/technology/112
 
-```
 
-```
 
 
 
@@ -421,8 +566,6 @@ https://karabiner-elements.pqrs.org/
 | M-v     | 向上翻一页 |
 | M-<     | 到文件开头 |
 | M->     | 到文件末尾 |
-|         |            |
-|         |            |
 
 ```
 C-o 光标下插入空白行
@@ -435,11 +578,7 @@ C-a 行首
 C-e 行尾
 C-k 删除光标后所有
 C-/ 撤销
-
-
 ```
-
-
 
 # python
 
@@ -447,59 +586,5 @@ C-/ 撤销
 https://fhxisdog.github.io/2019/11/emacs%E6%90%AD%E5%BB%BApython%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83/
 ```
 
-
-
-## 优化
-
-##### 查看启动时间
-
-```
-M-x emacs-init-time
-```
-
-## 示例 
-
-> ~/.emacs.d/init.el
-
-```
-					; ================== 源 ==================
-(setq package-archives '(
-    ("melpa" . "http://mirrors.tuna.tsinghua.edu.cn/elpa/melpa/")
-    ("gnu" . "http://mirrors.tuna.tsinghua.edu.cn/elpa/gnu/")
-    ("org" . "http://mirrors.tuna.tsinghua.edu.cn/elpa/org/")))
-
-;; 个别时候会出现签名校验失败
-(setq package-check-signature nil)
-;; 初始化包管理器
-(require 'package)
-;; 刷新软件源索引
-(unless (bound-and-true-p package--initialized)
-    (package-initialize))
-(unless package-archive-contents
-    (package-refresh-contents))
-
-					; ================== 基础设置 ==================
-;; 行号类型: relative(相对行号), visual, t
-(setq display-line-numbers-type 'relative)
-(global-display-line-numbers-mode t)
-
-;; 自动补全括号
-(electric-pair-mode t)
-;; 括号匹配高亮
-(show-paren-mode t)
-
-;; 设置系统的编码,避免各处的乱码
-(prefer-coding-system 'utf-8)
-(set-default-coding-systems 'utf-8)
-(set-terminal-coding-system 'utf-8)
-(set-keyboard-coding-system 'utf-8)
-(setq default-buffer-file-coding-system 'utf-8)
-;; 设置垃圾回收阈值, 加速启动速度
-(setq gc-cons-threshold most-positive-fixnum)
-
-					; ================== use-package ==================
-(unless (package-installed-p 'use-package)
-    (package-refresh-contents)
-    (package-install 'use-package))
-```
+# 优化
 
