@@ -23,11 +23,14 @@ $ dnf install emacs
 $ dnf remove emacs
 
 安装编译的依赖
-$ dnf install gnutls-devel
+$ dnf install gnutls-devel make gcc clang ncurses-devel 
 $ wget https://mirrors.nju.edu.cn/gnu/emacs/emacs-27.2.tar.xz
 $ xz -d emacs-27.2.tar.xz
 $ tar xvf emacs-27.2.tar
-$ ./configure --prefix=/opt/emacs
+
+$ ./configure --prefix=/opt/emacs (不用这个)
+$ ./configure --prefix=/opt/emacs --without-x (用这个)
+
 $ make
 $ make install
 $ ln -s /opt/emacs/bin/emacs /usr/bin/emacs
