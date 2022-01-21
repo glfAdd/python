@@ -1557,6 +1557,47 @@ https://github.com/puremourning/vimspector/discussions/482
 
 ```
 
+# spacevim
+
+```
+https://github.com/SpaceVim/SpaceVim
+https://spacevim.org/quick-start-guide/
+
+debug
+https://spacevim.org/layers/debug/
+
+python
+https://spacevim.org/cn/layers/lang/python/
+
+
+
+配置文件路径 ~/.SpaceVim.d/init.toml
+
+
+
+
+$ curl -sLf https://spacevim.org/install.sh | bash
+
+
+
+```
+
+##### spacevim 调试 python的插件
+
+```
+coveragepy.vim
+jedi-vim
+vim-pydocstring
+vim-pyhton-pep8-indent
+vim-pythonsense
+
+
+
+调试插件
+vim-debug
+vimproc.vim
+```
+
 
 
 # 断点调试
@@ -1589,6 +1630,45 @@ pip install vim-debug dbgp
 
 :VdebugOpt debug_file /home/glfadd/Desktop/vdebug.log
 :VdebugOpt debug_file_level 2
+
+
+参考
+https://www.ryanbateman.space/2018/08/debugging-drupal-applications-in-neo-vim-with-vdebug/
+https://artfulrobot.uk/blog/how-install-vimneovim-vdebug-xdebug-debugging-debian-stretch
+```
+
+```
+https://github.com/idanarye/vim-vebugger
+
+
+
+
+
+```
+
+```
+pdb
+https://www.cnblogs.com/rollenholt/archive/2012/04/24/2469072.html
+https://github.com/idanarye/vim-vebugger
+
+
+ipdb
+
+
+
+1 不支持 neovim
+https://github.com/sillybun/vim-repl/#how-to-debug-python-script
+
+
+
+
+
+
+vim-vebugger
+
+
+
+
 
 ```
 

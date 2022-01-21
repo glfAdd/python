@@ -121,20 +121,6 @@ early-init.el 特殊的初始化配置文件.该配置文件在初始化 package
 
 ```
 
-#####
-
-```
-
-
-after-init-hook 之后完成的（参看 startup 简介）如果用户选项 package-enable-at-startup 被禁用，也就是 package-enable-at-startup 的值为 nil ，那么自动加载就不会被执行。 所以可以控制 package 的加载
-
-
-```
-
-
-
-
-
 ##### ~/.emacs.d/early-init.el
 
 > 最先执行的配置文件
@@ -403,7 +389,9 @@ d - 选择要删除的包
 
 ##### 代码补全
 
-> [github](https://github.com/auto-complete/auto-complete/blob/master/doc/manual.md)
+> company 取代auto-complete
+>
+> 
 
 - install
 
@@ -437,6 +425,21 @@ elpy python
 jedi
 company
 auto-complete 
+```
+
+##### 语法检测
+
+```
+flycheck
+```
+
+##### 调试
+
+```
+https://stackoverflow.com/questions/2324758/debugging-python-programs-in-emacs
+
+
+
 ```
 
 
