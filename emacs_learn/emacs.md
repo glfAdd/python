@@ -159,6 +159,7 @@ early-init.el 特殊的初始化配置文件.该配置文件在初始化 package
 (setq default-buffer-file-coding-system 'utf-8)
 ;; 设置垃圾回收阈值, 加速启动速度
 (setq gc-cons-threshold most-positive-fixnum)
+
 ```
 
 ##### ~/.emacs.d/init.el
@@ -223,6 +224,67 @@ early-init.el 特殊的初始化配置文件.该配置文件在初始化 package
   :config (which-key-mode))
 
 
+;; 自动补全
+(use-package company 
+  :config 
+  (setq company-dabbrev-code-everywhere t 
+        company-dabbrev-code-modes t 
+        company-dabbrev-code-other-buffers 'all 
+        company-dabbrev-downcase nil 
+        company-dabbrev-ignore-case t 
+        company-dabbrev-other-buffers 'all 
+        company-require-match nil 
+        company-minimum-prefix-length 2 
+        company-show-numbers t 
+        company-tooltip-limit 20 
+        company-idle-delay 0 
+        company-echo-delay 0 
+        company-tooltip-offset-display 'scrollbar 
+        company-begin-commands '(self-insert-command)) 
+  (push '(company-semantic :with company-yasnippet) company-backends) 
+  :hook ((after-init . global-company-mode)))
+
+
+;; 语法检测
+(use-package flycheck 
+  :hook (after-init . global-flycheck-mode))
+
+
+;; 文件目录
+(use-package neotree
+  :custom
+  (neo-theme 'nerd2)
+  :config
+  (progn
+    (setq neo-smart-open t)
+    (setq neo-theme (if (display-graphic-p) 'icons 'nerd))
+    (setq neo-window-fixed-size nil)
+    ;; (setq-default neo-show-hidden-files nil)
+    (global-set-key [f2] 'neotree-toggle)
+    (global-set-key [f8] 'neotree-dir)))
+
+
+
+;; pyhton 调试
+(use-package python
+  :mode ("\\.py" . python-mode)
+  :ensure t)
+(use-package pyvenv)
+(use-package python-black
+  :demand t
+  :after python
+  :config
+  (python-black-on-save-mode))
+(use-package pyenv-mode
+  :init
+  (add-to-list 'exec-path "~/.pyenv/shims")
+  (setenv "WORKON_HOME" "~/.pyenv/versions/")
+  :config
+  (pyenv-mode))
+
+
+
+
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -235,6 +297,7 @@ early-init.el 特殊的初始化配置文件.该配置文件在初始化 package
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  )
+
 ```
 
 
