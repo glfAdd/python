@@ -59,6 +59,59 @@ $ emacs -nw
 $ emacs
 ```
 
+# 概念
+
+##### 区域
+
+![emacs区域](./image/emacs区域.jpg)
+
+- Frame: 如果用图形界面打开 Emacs 程序，那么一整个程序窗口被称为 Frame
+- Menu bar: 即菜单栏，在 Frame 的最上方
+- Tool bar: 即工具栏
+- Echo Area: 回显区, 整个界面下方的一行
+- Window: Tool bar 以下, Echo area 以上这一整个区域
+- Mode line: 模式行, Window 最下方,Echo Area 上方
+- Scroll bar: 图形界面时 Window 的最右侧滚动条
+- Cursor: 光标
+- Point: 光标所在的位置称为 Point. 光标有且只有一个，但 Point 是针对 Buffer 的，每个 Buffer 都有一个 Point
+
+##### buffer
+
+```
+```
+
+##### mode
+
+- 主模式
+
+  ```
+  一个 Buffer 只能对应一个主模式
+  主模式默认根据 Buffer 的文件类型来选择
+  打开 .cpp 文件, buffer 自动设置成 c++-mode
+  打开 .py 文件，buffer 自动设置为 python-mode
+  
+  
+  
+  手动切换l
+  	M-x 输入模式名
+  
+  
+  最基本的主模式是 Fundamental mode, 没有进行任何配置的模式 
+  ```
+
+- 次模式
+
+  ```
+  ```
+
+  
+
+```
+
+```
+
+
+
 # 配置
 
 > 使用语法 elisp
@@ -505,9 +558,7 @@ https://stackoverflow.com/questions/2324758/debugging-python-programs-in-emacs
 
 ```
 
-
-
-## 快捷键
+# 快捷键
 
 ##### 按键说明
 
@@ -534,66 +585,168 @@ C-S-<mouse-1>  同时按下 Control 键和 Shift 键, 然后鼠标左键点击
 |      |                          |                           |
 |      | previouse-line           | 上移一行                  |
 
+##### 移动
+
 ```
-
-
-
-M-a 光标移至句首， M-e 光标移至句尾。整个文件： 。注意这里需要同时按下 Meta 键、 Shift 键和逗号/句号键。
-
-
-C-a
-C-e
-M-a
-M-e		
+C-p
+C-n
+C-b
+C-f
+M-b 	前一个词
+M-f 	后一个词
+M-a 	句首 
+M-e 	句尾
+C-a 	行首
+C-e 	行尾
 M-< 	文件开头
 M->		文件末尾
-M-r		中 / 上 / 下
-
-
+M-r		移动光标到窗口中 / 上 / 下
+C-l	 	光标所在行位于窗口中 / 上 / 下
 C-v		下一页
 M-v 	上一页
 
 
+标记跳转
+	1. 不选中文本, 按 2 次 C-SPC
+    2. 移动到其他地方
+    3. C-u C-SPC 回刚刚的位置
+```
 
-C-d		
-M-k		删除至句尾
-C-k		删除至行尾
+##### 帮助信息
+
+```
+C-h c	查看快捷键对应的命令
+C-h k	查询快捷键
+C-h f	查询函数
+C-h v	查询变量
+C-h a	查询关键字
+C-h d	列出含某一关键词的符号的文档
+```
 
 
+
+##### 编辑
+
+```
+C-d		delete
+M-<DEL>	删除上边词
+M-d		删除下边词
+M-k		删至句尾
+C-k		删至行尾
+M-w 	复制
+C-w 	剪切
 C-SPC   选择模式
-M-w 	复制选中的区域
-C-w 	剪切选中的区域
-C-y
-
-
-C-/
-C-_
-C-x u
+C-/		撤销
+C-_		撤销
+C-x u	撤销
 C-g C-/	重做一次
 
 C-u 12 C-n		向下 12 行, 默认是 4 次
 
+C-t		光标所在字符和前一个字符互换
+M-t		光标所在词和下一个互换
+C-x C-t	光标所在行和上一行互换
+C-o		光标所在行插入空行
+C-x C-o 删除连续空行
+
+M-l		光标后单词小写
+M-u		光标后单词大写
+M-c		光标所在字符大写, 后面的字符全小写\
+
 
 标记与跳转
-
-上文提到的选中键 C-SPC 不仅是选中文本这么简单的功能，它的本质是设定一个标记（mark）。Emacs 还有一个标记跳转功能，例如我们先在文本的第一行，按下两次 C-SPC（这样我们即打了标记，又没有选中文本），然后光标移动到别的位置（甚至以后学过之后，到别的文件），这时候按下 C-x C-SPC 或 C-u C-SPC，即可立刻跳转回刚刚的位置。同样的，有更好用的插件可以辅助这一功能即上文提到的 counsel。
-
-
-
+    1. 按下两次 C-SPC
+    2. 光标移动到别的位置
+    3. C-x C-SPC 或 C-u C-SPC，即可立刻跳转回刚刚的位置
 
 
-想要跳到特定的行，M-g M-g 加行号、回车即可
+想要跳到特定的行
+	M-g M-g 加行号
+	回车即可
+```
+
+##### 搜索
+
+```
+向下搜索
+    C-s
+    输入搜索得内容, 此时会自动跳到第一个符合的位置
+    按 C-s 光标跳到下一个
+    按 C-r 光标跳到上一个
+    按回车光标停留在当前位置, 并结束搜索
+
+
+向上搜索
+	C-r
+```
+
+
+
+##### 插件
+
+```
+swiper 搜索列表
+counsel 剪贴板历史
+which-key 命令帮助
 
 
 
 ```
 
-##### 小操作
+##### 文件
 
 ```
-1. 不选中文本, 按 2 次 C-SPC
-2. 移动到其他地方
-3. C-u C-SPC 回刚刚的位置
+C-x C-s		保存
+C-x C-f		打开文件
+C-x C-v		打开文件(默认显示当前文件目录)
+C-x C-r		只读打开文件
+C-x C-q		已打开文件切为只读
+```
+
+##### buffer
+
+```
+C-x b		buffer 切换
+C-x k		关闭当前 buffer
+
+C-x C-b		buffer list window
+	说明
+		* 开头结尾的是 Emacs 用于输出一些信息的 Buffer，不是打开文件产生
+		% 开头的没保存
+	操作
+        ?	可以显示帮助
+        q 	退出
+        d 	标记一个 Buffer 打算关闭
+        s 	标记一个 Buffer 打算保存
+        u 	取消标记
+        x 	执行刚刚标记过的删除和保存操作
+```
+
+##### window
+
+```
+C-x 2		上下分割 window
+C-x 3		左右分割 window
+C-x 0		关闭当前 window
+C-x 1		关闭其它 window, Buffer 没有关闭
+C-x o		切换到下一个 window
+
+C-x 4 f		在另一个 window 打开新的文件，如果只有一个窗口就分割成两个
+C-x 4 b 	在另一个 window 切换到另一 Buffer，如果只有一个窗口就分割成两个
+C-x 4 d 	在另一个 window 打开目录，如果只有一个窗口就分割成两个
+```
+
+##### Frame
+
+```
+C-x 5 2		打开新 Frame
+C-x 5 f		打开新 Frame 并打开文件
+```
+
+##### 
+
+```
+
 ```
 
 
