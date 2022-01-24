@@ -86,29 +86,105 @@ $ emacs
 
   ```
   一个 Buffer 只能对应一个主模式
-  主模式默认根据 Buffer 的文件类型来选择
-  打开 .cpp 文件, buffer 自动设置成 c++-mode
-  打开 .py 文件，buffer 自动设置为 python-mode
-  
-  
-  
-  手动切换l
-  	M-x 输入模式名
-  
-  
   最基本的主模式是 Fundamental mode, 没有进行任何配置的模式 
+  主模式默认根据 Buffer 的文件类型来选择, 例如
+      打开 .cpp 文件, buffer 自动设置成 c++-mode
+      打开 .py 文件，buffer 自动设置为 python-mode
+  
+  
+  手动切换
+  	M-x 输入模式名
   ```
 
 - 次模式
 
   ```
+  同一个 Buffer 可以有多个次模式
+```
+
+##### Mode hook
+
+```
+1. Mode hook 的作用就是当启动一个主模式时，自动执行一些已经“挂钩”到这个主模式的函数或次模式, 可以自由地向一个主模式上挂上各种功能，在启动这个主模式时就可以自动跟随着一起启动。
+
+2. 主模式名-hook
+
+主模式“文本文件模式” text-mode 时启动次模式“检查拼写” flyspell-mode
+	(add-hook 'text-mode-hook 'flyspell-mode)
+
+编程模式 prog-mode 启动时, 添加代码块折叠功能
+	(add-hook 'prog-mode-hook #'hs-minor-mode)
+```
+
+##### MELPA
+
+Emacs 插件都放在了一些固定的仓库网站上, 最大的插件仓库就是 MELPA, 还有默认库 GNU ELPA
+
+默认插件安装到 `~/.emacs.d/elpa/` 
+
+- 添加代码库
+
+  ```lisp
+  ; 把仓库地址 https://melpa.org/packages/ 存储到 package-archives 列表中，并命名为 melpa
+  (require 'package)
+  (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
+  (package-initialize)
+  ```
+
+- 设置代理
+
+  ```
+  (setq gnutls-algorithm-priority "NORMAL:-VERS-TLS1.3") ; 不加这一句可能有问题，建议读者尝试一下
+  (setq url-proxy-services '(("no_proxy" . "^\\(192\\.168\\..*\\)")
+                             ("http" . "<代理 IP>:<代理端口号>")
+  			   ("https" . "<代理 IP>:<代理端口号>")))
+  ```
+
+- 命令
+
+  ```
+  package-list-packages	列出仓库中的所有插件
+  package-install <插件名> 安装插件
+  package-delete <插件名> 删除插件
+  
+  
   ```
 
   
 
-```
 
-```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -129,6 +205,15 @@ $ emacs
 > 
 >
 > https://www.cnblogs.com/eat-and-die/p/10309681.html !!!!!!!
+
+##### 配置文件路径
+
+```bash
+~/.emacs
+~/.emacs.el
+~/.emacs.d/init.el
+~/.config/emacs/init.el
+```
 
 ##### 源分类
 
@@ -179,39 +264,31 @@ early-init.el 特殊的初始化配置文件.该配置文件在初始化 package
 > 最先执行的配置文件
 
 ```lisp
-;; 关闭启动界面
-(setq inhibit-startup-screen t)
-;; 关闭自动加载
-;;(setq package-enable-at-startup nil)
-;; 禁止改变 frame 大小
-(setq frame-inhibit-implied-resize t)
-;; 隐藏菜单栏
-(push '(menu-bar-lines . 0) default-frame-alist)
-;; 隐藏工具栏
-(push '(tool-bar-lines . 0) default-frame-alist)
-;; 隐藏滚动条
-(push '(vertical-scroll-bars) default-frame-alist)
-;; 前景色(设置后影响主题)
-;;(add-to-list 'default-frame-alist '(foreground-color . "#E0DFDB"))
-;; 背景色(设置后影响主题)
-;;(add-to-list 'default-frame-alist '(background-color . "#102372"))
-;; 行号类型: relative(相对行号), visual
-(setq display-line-numbers-type 'relative)
-;; 显示行号
-(global-display-line-numbers-mode t)
-;; 自动补全括号
-(electric-pair-mode t)
-;; 括号匹配高亮
-(show-paren-mode t)
+(push '(menu-bar-lines . 0) default-frame-alist) ; 隐藏菜单栏
+(push '(tool-bar-lines . 0) default-frame-alist) ; 隐藏工具栏
+(push '(vertical-scroll-bars) default-frame-alist) ; 隐藏滚动条
+(setq inhibit-startup-screen t) ; 关闭启动界面
+(setq frame-inhibit-implied-resize t) ; 禁止改变 frame 大小
+(setq display-line-numbers-type 'relative) ; 行号类型: relative(相对行号), visual, t
+(setq make-backup-files nil)                 ; 关闭文件自动备份
+(setq default-buffer-file-coding-system 'utf-8)
+(setq gc-cons-threshold most-positive-fixnum) ; 设置垃圾回收阈值, 加速启动速度
 
-;; 设置系统的编码,避免各处的乱码
-(prefer-coding-system 'utf-8)
+(global-display-line-numbers-mode t) ; 显示行号
+(electric-pair-mode t) ; 自动补全括号
+(show-paren-mode t) ; 括号匹配高亮
+(prefer-coding-system 'utf-8) ; 设置系统的编码
 (set-default-coding-systems 'utf-8)
 (set-terminal-coding-system 'utf-8)
 (set-keyboard-coding-system 'utf-8)
-(setq default-buffer-file-coding-system 'utf-8)
-;; 设置垃圾回收阈值, 加速启动速度
-(setq gc-cons-threshold most-positive-fixnum)
+(column-number-mode t)                       ; 在 Mode line 上显示列号
+(global-auto-revert-mode t)                  ; 当另一程序修改了文件时，让 Emacs 及时刷新 Buffer
+(delete-selection-mode t)                    ; 选中文本后输入文本会替换文本（更符合我们习惯了的其它编辑器的逻辑）
+(savehist-mode 1)                            ; 打开 Buffer 历史记录保存
+
+(add-hook 'prog-mode-hook #'show-paren-mode) ; 编程模式下，光标在括号上时高亮另一个括号
+(add-hook 'prog-mode-hook #'hs-minor-mode)   ; 编程模式下，可以折叠代码块
+
 
 ```
 
@@ -226,11 +303,14 @@ early-init.el 特殊的初始化配置文件.该配置文件在初始化 package
     ("gnu" . "http://mirrors.tuna.tsinghua.edu.cn/elpa/gnu/")
     ("org" . "http://mirrors.tuna.tsinghua.edu.cn/elpa/org/")))
 
+
 ;; 个别时候会出现签名校验失败
 (setq package-check-signature nil)
 ;; 初始化包管理器
 (require 'package)
 ;; 刷新软件源索引
+; (package-initialize)
+; (package-refresh-contents)
 (unless (bound-and-true-p package--initialized)
     (package-initialize))
 (unless package-archive-contents
@@ -257,6 +337,7 @@ early-init.el 特殊的初始化配置文件.该配置文件在初始化 package
 (use-package gruvbox-theme 
     :init (load-theme 'gruvbox-dark-soft t))
 
+
 ;; 底部状态栏
 (use-package smart-mode-line 
     :init 
@@ -275,6 +356,35 @@ early-init.el 特殊的初始化配置文件.该配置文件在初始化 package
 (use-package which-key 
   :defer nil 
   :config (which-key-mode))
+
+
+; 补全系统、部分常用命令、搜索功能
+(use-package ivy
+    :ensure t)
+
+
+; window 跳转
+(use-package ace-window
+  :ensure t
+  :bind (("C-x o" . 'ace-window)))
+
+
+; 撤销命令树
+(use-package undo-tree
+  :ensure t
+  :init (global-undo-tree-mode))
+
+
+ (use-package dashboard
+  :ensure t
+  :config
+  (setq dashboard-banner-logo-title "Welcome to Emacs!") ;; 个性签名，随读者喜好设置
+  (setq dashboard-startup-banner 'official) ;; 也可以自定义图片
+  (setq dashboard-items '((recents  . 5)   ;; 显示多少个最近文件
+			  (bookmarks . 5)  ;; 显示多少个最近书签
+			  (projects . 10))) ;; 显示多少个最近项目
+  (dashboard-setup-startup-hook))
+
 
 
 ;; 自动补全
@@ -296,6 +406,16 @@ early-init.el 特殊的初始化配置文件.该配置文件在初始化 package
         company-begin-commands '(self-insert-command)) 
   (push '(company-semantic :with company-yasnippet) company-backends) 
   :hook ((after-init . global-company-mode)))
+(global-company-mode t); 全局开启
+
+
+(defun add-py-debug ()  
+      "add debug code and move line down"  
+    (interactive)  
+    (move-beginning-of-line 1)  
+    (insert "import pdb; pdb.set_trace();\n"))  
+
+(local-set-key (kbd "<f5>") 'add-py-debug)
 
 
 ;; 语法检测
@@ -315,6 +435,7 @@ early-init.el 特殊的初始化配置文件.该配置文件在初始化 package
     ;; (setq-default neo-show-hidden-files nil)
     (global-set-key [f2] 'neotree-toggle)
     (global-set-key [f8] 'neotree-dir)))
+
 
 
 
@@ -351,11 +472,18 @@ early-init.el 特殊的初始化配置文件.该配置文件在初始化 package
  ;; If there is more than one, they won't work right.
  )
 
+
+
+
+
 ```
 
+##### 导出模块
 
-
-
+```lisp
+; 意为“导出本模块，名为 hello”。这样就可以在其它地方进行 require 
+(provide 'hello)
+```
 
 ##### 安装包
 
@@ -371,56 +499,126 @@ x - 执行操作
 d - 选择要删除的包
 ```
 
-# packages
+##### 配置快捷键
 
-##### use-package
-
-> 管理包安装
-
-```
- (use-package smooth-scrolling 
-    :ensure t ;是否一定要确保已安装
-    :defer nil ;是否要延迟加载 
-    :init (setq smooth-scrolling-margin 2) ;初始化参数 
-    :config (smooth-scrolling-mode t) ;基本配置参数 
-    :bind ;快捷键的绑定 
-    :hook) ;hook模式的绑定
-
-```
-
-- install
+- 配置全局快捷键
 
   ```lisp
-  ;; 使用 use-package 管理扩展
-  (unless (package-installed-p 'use-package) 
-      (package-refresh-contents) 
-      (package-install 'use-package))
+  (global-set-key (kbd <KEY>) <FUNCTION>)
   
+  ; 例如
+  (global-set-key (kbd "RET") 'newline-and-indent)
+  ```
+
+- 定义函数
+
+  ```lisp
+  (defun next-ten-lines()
+    "Move cursor to next 10 lines."
+    (interactive)
+    (next-line 10))
   
-  ;; use-package 全局设置
-  (eval-and-compile 
-      (setq use-package-always-ensure t)
-      (setq use-package-always-defer t)
-      (setq use-package-always-demand nil) 
-      (setq use-package-expand-minimally t) 
-      (setq use-package-verbose t))
-  
-  (require 'use-package)
+  (global-set-key (kbd "M-n") 'next-ten-lines)            ; 光标向下移动 10 行
   ```
 
-- setting
+##### 变量设置
+
+```lisp
+1. 配置文件中使用 (setq name value) 
+2. customize 中设定
+3. 运行过程中临时修改 M-x set-variable 
+```
+
+##### 配置热更新
+
+- 方式 1: 重启
+
+- 方式 2: 手动执行选中部分de 代码
 
   ```
+  (1)选中配置的代码
+  (2)M-x 输入 eval-region
   ```
 
-- use
+- 方式 3: 重新执行 buffer 中所有代码
 
   ```
-  
+  M-x 输入 eval-buffer
   ```
 
-##### 主题
+# 插件管理
 
+> (require 'xxx) 可以理解为 “导入并执行”，类似于 Python 的 import
+
+##### 参数示例
+
+```lisp
+(use-package smooth-scrolling 
+    :ensure t ; 确认安装，如果没有安装过就自动安装
+    :defer nil ;是否要延迟加载 
+    :init ; 在加载插件前执行一些命令
+    (setq smooth-scrolling-margin 2) ; 设置变量
+    :config ; 在加载插件后执行一些命令
+    (smooth-scrolling-mode t) 
+    :bind ; 快捷键的绑定
+    ("C-c V" . 'ivy-pop-view)          ; 移除 buffer 记录
+    :hook ; hook模式的绑定
+    (prog-mode . flycheck-mode)
+)
+```
+
+##### 变量管理
+
+![变量管理](./image/变量管理.png)
+
+```
+M-x 输入 customize
+
+当设置了变量后，事实上 Emacs 会自动将一些配置代码加入到 init.el 中，或是加入到自定义的文件中
+```
+
+##### 临时修改变量值
+
+```
+M-x set-variable 
+<变量名>
+<回车>
+<输入值>
+<回车>
+```
+
+##### 查看变量的含义
+
+```
+C-h v <变量名> 查看变量的含义
+```
+
+##### 安装
+
+```lisp
+;; 使用 use-package 管理扩展
+(unless (package-installed-p 'use-package) 
+    (package-refresh-contents) 
+    (package-install 'use-package))
+
+
+;; use-package 全局设置
+(eval-and-compile 
+    (setq use-package-always-ensure t)
+    (setq use-package-always-defer t)
+    (setq use-package-always-demand nil) 
+    (setq use-package-expand-minimally t) 
+    (setq use-package-verbose t))
+
+(require 'use-package)
+```
+
+# packages
+
+##### gruvbox-theme 
+
+> 主题
+>
 > [github](https://github.com/greduan/emacs-theme-gruvbox)
 
 - install
@@ -440,7 +638,11 @@ d - 选择要删除的包
   ```
   ```
 
-##### 底部状态栏
+##### smart-mode-line 
+
+> 底部状态栏美化
+>
+> [github](https://github.com/Malabarba/smart-mode-line)
 
 - install
 
@@ -451,6 +653,29 @@ d - 选择要删除的包
       (setq sml/theme 'respectful) 
       (sml/setup))
   ```
+
+##### dashboard
+
+> 启动页面
+>
+> [github](https://github.com/emacs-dashboard/emacs-dashboard)
+
+- install
+
+  ```
+   (use-package dashboard
+    :ensure t
+    :config
+    (setq dashboard-banner-logo-title "Welcome to Emacs!") ;; 个性签名，随读者喜好设置
+    ;; (setq dashboard-projects-backend 'projectile) ;; 读者可以暂时注释掉这一行，等安装了 projectile 后再使用
+    (setq dashboard-startup-banner 'official) ;; 也可以自定义图片
+    (setq dashboard-items '((recents  . 5)   ;; 显示多少个最近文件
+  			  (bookmarks . 5)  ;; 显示多少个最近书签
+  			  (projects . 10))) ;; 显示多少个最近项目
+    (dashboard-setup-startup-hook))
+  ```
+
+  
 
 ##### 启动耗时工具
 
@@ -480,7 +705,11 @@ d - 选择要删除的包
   M-x benchmark-init/show-durations-tabulated
   ```
 
-##### 快捷键提示
+##### which-key 
+
+> 快捷键提示
+>
+> [github](https://github.com/justbur/emacs-which-key)
 
 - install
 
@@ -499,6 +728,60 @@ d - 选择要删除的包
 
   ```
   输入完停顿一下会出现提示框
+  ```
+
+##### ivy
+
+> 交互式补全工具, 用来补全系统、部分常用命令、搜索功能
+>
+> [github](https://github.com/abo-abo/swiper)
+
+```
+
+
+
+```
+
+#####  ace-window
+
+> window 跳转
+>
+> [github](https://github.com/abo-abo/ace-window)
+
+```
+
+```
+
+##### undo-tree
+
+> 撤销命令记录
+
+- install
+
+  ```
+  (use-package undo-tree
+    :ensure t
+    :init (global-undo-tree-mode))
+  ```
+
+- use
+
+  ```
+  C-x u	打开树状页面
+  ```
+
+##### good-scroll(未使用)
+
+> 显示滚动美化
+>
+> [github](https://github.com/io12/good-scroll.el)
+
+- install
+
+  ```
+  (use-package good-scroll
+    :ensure t
+    :init (good-scroll-mode))
   ```
 
   
