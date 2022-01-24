@@ -129,7 +129,7 @@ Emacs 插件都放在了一些固定的仓库网站上, 最大的插件仓库就
   (require 'package)
   (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
   (package-initialize)
-  ```
+```
 
 - 设置代理
 
@@ -228,7 +228,6 @@ marmalade: 似乎已经不维护了，个人不推荐
 ##### ~/.emacs.d 目录结构
 
 ```
-
 ~/.emacs.d/lisp
 插件配置文件目录，配置文件命名格式为init-xxx.el
 ~/.emacs.d/site-lisp
@@ -244,7 +243,6 @@ mkdir -p ~/.emacs.d/site-lisp
 ##### 配置文件分类
 
 ```
-
 Emacs 还可以有一个默认的初始化文件 default.el ，位于 Emacs 的任何标准的 package 搜索目录下
 
 Emacs 还有配置文件 (site-wide startup file)，称为 site-start.el ，也位于 Emacs 的任何标准的 package 搜索目录下
@@ -268,7 +266,7 @@ early-init.el 特殊的初始化配置文件.该配置文件在初始化 package
 (push '(tool-bar-lines . 0) default-frame-alist) ; 隐藏工具栏
 (push '(vertical-scroll-bars) default-frame-alist) ; 隐藏滚动条
 (setq inhibit-startup-screen t) ; 关闭启动界面
-(setq frame-inhibit-implied-resize t) ; 禁止改变 frame 大小
+;(setq frame-inhibit-implied-resize t) ; 禁止改变 frame 大小
 (setq display-line-numbers-type 'relative) ; 行号类型: relative(相对行号), visual, t
 (setq make-backup-files nil)                 ; 关闭文件自动备份
 (setq default-buffer-file-coding-system 'utf-8)
@@ -289,7 +287,6 @@ early-init.el 特殊的初始化配置文件.该配置文件在初始化 package
 (add-hook 'prog-mode-hook #'show-paren-mode) ; 编程模式下，光标在括号上时高亮另一个括号
 (add-hook 'prog-mode-hook #'hs-minor-mode)   ; 编程模式下，可以折叠代码块
 
-
 ```
 
 ##### ~/.emacs.d/init.el
@@ -297,134 +294,84 @@ early-init.el 特殊的初始化配置文件.该配置文件在初始化 package
 > 配置文件入口
 
 ```lisp
-;; 添加源
-(setq package-archives '(
+(setq package-archives '( ; 添加源
     ("melpa" . "http://mirrors.tuna.tsinghua.edu.cn/elpa/melpa/")
     ("gnu" . "http://mirrors.tuna.tsinghua.edu.cn/elpa/gnu/")
     ("org" . "http://mirrors.tuna.tsinghua.edu.cn/elpa/org/")))
 
 
-;; 个别时候会出现签名校验失败
-(setq package-check-signature nil)
-;; 初始化包管理器
-(require 'package)
-;; 刷新软件源索引
-; (package-initialize)
-; (package-refresh-contents)
+(setq package-check-signature nil) ; 签名校验
+(require 'package) ; 初始化包管理器
+
 (unless (bound-and-true-p package--initialized)
-    (package-initialize))
-(unless package-archive-contents
-    (package-refresh-contents))
+    (package-initialize)
+)
+(unless package-archive-contents ; 刷新软件源
+    (package-refresh-contents)
+)
 
 
-;; 使用 use-package 管理扩展
-(unless (package-installed-p 'use-package) 
+(unless (package-installed-p 'use-package) ; 使用 use-package 管理扩展
     (package-refresh-contents) 
-    (package-install 'use-package))
+    (package-install 'use-package)
+)
 
 
-;; use-package 全局设置
-(eval-and-compile 
+(eval-and-compile ; use-package 全局设置
     (setq use-package-always-ensure t)
     (setq use-package-always-defer t)
     (setq use-package-always-demand nil) 
     (setq use-package-expand-minimally t) 
-    (setq use-package-verbose t))
+    (setq use-package-verbose t)
+)
+
 
 (require 'use-package)
 
-;; 主题
-(use-package gruvbox-theme 
-    :init (load-theme 'gruvbox-dark-soft t))
+
+(use-package gruvbox-theme ; 主题
+    :init (load-theme 'gruvbox-dark-soft t)
+)
 
 
-;; 底部状态栏
-(use-package smart-mode-line 
+(use-package smart-mode-line ; 底部状态栏
     :init 
     (setq sml/no-confirm-load-theme t) 
     (setq sml/theme 'respectful) 
-    (sml/setup))
+    (sml/setup)
+)
 
 
-;; 测试启动耗时
-(use-package benchmark-init 
+(use-package benchmark-init ; 测试启动耗时
   :init (benchmark-init/activate) 
-  :hook (after-init . benchmark-init/deactivate))
+  :hook (after-init . benchmark-init/deactivate)
+)
 
 
-;; 快捷键提示
-(use-package which-key 
+(use-package which-key ; 快捷键提示
   :defer nil 
-  :config (which-key-mode))
+  :config (which-key-mode)
+)
 
 
-; 补全系统、部分常用命令、搜索功能
-(use-package ivy
-    :ensure t)
+(use-package ivy ; 补全系统、部分常用命令、搜索功能
+    :ensure t
+)
 
 
-; window 跳转
-(use-package ace-window
+(use-package ace-window ; window 跳转
   :ensure t
-  :bind (("C-x o" . 'ace-window)))
+  :bind (("C-x o" . 'ace-window))
+)
 
 
-; 撤销命令树
-(use-package undo-tree
+(use-package undo-tree ; 撤销命令树
   :ensure t
-  :init (global-undo-tree-mode))
+  :init (global-undo-tree-mode)
+)
 
 
- (use-package dashboard
-  :ensure t
-  :config
-  (setq dashboard-banner-logo-title "Welcome to Emacs!") ;; 个性签名，随读者喜好设置
-  (setq dashboard-startup-banner 'official) ;; 也可以自定义图片
-  (setq dashboard-items '((recents  . 5)   ;; 显示多少个最近文件
-			  (bookmarks . 5)  ;; 显示多少个最近书签
-			  (projects . 10))) ;; 显示多少个最近项目
-  (dashboard-setup-startup-hook))
-
-
-
-;; 自动补全
-(use-package company 
-  :config 
-  (setq company-dabbrev-code-everywhere t 
-        company-dabbrev-code-modes t 
-        company-dabbrev-code-other-buffers 'all 
-        company-dabbrev-downcase nil 
-        company-dabbrev-ignore-case t 
-        company-dabbrev-other-buffers 'all 
-        company-require-match nil 
-        company-minimum-prefix-length 2 
-        company-show-numbers t 
-        company-tooltip-limit 20 
-        company-idle-delay 0 
-        company-echo-delay 0 
-        company-tooltip-offset-display 'scrollbar 
-        company-begin-commands '(self-insert-command)) 
-  (push '(company-semantic :with company-yasnippet) company-backends) 
-  :hook ((after-init . global-company-mode)))
-(global-company-mode t); 全局开启
-
-
-(defun add-py-debug ()  
-      "add debug code and move line down"  
-    (interactive)  
-    (move-beginning-of-line 1)  
-    (insert "import pdb; pdb.set_trace();\n"))  
-
-(local-set-key (kbd "<f5>") 'add-py-debug)
-
-
-;; 语法检测
-(use-package flycheck 
-  :hook (after-init . global-flycheck-mode))
-
-
-;; 文件目录
-(use-package neotree
+(use-package neotree ; 文件目录
   :custom
   (neo-theme 'nerd2)
   :config
@@ -437,43 +384,11 @@ early-init.el 特殊的初始化配置文件.该配置文件在初始化 package
     (global-set-key [f8] 'neotree-dir)))
 
 
-
-
-;; pyhton 调试
-(use-package python
-  :mode ("\\.py" . python-mode)
-  :ensure t)
-(use-package pyvenv)
-(use-package python-black
-  :demand t
-  :after python
-  :config
-  (python-black-on-save-mode))
-(use-package pyenv-mode
-  :init
-  (add-to-list 'exec-path "~/.pyenv/shims")
-  (setenv "WORKON_HOME" "~/.pyenv/versions/")
-  :config
-  (pyenv-mode))
-
-
-
-
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(package-selected-packages '(gruvbox-theme use-package)))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
-
-
-
+(use-package lsp-mode
+    :config
+    (add-hook 'python-mode-hook
+        (lambda ()
+            (lsp-python-enable))))
 
 
 ```
@@ -840,6 +755,71 @@ https://stackoverflow.com/questions/2324758/debugging-python-programs-in-emacs
 
 
 ```
+
+# python
+
+> 知乎文档: https://zhuanlan.zhihu.com/p/59043305
+
+```
+lsp-mode 是 emacs 基于 LSP 的客户端
+
+https://github.com/emacs-lsp/lsp-mode
+
+
+
+pyhton
+https://github.com/palantir/python-language-server
+
+
+```
+
+##### lsp-mode
+
+> Emacs 下 LSP 协议库
+>
+> [github](https://github.com/emacs-lsp/lsp-mode)
+
+- install
+
+  ```
+  (use-package lsp-mode
+    :hook (python-mode . lsp)
+    :commands lsp)
+  ```
+
+##### company-lsp
+
+> 使用 company 提供补全的后端
+>
+> [github](https://github.com/tigersoldier/company-lsp)
+
+- install
+
+  ```
+  
+  ```
+
+##### python-language-server
+
+> [github](https://github.com/palantir/python-language-server)
+
+- install
+
+  ```
+  $ sudo pip install 'python-language-server[all]'
+  
+  $ pip show python-language-server
+  
+  $ pyls
+  ```
+
+  
+
+```
+
+```
+
+
 
 # 快捷键
 
