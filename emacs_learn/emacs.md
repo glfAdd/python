@@ -8,6 +8,12 @@ elpa包管理功能
 Emacs高手修炼手册: https://www.jianshu.com/p/42ef1b18d959
 视频
 https://www.zhihu.com/search?type=content&q=Emacs%E9%AB%98%E6%89%8B%E4%BF%AE%E7%82%BC%E6%89%8B%E5%86%8C%2015
+
+
+插件整理
+https://www.zhihu.com/question/21943533
+
+
 ```
 
 # 安装
@@ -873,7 +879,7 @@ https://emacs-lsp.github.io/dap-mode/
 
 ```
 
-# python
+# lsp-mode
 
 > 知乎文档: https://zhuanlan.zhihu.com/p/59043305
 
@@ -984,7 +990,7 @@ https://github.com/palantir/python-language-server
   $ pyls
   ```
 
-##### dap-mode
+# dap-mode
 
 >调试工具
 >
@@ -995,8 +1001,6 @@ https://github.com/palantir/python-language-server
 >[configuration](https://emacs-lsp.github.io/dap-mode/page/configuration/)
 >
 >文档 https://www.joyk.com/dig/detail/1551816021702193
->
->https://emacs-lsp.github.io/dap-mode/page/gallery/
 >
 >https://mullikine.github.io/posts/dap-mode/
 >
@@ -1014,7 +1018,21 @@ https://github.com/palantir/python-language-server
 >
 >
 >
->
+
+### 通用
+
+##### 安装
+
+
+
+##### 命令
+
+```
+dap-hydra 查看命令
+dap-debug 开始调试
+```
+
+
 
 - install
 
@@ -1030,23 +1048,24 @@ https://github.com/palantir/python-language-server
 - use
 
   ```
-  ```
-
-- 快捷键
-
-  ```
-  dap-hydra 查看命令
-  dap-debug 开始调试
-  ```
-
   
+  ```
+
+### python
+
+```
+pip install ptvsd pytest
+```
+
+
+
+### java
 
 ```
 是否需要安装 node
 
 
-pip install "ptvsd>=4.2"
-pip install ptvsd
+
 ```
 
 
