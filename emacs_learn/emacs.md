@@ -297,12 +297,15 @@ early-init.el 特殊的初始化配置文件.该配置文件在初始化 package
 (setq package-archives '( ; 添加源
     ("melpa" . "http://mirrors.tuna.tsinghua.edu.cn/elpa/melpa/")
     ("gnu" . "http://mirrors.tuna.tsinghua.edu.cn/elpa/gnu/")
-    ("org" . "http://mirrors.tuna.tsinghua.edu.cn/elpa/org/")))
+    ("org" . "http://mirrors.tuna.tsinghua.edu.cn/elpa/org/"))
+)
 
 
 (setq package-check-signature nil) ; 签名校验
 (require 'package) ; 初始化包管理器
 
+; (package-initialize)
+; (package-refresh-contents)
 (unless (bound-and-true-p package--initialized)
     (package-initialize)
 )
@@ -316,7 +319,6 @@ early-init.el 特殊的初始化配置文件.该配置文件在初始化 package
     (package-install 'use-package)
 )
 
-
 (eval-and-compile ; use-package 全局设置
     (setq use-package-always-ensure t)
     (setq use-package-always-defer t)
@@ -324,7 +326,6 @@ early-init.el 特殊的初始化配置文件.该配置文件在初始化 package
     (setq use-package-expand-minimally t) 
     (setq use-package-verbose t)
 )
-
 
 (require 'use-package)
 
@@ -350,28 +351,23 @@ early-init.el 特殊的初始化配置文件.该配置文件在初始化 package
 
 (use-package which-key ; 快捷键提示
   :defer nil 
-  :config (which-key-mode)
-)
-
-
-(use-package ivy ; 补全系统、部分常用命令、搜索功能
-    :ensure t
+  :config 
+  (which-key-mode)
 )
 
 
 (use-package ace-window ; window 跳转
-  :ensure t
   :bind (("C-x o" . 'ace-window))
 )
 
 
 (use-package undo-tree ; 撤销命令树
-  :ensure t
   :init (global-undo-tree-mode)
 )
 
 
 (use-package neotree ; 文件目录
+  :init
   :custom
   (neo-theme 'nerd2)
   :config
@@ -381,15 +377,120 @@ early-init.el 特殊的初始化配置文件.该配置文件在初始化 package
     (setq neo-window-fixed-size nil)
     ;; (setq-default neo-show-hidden-files nil)
     (global-set-key [f2] 'neotree-toggle)
-    (global-set-key [f8] 'neotree-dir)))
+    (global-set-key [f8] 'neotree-dir))
+)
 
 
-(use-package lsp-mode
-    :config
-    (add-hook 'python-mode-hook
-        (lambda ()
-            (lsp-python-enable))))
+(use-package lsp-mode ; Emacs 下 LSP 协议库
+  :init
+  (setq lsp-keymap-prefix "C-c l")
+  :hook
+  ((python-mode . lsp))
+)
 
+(use-package lsp-ui 
+  :init
+  :config
+  (setq lsp-ui-sideline-delay 0.1) ; 在显示边线之前等待几秒钟
+  :commands 
+  lsp-ui-mode
+)
+
+(use-package lsp-ivy ; 补全系统、部分常用命令、搜索功能
+  :init
+  :commands 
+  lsp-ivy-workspace-symbol
+)
+
+(use-package lsp-treemacs 
+  :init
+  :commands 
+  lsp-treemacs-errors-list
+)
+(use-package dap-mode
+  :init
+  :after 
+  lsp-mode
+  :commands 
+  dap-debug
+  :config
+  (dap-mode t)
+  (dap-ui-mode t)
+
+)
+
+
+; 全文补全框架
+(use-package company
+  :config
+  (global-company-mode t)
+  (setq company-idle-delay 0.3) ; 输入时, 代码补全延迟
+  (setq company-backends
+    '((company-files
+       company-keywords
+       company-capf
+       company-yasnippet
+       )
+      (company-abbrev company-dabbrev)))
+
+)
+
+
+(use-package lsp-pyright
+  :hook (python-mode . (lambda ()
+                        (require 'lsp-pyright)
+                        (lsp-deferred))))
+(use-package python-mode
+  :hook (python-mode . lsp-deferred)
+  :custom
+  (dap-python-debugger 'debugpy)
+  :config
+  (require 'dap-python))
+
+(use-package pyvenv
+  :after python-mode
+  :config
+  (pyvenv-mode 1))
+
+(use-package py-isort
+  :after python
+  :hook ((python-mode . pyvenv-mode)
+         (before-save . py-isort-before-save)))
+
+(use-package blacken
+  :delight
+  :hook (python-mode . blacken-mode)
+  :custom (blacken-line-length 79))
+
+; (dap-register-debug-template "My flask"
+;     (list :type "python"
+;           :module "flask"
+;           :args "--no-debugger --no-reload"
+;           :cwd nil
+;           :request "launch"
+;           :environment-variables '(
+;                                    ("FLASK_APP" . "aaaa.py")
+;                                    ("FLASK_ENV" . "development")
+;                                    ("FLASK_DEBUG" . "0"))
+;           :name "My flask"
+;           :hostName "localhost"
+;           :host "localhost"))
+
+
+
+; (dap-register-debug-template "My flask"
+;   (list :type "python"
+;         :jinja t
+;         :module "flask"
+;         :request "launch"
+;         :env '(
+;                ("PYTHONPATH" . "/home/glfadd/.pyenv/versions/p-3.9.2-learn")
+;                ("FLASK_APP" . "./aaaa.py")
+;                ("FLASK_ENV" . "development")
+;                )
+;         :name "My flask")
+
+; )
 
 ```
 
@@ -578,7 +679,7 @@ C-h v <变量名> 查看变量的含义
 - install
 
   ```
-   (use-package dashboard
+  (use-package dashboard
     :ensure t
     :config
     (setq dashboard-banner-logo-title "Welcome to Emacs!") ;; 个性签名，随读者喜好设置
@@ -741,18 +842,34 @@ company
 auto-complete 
 ```
 
-##### 语法检测
+##### flycheck
 
-```
-flycheck
-```
+> 语法检测
+>
+> [github](https://github.com/flycheck/flycheck)
+
+- install
+
+  ```
+  ```
+
+- setting
+
+  ```
+  ```
+
+- use
+
+  ```
+  
+  ```
 
 ##### 调试
 
 ```
 https://stackoverflow.com/questions/2324758/debugging-python-programs-in-emacs
 
-
+https://emacs-lsp.github.io/dap-mode/
 
 ```
 
@@ -769,8 +886,6 @@ https://github.com/emacs-lsp/lsp-mode
 
 pyhton
 https://github.com/palantir/python-language-server
-
-
 ```
 
 ##### lsp-mode
@@ -787,13 +902,70 @@ https://github.com/palantir/python-language-server
     :commands lsp)
   ```
 
-##### company-lsp
+```
+默认情况下，lsp-mode自动激活，lsp-ui除非lsp-auto-configure设置为nil。
 
-> 使用 company 提供补全的后端
+
+
+
+
+
+```
+
+
+
+##### lsp-ui
+
+> lsp 弹匡
 >
-> [github](https://github.com/tigersoldier/company-lsp)
+> [github](https://github.com/emacs-lsp/lsp-ui)
+>
+> [文档](https://github.com/emacs-lsp/lsp-ui/blob/master/lsp-ui-doc.el)
+>
+> 
 
 - install
+
+  ```
+  (use-package lsp-ui
+    :ensure t
+    :commands lsp-ui-mode
+    :init
+  )
+  ```
+
+- setting
+
+  ```
+  ```
+
+- use
+
+  ```
+  
+  ```
+
+##### company-capf
+
+> 文本补全框架
+>
+> [github](https://github.com/company-mode/company-mode/blob/master/company-capf.el)
+>
+> [文档](http://company-mode.github.io/)
+>
+> 参考 https://ithelp.ithome.com.tw/articles/10200533
+
+- install
+
+  ```
+  ```
+
+- setting
+
+  ```
+  ```
+
+- use
 
   ```
   
@@ -806,17 +978,75 @@ https://github.com/palantir/python-language-server
 - install
 
   ```
-  $ sudo pip install 'python-language-server[all]'
-  
+  $ pip install 'python-language-server[all]'
+  $ pip install python-lsp-server
   $ pip show python-language-server
-  
   $ pyls
+  ```
+
+##### dap-mode
+
+>调试工具
+>
+>[github](https://github.com/emacs-lsp/dap-mode)
+>
+>[homepage](https://emacs-lsp.github.io/dap-mode/page/features/)
+>
+>[configuration](https://emacs-lsp.github.io/dap-mode/page/configuration/)
+>
+>文档 https://www.joyk.com/dig/detail/1551816021702193
+>
+>https://emacs-lsp.github.io/dap-mode/page/gallery/
+>
+>https://mullikine.github.io/posts/dap-mode/
+>
+>https://emacs-lsp.github.io/dap-mode/page/adding-debug-server/
+>
+>https://alpha2phi.medium.com/emacs-lsp-and-dap-7c1786282324
+>
+>教程 https://alpha2phi.medium.com/emacs-beginner-configuration-9578dbe71d03
+>
+>也许能直接用的配置文件 https://alpha2phi.medium.com/emacs-lsp-and-dap-7c1786282324
+>
+>flask 的问题 https://github.com/emacs-lsp/dap-mode/issues/234
+>
+>​	问题视频 https://www.youtube.com/watch?v=ffS7DHbSpVc&ab_channel=Jorge%28%40shackraonGab%29
+>
+>
+>
+>
+
+- install
+
+  ```
+  pip install debugpy
+  ```
+
+- setting
+
+  ```
+  ```
+
+- use
+
+  ```
+  ```
+
+- 快捷键
+
+  ```
+  dap-hydra 查看命令
+  dap-debug 开始调试
   ```
 
   
 
 ```
+是否需要安装 node
 
+
+pip install "ptvsd>=4.2"
+pip install ptvsd
 ```
 
 
