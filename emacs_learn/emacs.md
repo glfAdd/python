@@ -14,7 +14,27 @@ https://www.zhihu.com/search?type=content&q=Emacs%E9%AB%98%E6%89%8B%E4%BF%AE%E7%
 https://www.zhihu.com/question/21943533
 
 
+
+org-mode
+workspaces
+
+
+推荐1
+https://alpha2phi.medium.com/emacs-beginner-configuration-9578dbe71d03
+
+推荐2
+
+
+
 ```
+
+##### wiki
+
+```
+https://www.emacswiki.org/emacs/LoadingLispFiles
+```
+
+
 
 # 安装
 
@@ -67,7 +87,7 @@ $ emacs
 
 # 概念
 
-##### 区域
+##### 功能区
 
 ![emacs区域](./image/emacs区域.jpg)
 
@@ -106,7 +126,7 @@ $ emacs
 
   ```
   同一个 Buffer 可以有多个次模式
-```
+  ```
 
 ##### Mode hook
 
@@ -130,20 +150,20 @@ Emacs 插件都放在了一些固定的仓库网站上, 最大的插件仓库就
 
 - 添加代码库
 
-  ```lisp
+  ```
   ; 把仓库地址 https://melpa.org/packages/ 存储到 package-archives 列表中，并命名为 melpa
   (require 'package)
   (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
   (package-initialize)
-```
+  ```
 
 - 设置代理
 
   ```
-  (setq gnutls-algorithm-priority "NORMAL:-VERS-TLS1.3") ; 不加这一句可能有问题，建议读者尝试一下
-  (setq url-proxy-services '(("no_proxy" . "^\\(192\\.168\\..*\\)")
-                             ("http" . "<代理 IP>:<代理端口号>")
-  			   ("https" . "<代理 IP>:<代理端口号>")))
+    (setq gnutls-algorithm-priority "NORMAL:-VERS-TLS1.3") ; 不加这一句可能有问题，建议读者尝试一下
+    (setq url-proxy-services '(("no_proxy" . "^\\(192\\.168\\..*\\)")
+                               ("http" . "<代理 IP>:<代理端口号>")
+    			   ("https" . "<代理 IP>:<代理端口号>")))
   ```
 
 - 命令
@@ -151,48 +171,8 @@ Emacs 插件都放在了一些固定的仓库网站上, 最大的插件仓库就
   ```
   package-list-packages	列出仓库中的所有插件
   package-install <插件名> 安装插件
-  package-delete <插件名> 删除插件
-  
-  
+  package-delete <插件名> 删除插件  
   ```
-
-  
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 # 配置
 
@@ -223,13 +203,13 @@ Emacs 插件都放在了一些固定的仓库网站上, 最大的插件仓库就
 
 ##### 源分类
 
-```
-gnu: 一般是必备的，其它的 elpa 中的包会依赖 gnu 中的包
-melpa: 滚动升级，收录了的包的数量最大
-melpa-stable: 依据源码的 Tag （Git）升级，数量比 melpa 少，因为很多包作者根本不打 Tag
-org: 仅仅为了 org-plus-contrib 这一个包，org 重度用户使用
-marmalade: 似乎已经不维护了，个人不推荐
-```
+| 类型         | 说明                                                         |
+| ------------ | ------------------------------------------------------------ |
+| gnu          | 一般是必备的，其它的 elpa 中的包会依赖 gnu 中的包            |
+| melpa        | 滚动升级，收录了的包的数量最大                               |
+| melpa-stable | 依据源码的 Tag （Git）升级，数量比 melpa 少，因为很多包作者根本不打 Tag |
+| org          | 仅仅为了 org-plus-contrib 这一个包，org 重度用户使用         |
+| marmalade    | 似乎已经不维护了，个人不推荐                                 |
 
 ##### ~/.emacs.d 目录结构
 
@@ -310,14 +290,14 @@ early-init.el 特殊的初始化配置文件.该配置文件在初始化 package
 (setq package-check-signature nil) ; 签名校验
 (require 'package) ; 初始化包管理器
 
-; (package-initialize)
-; (package-refresh-contents)
-(unless (bound-and-true-p package--initialized)
-    (package-initialize)
-)
-(unless package-archive-contents ; 刷新软件源
-    (package-refresh-contents)
-)
+(package-initialize)
+(package-refresh-contents)
+; (unless (bound-and-true-p package--initialized)
+;     (package-initialize)
+; )
+; (unless package-archive-contents ; 刷新软件源
+;     (package-refresh-contents)
+; )
 
 
 (unless (package-installed-p 'use-package) ; 使用 use-package 管理扩展
@@ -413,17 +393,6 @@ early-init.el 特殊的初始化配置文件.该配置文件在初始化 package
   :commands 
   lsp-treemacs-errors-list
 )
-(use-package dap-mode
-  :init
-  :after 
-  lsp-mode
-  :commands 
-  dap-debug
-  :config
-  (dap-mode t)
-  (dap-ui-mode t)
-
-)
 
 
 ; 全文补全框架
@@ -442,47 +411,35 @@ early-init.el 特殊的初始化配置文件.该配置文件在初始化 package
 )
 
 
-(use-package lsp-pyright
-  :hook (python-mode . (lambda ()
-                        (require 'lsp-pyright)
-                        (lsp-deferred))))
-(use-package python-mode
-  :hook (python-mode . lsp-deferred)
-  :custom
-  (dap-python-debugger 'debugpy)
-  :config
-  (require 'dap-python))
+; (use-package lsp-pyright
+;   :hook (python-mode . (lambda ()
+;                         (require 'lsp-pyright)
+;                         (lsp-deferred))))
+; (use-package python-mode
+;   :hook (python-mode . lsp-deferred)
+;   :custom
+;   (dap-python-debugger 'debugpy)
+;   :config
+;   (require 'dap-python))
 
-(use-package pyvenv
-  :after python-mode
-  :config
-  (pyvenv-mode 1))
+; (use-package pyvenv
+;   :after python-mode
+;   :config
+;   (pyvenv-mode 1))
 
-(use-package py-isort
-  :after python
-  :hook ((python-mode . pyvenv-mode)
-         (before-save . py-isort-before-save)))
+; (use-package py-isort
+;   :after python
+;   :hook ((python-mode . pyvenv-mode)
+;          (before-save . py-isort-before-save)))
 
-(use-package blacken
-  :delight
-  :hook (python-mode . blacken-mode)
-  :custom (blacken-line-length 79))
-
-; (dap-register-debug-template "My flask"
-;     (list :type "python"
-;           :module "flask"
-;           :args "--no-debugger --no-reload"
-;           :cwd nil
-;           :request "launch"
-;           :environment-variables '(
-;                                    ("FLASK_APP" . "aaaa.py")
-;                                    ("FLASK_ENV" . "development")
-;                                    ("FLASK_DEBUG" . "0"))
-;           :name "My flask"
-;           :hostName "localhost"
-;           :host "localhost"))
+; (use-package blacken
+;   :delight
+;   :hook (python-mode . blacken-mode)
+;   :custom (blacken-line-length 79))
 
 
+
+(require 'dap-python)
 
 ; (dap-register-debug-template "My flask"
 ;   (list :type "python"
@@ -497,6 +454,26 @@ early-init.el 特殊的初始化配置文件.该配置文件在初始化 package
 ;         :name "My flask")
 
 ; )
+; (use-package dap-mode
+; )
+
+(dap-register-debug-template "frontend-graphql"
+                             (list :type "python"
+                                   :program "run" ;; this due to the insistence of dap-debug of populating this one with the current file, adding :flask t did nothing for this value.
+                                   :module "flask"
+;                                   :args "--no-debugger --no-reload"
+                                   :cwd "~/Desktop/learn/python"
+                                   :request "launch"
+                                   :environment-variables '(
+                                                            ("FLASK_APP" . "aaaa.py")
+                                                            ("FLASK_ENV" . "development")
+                                                            ("FLASK_DEBUG" . "0"))
+                                   :name "Python :: flask-graphql"
+                                   :hostName "localhost"
+                                   :host "localhost"))
+
+
+
 
 ```
 
@@ -543,15 +520,32 @@ d - 选择要删除的包
   (global-set-key (kbd "M-n") 'next-ten-lines)            ; 光标向下移动 10 行
   ```
 
-##### 变量设置
+##### 设置变量方式
 
-```lisp
-1. 配置文件中使用 (setq name value) 
-2. customize 中设定
-3. 运行过程中临时修改 M-x set-variable 
-```
+- 1. 配置文件中使用 (setq name value) 
 
-##### 配置热更新
+- 2. customize 中设定
+
+  ```
+  1. 配置文件中使用 (setq name value) 
+  3. 运行过程中临时修改 M-x set-variable 
+  ```
+
+  
+
+  ![变量管理](./image/变量管理.png)
+
+- 3. 运行过程中临时修改 M-x set-variable 
+
+  ```
+  M-x set-variable 
+  <变量名>
+  <回车>
+  <输入值>
+  <回车>
+  ```
+
+##### 配置更新方式
 
 - 方式 1: 重启
 
@@ -589,32 +583,6 @@ d - 选择要删除的包
 )
 ```
 
-##### 变量管理
-
-![变量管理](./image/变量管理.png)
-
-```
-M-x 输入 customize
-
-当设置了变量后，事实上 Emacs 会自动将一些配置代码加入到 init.el 中，或是加入到自定义的文件中
-```
-
-##### 临时修改变量值
-
-```
-M-x set-variable 
-<变量名>
-<回车>
-<输入值>
-<回车>
-```
-
-##### 查看变量的含义
-
-```
-C-h v <变量名> 查看变量的含义
-```
-
 ##### 安装
 
 ```lisp
@@ -637,10 +605,8 @@ C-h v <变量名> 查看变量的含义
 
 # packages
 
-##### gruvbox-theme 
+##### gruvbox-theme 主题
 
-> 主题
->
 > [github](https://github.com/greduan/emacs-theme-gruvbox)
 
 - install
@@ -660,10 +626,8 @@ C-h v <变量名> 查看变量的含义
   ```
   ```
 
-##### smart-mode-line 
+##### smart-mode-line  底部状态栏美化
 
-> 底部状态栏美化
->
 > [github](https://github.com/Malabarba/smart-mode-line)
 
 - install
@@ -676,10 +640,8 @@ C-h v <变量名> 查看变量的含义
       (sml/setup))
   ```
 
-##### dashboard
+##### dashboard 启动页面
 
-> 启动页面
->
 > [github](https://github.com/emacs-dashboard/emacs-dashboard)
 
 - install
@@ -699,7 +661,7 @@ C-h v <变量名> 查看变量的含义
 
   
 
-##### 启动耗时工具
+##### benchmark-init 启动耗时工具
 
 > 自带的  `M-x emacs-init-time` 显示信息少
 
@@ -727,10 +689,8 @@ C-h v <变量名> 查看变量的含义
   M-x benchmark-init/show-durations-tabulated
   ```
 
-##### which-key 
+##### which-key 快捷键提示
 
-> 快捷键提示
->
 > [github](https://github.com/justbur/emacs-which-key)
 
 - install
@@ -774,9 +734,9 @@ C-h v <变量名> 查看变量的含义
 
 ```
 
-##### undo-tree
+##### undo-tree 撤销命令记录
 
-> 撤销命令记录
+> 
 
 - install
 
@@ -806,47 +766,6 @@ C-h v <变量名> 查看变量的含义
     :init (good-scroll-mode))
   ```
 
-  
-
-##### 代码补全
-
-> company 取代auto-complete
->
-> 
-
-- install
-
-  ```
-  (require 'package)
-  (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
-  ;; 自动打开
-  (global-auto-complete-mode t)
-  (package-initialize)
-  ```
-
-- setting
-
-  ```
-  M-x package-list-packages
-  M-x package-install auto-complete
-  ```
-
-- use
-
-  ```
-  手动打开
-  M-x auto-complete-mode
-  ```
-
-
-
-```
-代码自动补全
-elpy python 
-jedi
-company
-auto-complete 
-```
 
 ##### flycheck
 
@@ -870,18 +789,18 @@ auto-complete
   
   ```
 
-##### 调试
+##### evil
+
+> [github](https://github.com/emacs-evil/evil)
 
 ```
-https://stackoverflow.com/questions/2324758/debugging-python-programs-in-emacs
-
-https://emacs-lsp.github.io/dap-mode/
-
 ```
+
+
 
 # lsp-mode
 
-> 知乎文档: https://zhuanlan.zhihu.com/p/59043305
+> 知乎文档: https://zhuanlan.zhihu.com/p/59043305 内容过时
 
 ```
 lsp-mode 是 emacs 基于 LSP 的客户端
@@ -908,17 +827,9 @@ https://github.com/palantir/python-language-server
     :commands lsp)
   ```
 
-```
-默认情况下，lsp-mode自动激活，lsp-ui除非lsp-auto-configure设置为nil。
+##### company-lsp(停止维护弃用)
 
-
-
-
-
-
-```
-
-
+> [github](https://github.com/tigersoldier/company-lsp)
 
 ##### lsp-ui
 
@@ -1002,11 +913,7 @@ https://github.com/palantir/python-language-server
 >
 >文档 https://www.joyk.com/dig/detail/1551816021702193
 >
->https://mullikine.github.io/posts/dap-mode/
->
 >https://emacs-lsp.github.io/dap-mode/page/adding-debug-server/
->
->https://alpha2phi.medium.com/emacs-lsp-and-dap-7c1786282324
 >
 >教程 https://alpha2phi.medium.com/emacs-beginner-configuration-9578dbe71d03
 >
@@ -1030,6 +937,12 @@ https://github.com/palantir/python-language-server
 ```
 dap-hydra 查看命令
 dap-debug 开始调试
+
+dap-next
+dap-step-in
+dap-breakpoint-add
+
+dap-ui-breakpoints	
 ```
 
 
@@ -1037,7 +950,7 @@ dap-debug 开始调试
 - install
 
   ```
-  pip install debugpy
+  
   ```
 
 - setting
@@ -1054,23 +967,18 @@ dap-debug 开始调试
 ### python
 
 ```
-pip install ptvsd pytest
+pip install ptvsd pytest debugpy
 ```
-
-
 
 ### java
 
 ```
 是否需要安装 node
-
-
-
 ```
 
-
-
 # 快捷键
+
+> https://aifreedom.com/technology/112
 
 ##### 按键说明
 
@@ -1093,8 +1001,6 @@ C-S-<mouse-1>  同时按下 Control 键和 Shift 键, 然后鼠标左键点击
 | ---- | ------------------------ | ------------------------- |
 | M-x  | execute-extended-command | 输入命令, 单词用 - 或空格 |
 | C-g  |                          | 取消命令输入或运行卡住时  |
-|      |                          |                           |
-|      |                          |                           |
 |      | previouse-line           | 上移一行                  |
 
 ##### 移动
@@ -1134,8 +1040,6 @@ C-h v	查询变量
 C-h a	查询关键字
 C-h d	列出含某一关键词的符号的文档
 ```
-
-
 
 ##### 编辑
 
@@ -1255,28 +1159,16 @@ C-x 5 2		打开新 Frame
 C-x 5 f		打开新 Frame 并打开文件
 ```
 
-##### 
+##### evil
 
 ```
-
-```
-
-
-
-```
-evil 插件，可以在 Emacs 上使用 Vi 的操作
+可以在 Emacs 上使用 Vi 的操作
 
 
 mac 改键盘按键
 https://karabiner-elements.pqrs.org/
 
 ```
-
-
-
-> https://aifreedom.com/technology/112
-
-
 
 
 
@@ -1311,11 +1203,13 @@ C-k 删除光标后所有
 C-/ 撤销
 ```
 
-# python
 
-```
-https://fhxisdog.github.io/2019/11/emacs%E6%90%AD%E5%BB%BApython%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83/
-```
 
 # 优化
+
+##### 目录结构
+
+##### 启动速度
+
+##### 加载 顺序
 

@@ -1600,7 +1600,7 @@ vimproc.vim
 
 
 
-# 断点调试
+# 断点调试 2
 
 ```
 https://github.com/vim-vdebug/vdebug
@@ -1674,6 +1674,12 @@ vim-vebugger
 
 # 断点调试 3
 
+##### flask 问题
+
+https://github.com/emacs-lsp/dap-mode/issues/99
+
+
+
 ```
 https://github.com/mfussenegger/nvim-dap
 https://github.com/mfussenegger/nvim-dap-python
@@ -1683,23 +1689,131 @@ https://github.com/rcarriga/nvim-dap-ui
 https://github.com/mhinz/vim-galore
 
 
-:help dap-mappings 查看快捷键
 
-    nnoremap <silent> <F5> :lua require'dap'.continue()<CR>
-    nnoremap <silent> <F10> :lua require'dap'.step_over()<CR>
-    nnoremap <silent> <F11> :lua require'dap'.step_into()<CR>
-    nnoremap <silent> <F12> :lua require'dap'.step_out()<CR>
-    nnoremap <silent> <leader>b :lua require'dap'.toggle_breakpoint()<CR>
-    nnoremap <silent> <leader>B :lua require'dap'.set_breakpoint(vim.fn.input('Breakpoint condition: '))<CR>
-    nnoremap <silent> <leader>lp :lua require'dap'.set_breakpoint(nil, nil, vim.fn.input('Log point message: '))<CR>
-    nnoremap <silent> <leader>dr :lua require'dap'.repl.open()<CR>
-    nnoremap <silent> <leader>dl :lua require'dap'.run_last()<CR>
+
 
 
 
 :lua require("dapui").open()
 :lua require("dapui").close()
 :lua require("dapui").toggle()
+```
+
+```
+
+Plug 'mfussenegger/nvim-dap'
+Plug 'mfussenegger/nvim-dap-python'
+Plug 'rcarriga/nvim-dap-ui'
+Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+
+
+插件集合
+http://47.112.232.56/github/zh/61928120c295597421382002.html
+```
+
+##### nvim-dap
+
+> https://github.com/mfussenegger/nvim-dap
+
+```
+:help dap-mapping
+
+nnoremap <silent> <F5> :lua require'dap'.continue()<CR>
+nnoremap <silent> <F10> :lua require'dap'.step_over()<CR>
+nnoremap <silent> <F11> :lua require'dap'.step_into()<CR>
+nnoremap <silent> <F12> :lua require'dap'.step_out()<CR>
+nnoremap <silent> <leader>b :lua require'dap'.toggle_breakpoint()<CR>
+nnoremap <silent> <leader>B :lua require'dap'.set_breakpoint(vim.fn.input('Breakpoint condition: '))<CR>
+nnoremap <silent> <leader>lp :lua require'dap'.set_breakpoint(nil, nil, vim.fn.input('Log point message: '))<CR>
+nnoremap <silent> <leader>dr :lua require'dap'.repl.open()<CR>
+nnoremap <silent> <leader>dl :lua require'dap'.run_last()<CR>
+
+
+
+
+No configuration found for `python`. You need to add configs to `dap.configurations.python` (See `:h dap-configuration`)                               
+
+```
+
+##### nvim-dap-python
+
+> https://github.com/mfussenegger/nvim-dap-python
+
+```
+:b:
+
+
+mkdir .virtualenvs
+cd .virtualenvs
+python -m venv debugpy
+debugpy/bin/python -m pip install debugpy
+
+
+
+~/.pyenv/versions/p-3.9.2-learn
+
+
+```
+
+##### nvim-dap-ui
+
+> https://github.com/rcarriga/nvim-dap-ui
+
+```
+require("dapui").setup()
+
+lua require("dapui").open()
+lua require("dapui").close()
+lua require("dapui").toggle()
+```
+
+##### nvim-treesitter
+
+```
+https://github.com/nvim-treesitter/nvim-treesitter
+
+```
+
+# lua
+
+
+
+> 参考 https://zhuanlan.zhihu.com/p/434731678
+>
+> github https://github.com/nshen/learn-neovim-lua
+>
+> 目录结构 https://github.com/nanotee/nvim-lua-guide#:~:text=Lua%20modules%20are%20found%20inside,this%20folder%20as%20Lua%20modules.
+>
+> 
+
+```
+在 Neovim 中加载 lua 文件，可以这样
+
+" 加载 lua/basic.lua 文件，此行为注释
+lua require('basic')
+```
+
+```
+├── init.vim                              入口文件，这里负责加载所有lua文件夹里的文件
+└── lua                                   所有 lua 配置文件
+    ├── basic.lua                         Neovim 的基础配置
+    ├── keybindings.lua                   快捷键配置
+    ├── lsp                               内置 LSP  (Language Server Protocol) 配置
+    │   ├── diagnostic_signs.lua
+    │   ├── language_servers.lua
+    │   └── nvim-cmp-config.lua
+    ├── plugin-config                     各个插件配置在这个文件夹
+    │   ├── bufferline.lua
+    │   ├── comment.lua
+    │   ├── nvim-autopairs.lua
+    │   ├── nvim-colorizer.lua
+    │   ├── nvim-tree.lua
+    │   ├── nvim-treesitter.lua
+    │   ├── rust-tools.lua
+    │   ├── surround.lua
+    │   ├── telescope.lua
+    │   └── which-key.lua
+    └── plugins.lua                       插件安装管理
 ```
 
 
