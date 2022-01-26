@@ -892,14 +892,29 @@ https://github.com/palantir/python-language-server
 
 > [github](https://github.com/palantir/python-language-server)
 
-- install
+- rely on
 
   ```
   $ pip install 'python-language-server[all]'
   $ pip install python-lsp-server
   $ pip show python-language-server
   $ pyls
+  
+  
+  $ pip install flake8 autopep8
   ```
+
+```emacs-lisp
+pyvenv
+
+https://github.com/emacs-lsp/lsp-python-ms
+https://emacs-lsp.github.io/lsp-python-ms
+https://github.com/python-lsp/python-lsp-server
+
+
+Debug session process exited with status: exited abnormally with code 1                                              
+
+```
 
 # dap-mode
 

@@ -18,6 +18,14 @@ $ which pip3
 
 ## 安装
 
+##### 依赖 - centos
+
+```bash
+$ dnf install gcc gcc-c++ glibc glibc-devel libffi-devel sqlite-devel bzip2-devel bzip2 readline-devel openssl-devel bzip2-devel sqlite-devel 
+
+$ dnf install zlib zlib-devel
+```
+
 ##### pyenv
 
 > 用于安装多个版本 python
@@ -118,11 +126,7 @@ python2.7 --version
 Python 2.7.6
 python3.3 --version
 Python 3.3.3
-
-
 ```
-
-
 
 ## 离线包安装python
 
@@ -172,6 +176,21 @@ trusted-host = https://mirrors.aliyun.com
 ```
 
 ## 问题
+
+##### pyenv 安装 python 失败
+
+- 原因
+
+  ```
+  缺少依赖
+  ```
+
+- 解决办法
+
+  ```bash
+  # 安装时使用 -v 查看详细信息, 缺少哪个依赖安装哪个
+  $ pyenv install -v 3.9.2
+  ```
 
 ##### 安装 psycopg2 失败
 
