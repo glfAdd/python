@@ -3,36 +3,32 @@
 ```
 https://github.com/cabins/.emacs.d
 
-elpa包管理功能
 
-Emacs高手修炼手册: https://www.jianshu.com/p/42ef1b18d959
-视频
-https://www.zhihu.com/search?type=content&q=Emacs%E9%AB%98%E6%89%8B%E4%BF%AE%E7%82%BC%E6%89%8B%E5%86%8C%2015
+Emacs高手修炼手册: 
+https://www.jianshu.com/p/42ef1b18d959
+
 
 
 插件整理
 https://www.zhihu.com/question/21943533
-
-
-
-org-mode
-workspaces
+https://zhuanlan.zhihu.com/p/441612281
+https://www.zhangjiee.com/topic/emacs/package.html
 
 
 推荐1
 https://alpha2phi.medium.com/emacs-beginner-configuration-9578dbe71d03
 
 推荐2
+https://huadeyu.tech/tools/emacs-setup-notes.html#orga1adbf9
 
-
-
+https://zhuanlan.zhihu.com/p/156907392
 ```
 
-##### wiki
 
-```
-https://www.emacswiki.org/emacs/LoadingLispFiles
-```
+
+[emacs wiki](https://www.emacswiki.org/emacs/LoadingLispFiles)
+
+[中文论坛](https://emacs-china.org/)
 
 
 
@@ -643,12 +639,13 @@ d - 选择要删除的包
 ##### dashboard 启动页面
 
 > [github](https://github.com/emacs-dashboard/emacs-dashboard)
+>
+> 参考 https://emacs-china.org/t/topic/264/35?page=6
 
 - install
 
   ```
   (use-package dashboard
-    :ensure t
     :config
     (setq dashboard-banner-logo-title "Welcome to Emacs!") ;; 个性签名，随读者喜好设置
     ;; (setq dashboard-projects-backend 'projectile) ;; 读者可以暂时注释掉这一行，等安装了 projectile 后再使用
@@ -656,10 +653,8 @@ d - 选择要删除的包
     (setq dashboard-items '((recents  . 5)   ;; 显示多少个最近文件
   			  (bookmarks . 5)  ;; 显示多少个最近书签
   			  (projects . 10))) ;; 显示多少个最近项目
-    (dashboard-setup-startup-hook))
-  ```
-
   
+  ```
 
 ##### benchmark-init 启动耗时工具
 
@@ -711,6 +706,32 @@ d - 选择要删除的包
   ```
   输入完停顿一下会出现提示框
   ```
+
+##### NeoTree
+
+> [github](https://github.com/jaypei/emacs-neotree)
+
+```
+```
+
+```
+<f8>: 打开neotree
+p, n: 文件目录间上下移动
+SPC/RET/TAB: 这三个快捷键都可以打开文件或展开目录
+U: 跳转到上一级目录
+g: 刷新
+H: 显示或隐藏 隐藏文件(dotfiles)
+O: 打开目录下的所有目录结构
+A: 最大化/最小化neotree窗口
+C-c C-n: 创建文件或目录(以"/"结尾)
+C-c C-d: 删除文件或目录
+C-c C-r: 重命名文件后目录
+C-c C-c: 设置当前目录为展示的根目录
+C-c C-p: 复制文件或目录
+
+```
+
+
 
 ##### ivy
 
@@ -794,6 +815,36 @@ d - 选择要删除的包
 > [github](https://github.com/emacs-evil/evil)
 
 ```
+```
+
+##### general.el
+
+> [github](https://github.com/noctuid/general.el)
+
+- install
+
+  ```
+  ```
+
+##### centaur-tabs 标签切换(弃用)
+
+>  [github](https://github.com/ema2159/centaur-tabs)
+
+##### tab-line-mode
+
+```
+https://jdhao.github.io/2021/09/30/emacs_custom_tabline/
+
+https://andreyorst.gitlab.io/posts/2020-05-10-making-emacs-tabs-look-like-in-atom/
+
+看看这个
+https://amitp.blogspot.com/2020/06/emacs-prettier-tab-line.html
+```
+
+##### 1
+
+```
+
 ```
 
 
@@ -991,6 +1042,19 @@ pip install ptvsd pytest debugpy
 是否需要安装 node
 ```
 
+# spacemacs
+
+[github](https://github.com/syl20bnr/spacemacs)
+
+[document](https://www.spacemacs.org/doc/DOCUMENTATION.html)
+
+```
+
+
+```
+
+
+
 # 快捷键
 
 > https://aifreedom.com/technology/112
@@ -1127,11 +1191,14 @@ which-key 命令帮助
 ##### 文件
 
 ```
-C-x C-s		保存
+C-x C-c		保存(保存选择 y, 不保存选择 n)
+C-x C-s		保存buffer
 C-x C-f		打开文件
 C-x C-v		打开文件(默认显示当前文件目录)
 C-x C-r		只读打开文件
 C-x C-q		已打开文件切为只读
+
+M-x 输入 kill-emacs不保存关闭
 ```
 
 ##### buffer
@@ -1227,4 +1294,8 @@ C-/ 撤销
 ##### 启动速度
 
 ##### 加载 顺序
+
+# 游戏
+
+##### 俄罗斯方块
 
