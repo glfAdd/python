@@ -558,8 +558,10 @@ d - 选择要删除的包
   M-x 输入 eval-buffer
   ```
 
-# 插件管理
+# 包管理
 
+> [github](https://github.com/jwiegley/use-package)
+>
 > (require 'xxx) 可以理解为 “导入并执行”，类似于 Python 的 import
 
 ##### 参数示例
@@ -601,8 +603,10 @@ d - 选择要删除的包
 
 # packages
 
-##### gruvbox-theme 主题
+##### gruvbox-theme
 
+> 主题
+>
 > [github](https://github.com/greduan/emacs-theme-gruvbox)
 
 - install
@@ -622,8 +626,10 @@ d - 选择要删除的包
   ```
   ```
 
-##### smart-mode-line  底部状态栏美化
+##### smart-mode-line
 
+> 底部状态栏美化
+>
 > [github](https://github.com/Malabarba/smart-mode-line)
 
 - install
@@ -636,11 +642,11 @@ d - 选择要删除的包
       (sml/setup))
   ```
 
-##### dashboard 启动页面
+##### dashboard
 
-> [github](https://github.com/emacs-dashboard/emacs-dashboard)
+>  启动页面
 >
-> 参考 https://emacs-china.org/t/topic/264/35?page=6
+> [github](https://github.com/emacs-dashboard/emacs-dashboard)
 
 - install
 
@@ -656,8 +662,10 @@ d - 选择要删除的包
   
   ```
 
-##### benchmark-init 启动耗时工具
+##### benchmark-init
 
+> 启动耗时工具
+>
 > 自带的  `M-x emacs-init-time` 显示信息少
 
 - install
@@ -684,8 +692,10 @@ d - 选择要删除的包
   M-x benchmark-init/show-durations-tabulated
   ```
 
-##### which-key 快捷键提示
+##### which-key
 
+> 快捷键提示
+>
 > [github](https://github.com/justbur/emacs-which-key)
 
 - install
@@ -711,27 +721,23 @@ d - 选择要删除的包
 
 > [github](https://github.com/jaypei/emacs-neotree)
 
-```
-```
+- keybind
 
-```
-<f8>: 打开neotree
-p, n: 文件目录间上下移动
-SPC/RET/TAB: 这三个快捷键都可以打开文件或展开目录
-U: 跳转到上一级目录
-g: 刷新
-H: 显示或隐藏 隐藏文件(dotfiles)
-O: 打开目录下的所有目录结构
-A: 最大化/最小化neotree窗口
-C-c C-n: 创建文件或目录(以"/"结尾)
-C-c C-d: 删除文件或目录
-C-c C-r: 重命名文件后目录
-C-c C-c: 设置当前目录为展示的根目录
-C-c C-p: 复制文件或目录
-
-```
-
-
+  ```
+  <f8>: 打开neotree
+  p, n: 文件目录间上下移动
+  SPC/RET/TAB: 这三个快捷键都可以打开文件或展开目录
+  U: 跳转到上一级目录
+  g: 刷新
+  H: 显示或隐藏 隐藏文件(dotfiles)
+  O: 打开目录下的所有目录结构
+  A: 最大化/最小化neotree窗口
+  C-c C-n: 创建文件或目录(以"/"结尾)
+  C-c C-d: 删除文件或目录
+  C-c C-r: 重命名文件后目录
+  C-c C-c: 设置当前目录为展示的根目录
+  C-c C-p: 复制文件或目录
+  ```
 
 ##### ivy
 
@@ -740,6 +746,10 @@ C-c C-p: 复制文件或目录
 > [github](https://github.com/abo-abo/swiper)
 
 ```
+教程 
+https://emacs-china.org/t/ivy/12091
+
+
 
 
 
@@ -755,9 +765,9 @@ C-c C-p: 复制文件或目录
 
 ```
 
-##### undo-tree 撤销命令记录
+##### undo-tree
 
-> 
+> 撤销命令记录
 
 - install
 
@@ -841,7 +851,11 @@ https://andreyorst.gitlab.io/posts/2020-05-10-making-emacs-tabs-look-like-in-ato
 https://amitp.blogspot.com/2020/06/emacs-prettier-tab-line.html
 ```
 
-##### 1
+##### avy
+
+> 光标跳转
+>
+> [github](https://github.com/abo-abo/avy)
 
 ```
 
