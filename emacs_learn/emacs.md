@@ -7,30 +7,24 @@ https://github.com/cabins/.emacs.d
 Emacs高手修炼手册: 
 https://www.jianshu.com/p/42ef1b18d959
 
-
-
 插件整理
 https://www.zhihu.com/question/21943533
 https://zhuanlan.zhihu.com/p/441612281
 https://www.zhangjiee.com/topic/emacs/package.html
 
 
+
 推荐1
-https://alpha2phi.medium.com/emacs-beginner-configuration-9578dbe71d03
-
-推荐2
 https://huadeyu.tech/tools/emacs-setup-notes.html#orga1adbf9
-
-https://zhuanlan.zhihu.com/p/156907392
 ```
 
 
 
-[emacs wiki](https://www.emacswiki.org/emacs/LoadingLispFiles)
+[emacs wiki](https://www.emacswiki.org)
 
 [中文论坛](https://emacs-china.org/)
 
-
+[插件作者 abo-abo ](https://github.com/abo-abo)
 
 # 安装
 
@@ -102,6 +96,14 @@ $ emacs
 ```
 ```
 
+##### mini-buffer
+
+最下面的框, 并不是全屏的
+
+![mini-buffer](./image/mini-buffer.png)
+
+
+
 ##### mode
 
 - 主模式
@@ -124,7 +126,7 @@ $ emacs
   同一个 Buffer 可以有多个次模式
   ```
 
-##### Mode hook
+##### mode hook
 
 ```
 1. Mode hook 的作用就是当启动一个主模式时，自动执行一些已经“挂钩”到这个主模式的函数或次模式, 可以自由地向一个主模式上挂上各种功能，在启动这个主模式时就可以自动跟随着一起启动。
@@ -138,7 +140,7 @@ $ emacs
 	(add-hook 'prog-mode-hook #'hs-minor-mode)
 ```
 
-##### MELPA
+##### melpa
 
 Emacs 插件都放在了一些固定的仓库网站上, 最大的插件仓库就是 MELPA, 还有默认库 GNU ELPA
 
@@ -601,7 +603,7 @@ d - 选择要删除的包
 (require 'use-package)
 ```
 
-# packages
+# package
 
 ##### gruvbox-theme
 
@@ -616,15 +618,6 @@ d - 选择要删除的包
       :init (load-theme 'gruvbox-dark-soft t))
   ```
 
-- setting
-
-  ```
-  ```
-
-- use
-
-  ```
-  ```
 
 ##### smart-mode-line
 
@@ -641,6 +634,14 @@ d - 选择要删除的包
       (setq sml/theme 'respectful) 
       (sml/setup))
   ```
+
+##### 另一个 mode line
+
+```
+https://github.com/seagle0128/doom-modeline
+```
+
+
 
 ##### dashboard
 
@@ -676,12 +677,6 @@ d - 选择要删除的包
     :hook (after-init . benchmark-init/deactivate))
   ```
 
-- setting
-
-  ```
-  
-  ```
-
 - use
 
   ```
@@ -701,69 +696,108 @@ d - 选择要删除的包
 - install
 
   ```
-  (use-package which-key 
-    :defer nil 
+  (use-package which-key
     :config (which-key-mode))
   ```
 
-- setting
 
-  ```
-  ```
+##### neotree
 
-- use
-
-  ```
-  输入完停顿一下会出现提示框
-  ```
-
-##### NeoTree
-
+> 文件树
+>
 > [github](https://github.com/jaypei/emacs-neotree)
 
 - keybind
 
   ```
-  <f8>: 打开neotree
-  p, n: 文件目录间上下移动
-  SPC/RET/TAB: 这三个快捷键都可以打开文件或展开目录
-  U: 跳转到上一级目录
-  g: 刷新
-  H: 显示或隐藏 隐藏文件(dotfiles)
-  O: 打开目录下的所有目录结构
-  A: 最大化/最小化neotree窗口
-  C-c C-n: 创建文件或目录(以"/"结尾)
-  C-c C-d: 删除文件或目录
-  C-c C-r: 重命名文件后目录
-  C-c C-c: 设置当前目录为展示的根目录
-  C-c C-p: 复制文件或目录
+  <f8>		打开neotree
+  p			上移
+  n			下移
+  SPC/RET/TAB	这三个快捷键都可以打开文件或展开目录
+  U			跳转到上一级目录
+  g			刷新
+  H			显示或隐藏 隐藏文件(dotfiles)
+  O			打开 / 关闭 目录下的所有目录结构
+  A			最大化 / 最小化neotree窗口
+  C-c C-n		创建文件或目录(以"/"结尾)
+  C-c C-d		删除文件或目录
+  C-c C-r		重命名文件后目录
+  C-c C-c		设置当前目录为展示的根目录
+  C-c C-p		复制文件或目录
   ```
 
 ##### ivy
 
 > 交互式补全工具, 用来补全系统、部分常用命令、搜索功能
 >
+> 包括三部分: ivy, counsel, swiper
+>
 > [github](https://github.com/abo-abo/swiper)
+>
+> [document](https://oremacs.com/swiper/#key-bindings)
+
+##### 教程
 
 ```
-教程 
 https://emacs-china.org/t/ivy/12091
+https://www.dazhuanlan.com/imrobin/topics/1851289
+https://emacs-china.org/t/ivy/12091/1
+```
 
+- ivy-mode
 
+  ```
+  命令执行
+  M-x dap-debug
+  变为
+  M-x da deg
+  
+  
+  打开文件
+  Ctrl-x Ctrl-f
+  ```
 
+  - 问题
 
+    ```
+    Required program "fzf" not found in your path
+    ```
+
+    
+
+##### avy
+
+> 光标跳转
+>
+> [github](https://github.com/abo-abo/avy)
 
 ```
+
+```
+
+
 
 #####  ace-window
 
-> window 跳转
+> window 切换, 关闭
 >
 > [github](https://github.com/abo-abo/ace-window)
 
-```
+- key
 
-```
+  ```
+  x   删除
+  m   交换
+  M   移动
+  c   复制
+  j   选择缓冲区
+  n   上一个窗口
+  u   在另一个窗口中选择缓冲区
+  c   垂直或水平分割窗口
+  v   垂直分割
+  b   水平分割
+  o   最大化当前
+  ?   显示命令绑定
 
 ##### undo-tree
 
@@ -824,9 +858,6 @@ https://emacs-china.org/t/ivy/12091
 
 > [github](https://github.com/emacs-evil/evil)
 
-```
-```
-
 ##### general.el
 
 > [github](https://github.com/noctuid/general.el)
@@ -851,13 +882,66 @@ https://andreyorst.gitlab.io/posts/2020-05-10-making-emacs-tabs-look-like-in-ato
 https://amitp.blogspot.com/2020/06/emacs-prettier-tab-line.html
 ```
 
-##### avy
-
-> 光标跳转
->
-> [github](https://github.com/abo-abo/avy)
+##### shell
 
 ```
+```
+
+##### buffer
+
+```
+https://github.com/emacs-mirror/emacs/blob/master/lisp/speedbar.el
+
+Speedbar and imenu
+speedbar/sr-speedbar 倒是又 buffer list，但它不能同时显示文件树。buffer 与树不可兼得，只能在两种状态下切换，跟 VSCode 这些编辑器还是有些不同：
+ace-jump-buffer
+
+
+(global-set-key (kbd "s-<left>") 'previous-buffer)
+(global-set-key (kbd "s-<right>") 'next-buffer)
+ibuffer
+
+
+tab line
+https://jdhao.github.io/2021/09/30/emacs_custom_tabline/
+
+```
+
+##### yasnippet 代码片段
+
+##### crux 一些快捷操作
+
+##### format-all 代码格式化
+
+##### snails 模糊搜索框架
+
+> [gtihub](https://github.com/manateelazycat/snails)
+
+- 未使用
+
+  ```
+  ```
+
+  
+
+```
+
+教程
+https://emacs-china.org/t/snails/10029
+
+
+另一个
+https://www.emacswiki.org/emacs/anything-match-plugin.el
+https://github.com/abo-abo/swiper (lvy)
+
+fzf ripgrep lvy+counsel
+
+
+https://github.com/bling/fzf.el
+
+fuzzy
+
+
 
 ```
 
@@ -903,8 +987,6 @@ https://github.com/palantir/python-language-server
 > [github](https://github.com/emacs-lsp/lsp-ui)
 >
 > [文档](https://github.com/emacs-lsp/lsp-ui/blob/master/lsp-ui-doc.el)
->
-> 
 
 - install
 
@@ -1217,6 +1299,16 @@ M-x 输入 kill-emacs不保存关闭
 
 ##### buffer
 
+参考 https://emacs-china.org/t/topic/2940/26
+
+https://www.gnu.org/software/emacs/manual/html_node/emacs/Buffers.html
+
+http://ecb.sourceforge.net/
+
+
+
+
+
 ```
 C-x b		buffer 切换
 C-x k		关闭当前 buffer
@@ -1246,6 +1338,23 @@ C-x o		切换到下一个 window
 C-x 4 f		在另一个 window 打开新的文件，如果只有一个窗口就分割成两个
 C-x 4 b 	在另一个 window 切换到另一 Buffer，如果只有一个窗口就分割成两个
 C-x 4 d 	在另一个 window 打开目录，如果只有一个窗口就分割成两个
+
+
+
+增加/减少宽度
+C-x {
+C-x }
+
+
+```
+
+##### tab
+
+```
+C-x t 2 ;; 新建Tab 
+      1 ;; 关闭其它Tab 
+      0 ;; 关闭当前Tab 
+      b ;; 在新Tab中打开Buffer
 ```
 
 ##### Frame
