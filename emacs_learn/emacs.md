@@ -605,6 +605,18 @@ d - 选择要删除的包
 
 # package
 
+##### all-the-font
+
+> 字体
+>
+> [github]()
+
+```
+
+```
+
+
+
 ##### gruvbox-theme
 
 > 主题
@@ -635,13 +647,15 @@ d - 选择要删除的包
       (sml/setup))
   ```
 
-##### 另一个 mode line
+##### doom-modeline
+
+> 底部状态栏美化
+>
+> [github](https://github.com/seagle0128/doom-modeline)
 
 ```
-https://github.com/seagle0128/doom-modeline
+
 ```
-
-
 
 ##### dashboard
 
@@ -725,57 +739,6 @@ https://github.com/seagle0128/doom-modeline
   C-c C-c		设置当前目录为展示的根目录
   C-c C-p		复制文件或目录
   ```
-
-##### ivy
-
-> 交互式补全工具, 用来补全系统、部分常用命令、搜索功能
->
-> 包括三部分: ivy, counsel, swiper
->
-> [github](https://github.com/abo-abo/swiper)
->
-> [document](https://oremacs.com/swiper/#key-bindings)
-
-##### 教程
-
-```
-https://emacs-china.org/t/ivy/12091
-https://www.dazhuanlan.com/imrobin/topics/1851289
-https://emacs-china.org/t/ivy/12091/1
-```
-
-- ivy-mode
-
-  ```
-  命令执行
-  M-x dap-debug
-  变为
-  M-x da deg
-  
-  
-  打开文件
-  Ctrl-x Ctrl-f
-  ```
-
-  - 问题
-
-    ```
-    Required program "fzf" not found in your path
-    ```
-
-    
-
-##### avy
-
-> 光标跳转
->
-> [github](https://github.com/abo-abo/avy)
-
-```
-
-```
-
-
 
 #####  ace-window
 
@@ -945,7 +908,70 @@ fuzzy
 
 ```
 
+# ivy
 
+> 交互式补全工具, 用来补全系统、部分常用命令、搜索功能
+>
+> 包括三部分: ivy, counsel, swiper
+>
+> [github](https://github.com/abo-abo/swiper)
+>
+> [document](https://oremacs.com/swiper/#key-bindings)
+>
+> https://emacs-china.org/t/ivy/12091
+
+```
+Required program "fzf" not found in your path 
+```
+
+
+
+##### ivy-avy
+
+> 光标跳转
+>
+> [github](https://github.com/abo-abo/avy)
+
+```
+  9    ‘C-o m’ toggles the current regexp builder.                                                                   
+
+(global-set-key (kbd "C-s") 'swiper-isearch)
+(global-set-key (kbd "M-x") 'counsel-M-x)
+(global-set-key (kbd "C-x C-f") 'counsel-find-file)
+(global-set-key (kbd "M-y") 'counsel-yank-pop)
+(global-set-key (kbd "<f1> f") 'counsel-describe-function)
+(global-set-key (kbd "<f1> v") 'counsel-describe-variable)
+(global-set-key (kbd "<f1> l") 'counsel-find-library)
+(global-set-key (kbd "<f2> i") 'counsel-info-lookup-symbol)
+(global-set-key (kbd "<f2> u") 'counsel-unicode-char)
+(global-set-key (kbd "<f2> j") 'counsel-set-variable)
+(global-set-key (kbd "C-x b") 'ivy-switch-buffer)
+(global-set-key (kbd "C-c v") 'ivy-push-view)
+(global-set-key (kbd "C-c V") 'ivy-pop-view)
+
+(global-set-key (kbd "C-c c") 'counsel-compile)
+(global-set-key (kbd "C-c g") 'counsel-git)
+(global-set-key (kbd "C-c j") 'counsel-git-grep)
+(global-set-key (kbd "C-c L") 'counsel-git-log)
+(global-set-key (kbd "C-c k") 'counsel-rg)
+(global-set-key (kbd "C-c m") 'counsel-linux-app)
+(global-set-key (kbd "C-c n") 'counsel-fzf)
+(global-set-key (kbd "C-x l") 'counsel-locate)
+(global-set-key (kbd "C-c J") 'counsel-file-jump)
+(global-set-key (kbd "C-S-o") 'counsel-rhythmbox)
+(global-set-key (kbd "C-c w") 'counsel-wmctrl)
+
+(global-set-key (kbd "C-c C-r") 'ivy-resume)
+(global-set-key (kbd "C-c b") 'counsel-bookmark)
+(global-set-key (kbd "C-c d") 'counsel-descbinds)
+(global-set-key (kbd "C-c g") 'counsel-git)
+(global-set-key (kbd "C-c o") 'counsel-outline)
+(global-set-key (kbd "C-c t") 'counsel-load-theme)
+(global-set-key (kbd "C-c F") 'counsel-org-file)
+
+```
+
+#####  keybind
 
 # lsp-mode
 
@@ -1419,6 +1445,25 @@ C-/ 撤销
 ##### 加载 顺序
 
 # 游戏
+
+##### 内置游戏
+
+> M-x 游戏名
+>
+> q 		推出
+
+```
+doctor		机器人对话
+snake		贪吃蛇
+gomoku		五子棋
+bubbles		消消乐
+```
+
+```
+
+```
+
+
 
 ##### 俄罗斯方块
 
