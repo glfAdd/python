@@ -605,17 +605,13 @@ d - 选择要删除的包
 
 # package
 
-##### all-the-font
+##### all-the-icons
 
-> 字体
->
-> [github]()
+> [github](https://github.com/domtronn/all-the-icons.el)
 
 ```
 
 ```
-
-
 
 ##### gruvbox-theme
 
@@ -800,21 +796,42 @@ d - 选择要删除的包
 > 语法检测
 >
 > [github](https://github.com/flycheck/flycheck)
+>
+> [document](https://www.flycheck.org/en/latest/)
+>
+> [document languages](https://www.flycheck.org/en/latest/languages.html)
+>
+> https://git.0xee.eu/0xee/emacs-config/src/commit/3d96c238166b7ee652d8a90137b2fe3552fbad5b/lsp.el?lang=en-US
 
 - install
 
   ```
+  
+  
   ```
 
-- setting
+- python
+
+  > [语法检查器](https://github.com/msherry/flycheck-pycheckers)
+  >
+  > [document](https://www.flycheck.org/en/latest/user/syntax-checkers.html#flycheck-checker-config-files)
+
+  ```bash
+  $ pip install flake8
+  ```
+
+- java
 
   ```
   ```
+
+  
 
 - use
 
   ```
-  
+  C-c ! v
+  C-c ! l
   ```
 
 ##### evil
@@ -872,41 +889,20 @@ https://jdhao.github.io/2021/09/30/emacs_custom_tabline/
 
 ##### yasnippet 代码片段
 
+> [github](https://github.com/joaotavora/yasnippet)
+
+```
+
+
+```
+
+
+
 ##### crux 一些快捷操作
 
 ##### format-all 代码格式化
 
-##### snails 模糊搜索框架
 
-> [gtihub](https://github.com/manateelazycat/snails)
-
-- 未使用
-
-  ```
-  ```
-
-  
-
-```
-
-教程
-https://emacs-china.org/t/snails/10029
-
-
-另一个
-https://www.emacswiki.org/emacs/anything-match-plugin.el
-https://github.com/abo-abo/swiper (lvy)
-
-fzf ripgrep lvy+counsel
-
-
-https://github.com/bling/fzf.el
-
-fuzzy
-
-
-
-```
 
 # ivy
 
@@ -921,10 +917,8 @@ fuzzy
 > https://emacs-china.org/t/ivy/12091
 
 ```
-Required program "fzf" not found in your path 
+使用模糊查询 ivy--regex-plus 需要系统安装 fzf
 ```
-
-
 
 ##### ivy-avy
 
@@ -933,8 +927,6 @@ Required program "fzf" not found in your path
 > [github](https://github.com/abo-abo/avy)
 
 ```
-  9    ‘C-o m’ toggles the current regexp builder.                                                                   
-
 (global-set-key (kbd "C-s") 'swiper-isearch)
 (global-set-key (kbd "M-x") 'counsel-M-x)
 (global-set-key (kbd "C-x C-f") 'counsel-find-file)
@@ -968,10 +960,7 @@ Required program "fzf" not found in your path
 (global-set-key (kbd "C-c o") 'counsel-outline)
 (global-set-key (kbd "C-c t") 'counsel-load-theme)
 (global-set-key (kbd "C-c F") 'counsel-org-file)
-
 ```
-
-#####  keybind
 
 # lsp-mode
 
