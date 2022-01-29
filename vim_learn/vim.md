@@ -615,6 +615,15 @@ https://github.com/microsoft/pyright/blob/main/docs/configuration.md
   ```
   
 
+# lsp
+
+目录结构
+
+```
+```
+
+
+
 # plugin
 
 ##### gruvbox 配色
@@ -632,12 +641,7 @@ https://github.com/microsoft/pyright/blob/main/docs/configuration.md
 ##### shell 命令补全
 
 ```
-
-
-
-
 https://github.com/Shougo/neocomplete.vim
-
 ```
 
 ##### font - 字体(未使用)
@@ -1162,6 +1166,8 @@ https://blog.csdn.net/weixin_39795268/article/details/111344410
 
 
 
+
+
 # 断点调试
 
 > [github](https://github.com/puremourning/vimspector)
@@ -1315,6 +1321,23 @@ Downloading https://github.com/microsoft/debugpy/archive/v1.5.1.zip to /home/glf
 
 ![预定义变量](./image/预定义变量.png)
 
+```
+${workspaceFolder} 			当前工作目录(根目录)
+${workspaceFolderBasename}	当前文件的父目录
+${file}						当前打开的文件名(完整路径)
+${relativeFile} 			当前根目录到当前打开文件的相对路径(包括文件名)
+${relativeFileDirname} 		当前根目录到当前打开文件的相对路径(不包括文件名)
+${fileBasename} 			当前打开的文件名(包括扩展名)
+${fileBasenameNoExtension}	当前打开的文件名(不包括扩展名)
+${fileDirname} 				当前打开文件的目录
+${fileExtname} 				当前打开文件的扩展名
+${cwd} 						启动时task工作的目录
+${lineNumber} 				当前激活文件所选行
+${selectedText} 			当前激活文件中所选择的文本
+${execPath} 				vscode执行文件所在的目录
+${defaultBuildTask} 		默认编译任务(build task)的名字
+```
+
 ##### 自定义按键
 
 ```
@@ -1392,19 +1415,19 @@ nmap <F5> <Plug>VimspectorContinue
   # Console 模式
   	insert 模式输入变量, <CR> 确定
 
-##### 示例 - python.json
+### python
 
-路径 `~/.vim/plugged/vimspector/configurations/linux/python/python.json`
-
-[python debug 完整设置](https://github.com/microsoft/debugpy/wiki/Debug-configuration-settings)
-
+> 配置文件路径 `~/.vim/plugged/vimspector/configurations/linux/python/`
+>
+> [python debug 完整参数](https://github.com/microsoft/debugpy/wiki/Debug-configuration-settings)
+>
 > JSON配置文件允许C-style注释
 >
 > ​	`// comment to end of line ...`
 >
 > ​	`/* inline comment ... */` 
 
-
+##### python-flask.json
 
 ```
 "console": "integratedTerminal"		是否在屏幕右侧插入外部终端
@@ -1479,7 +1502,7 @@ nmap <F5> <Plug>VimspectorContinue
 
 - 方式 3 (推荐): 与 `adapter` 同级使用 `variables` 执行 `shell` 命令获取当前的 python 环境变量
 
-  ```
+  ```json
   {
       "configurations": {
           "my-python-run": {
@@ -1488,19 +1511,32 @@ nmap <F5> <Plug>VimspectorContinue
                   "MyPythonPath": {
                       "shell": "which python"
                   }
-              }, 
-              "default": true, 
+              },
+              "default": true,
               "configuration": {
-                  "python": "${MyPythonPath}", 
-                  "request": "launch", 
-                  "program": "${file}", 
-                  "cwd": "${workspaceRoot}", 
-                  "stopOnEntry": false, 
+                  "python": "${MyPythonPath}",
+                  "request": "launch",
+                  "cwd": "${workspaceRoot}",
+                  "stopOnEntry": false,
                   "console": "externalTerminal",
                   "logging": {
                       "engineLogging": true
-                  }
-              }, 
+                  },
+                  "name": "Python: Flask",
+                  "type": "python",
+                  "module": "flask",
+                  "env": {
+                      "FLASK_APP": "aaaa.py",
+                      "FLASK_ENV": "development",
+                      "FLASK_DEBUG": "0"
+                  },
+                  "args": [
+                      "run",
+                      "--no-debugger"
+                  ],
+                  "jinja": true,
+                  "host": "127.0.0.1"
+                  }, 
               "breakpoints": {
                   "exception": {
                       "raised": "N", 
@@ -1513,6 +1549,26 @@ nmap <F5> <Plug>VimspectorContinue
   }
   
   ```
+
+##### python-flask.json
+
+```json
+{
+    "configurations": [
+        {
+            "name": "Python: Current File",
+            "type": "python",
+            "request": "launch",
+            "program": "${file}",
+            "console": "integratedTerminal"
+        }
+    ]
+}
+```
+
+
+
+### java
 
 ##### 示例 - java.json
 
@@ -1598,175 +1654,6 @@ vim-debug
 vimproc.vim
 ```
 
-
-
-# 断点调试 2
-
-```
-https://github.com/vim-vdebug/vdebug
-https://github.com/vim-vdebug/vdebug/blob/master/doc/Vdebug.txt
-
-
-
-
-
-
-:python3 debugger.set_breakpoint()
-
-
-
-
-
-:help Vdebug
-
-官网 https://code.activestate.com/komodo/remotedebugging/
-$ wget http://downloads.activestate.com/Komodo/releases/12.0.1/remotedebugging/Komodo-PythonRemoteDebugging-12.0.1-91869-linux-x86_64.tar.gz
-$ gzip -d Komodo-PythonRemoteDebugging-12.0.1-91869-linux-x86_64.tar.gz
-$ tar xvf Komodo-PythonRemoteDebugging-12.0.1-91869-linux-x86_64.tar
-
-pip install vim-debug dbgp
-
-
-
-:VdebugOpt debug_file /home/glfadd/Desktop/vdebug.log
-:VdebugOpt debug_file_level 2
-
-
-参考
-https://www.ryanbateman.space/2018/08/debugging-drupal-applications-in-neo-vim-with-vdebug/
-https://artfulrobot.uk/blog/how-install-vimneovim-vdebug-xdebug-debugging-debian-stretch
-```
-
-```
-https://github.com/idanarye/vim-vebugger
-
-
-
-
-
-```
-
-```
-pdb
-https://www.cnblogs.com/rollenholt/archive/2012/04/24/2469072.html
-https://github.com/idanarye/vim-vebugger
-
-
-ipdb
-
-
-
-1 不支持 neovim
-https://github.com/sillybun/vim-repl/#how-to-debug-python-script
-
-
-
-
-
-
-vim-vebugger
-
-
-
-
-
-```
-
-# 断点调试 3
-
-##### flask 问题
-
-https://github.com/emacs-lsp/dap-mode/issues/99
-
-
-
-```
-https://github.com/mfussenegger/nvim-dap
-https://github.com/mfussenegger/nvim-dap-python
-https://github.com/rcarriga/nvim-dap-ui
-
-这是什么??
-https://github.com/mhinz/vim-galore
-
-
-
-
-
-
-
-:lua require("dapui").open()
-:lua require("dapui").close()
-:lua require("dapui").toggle()
-```
-
-```
-
-Plug 'mfussenegger/nvim-dap'
-Plug 'mfussenegger/nvim-dap-python'
-Plug 'rcarriga/nvim-dap-ui'
-Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
-
-
-插件集合
-http://47.112.232.56/github/zh/61928120c295597421382002.html
-```
-
-##### nvim-dap
-
-> https://github.com/mfussenegger/nvim-dap
-
-```
-:help dap-mapping
-
-nnoremap <silent> <F5> :lua require'dap'.continue()<CR>
-nnoremap <silent> <F10> :lua require'dap'.step_over()<CR>
-nnoremap <silent> <F11> :lua require'dap'.step_into()<CR>
-nnoremap <silent> <F12> :lua require'dap'.step_out()<CR>
-nnoremap <silent> <leader>b :lua require'dap'.toggle_breakpoint()<CR>
-nnoremap <silent> <leader>B :lua require'dap'.set_breakpoint(vim.fn.input('Breakpoint condition: '))<CR>
-nnoremap <silent> <leader>lp :lua require'dap'.set_breakpoint(nil, nil, vim.fn.input('Log point message: '))<CR>
-nnoremap <silent> <leader>dr :lua require'dap'.repl.open()<CR>
-nnoremap <silent> <leader>dl :lua require'dap'.run_last()<CR>
-
-
-
-
-No configuration found for `python`. You need to add configs to `dap.configurations.python` (See `:h dap-configuration`)                               
-
-```
-
-##### nvim-dap-python
-
-> https://github.com/mfussenegger/nvim-dap-python
-
-```
-:b:
-
-
-mkdir .virtualenvs
-cd .virtualenvs
-python -m venv debugpy
-debugpy/bin/python -m pip install debugpy
-
-
-
-~/.pyenv/versions/p-3.9.2-learn
-
-
-```
-
-##### nvim-dap-ui
-
-> https://github.com/rcarriga/nvim-dap-ui
-
-```
-require("dapui").setup()
-
-lua require("dapui").open()
-lua require("dapui").close()
-lua require("dapui").toggle()
-```
-
 ##### nvim-treesitter
 
 ```
@@ -1815,8 +1702,6 @@ lua require('basic')
     │   └── which-key.lua
     └── plugins.lua                       插件安装管理
 ```
-
-
 
 # 性能测试
 
@@ -1877,7 +1762,7 @@ https://spacevim.org/documentation/
   ```
 
 
-# config - neovim
+# coc - config - neovim
 
 ```
 call plug#begin('~/.vim/plugged')
@@ -2298,6 +2183,15 @@ function! s:defx_my_settings() abort
   nnoremap <silent><buffer><expr> <C-g> defx#do_action('print')
   nnoremap <silent><buffer><expr> cd defx#do_action('change_vim_cwd')
 endfunction
+
+```
+
+# lsp - config - neovim
+
+```
+
+
+
 
 ```
 
