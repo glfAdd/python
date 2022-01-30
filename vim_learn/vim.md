@@ -6,10 +6,6 @@ https://kxcblog.com/post/terminal/2.tmux-tutorial/
 
 
 
-https://zhuanlan.zhihu.com/p/267856388
-
-
-
 plugin
 https://zhuanlan.zhihu.com/p/382092667
 https://github.com/ayamir/nvimdots/wiki/Plugins
@@ -21,6 +17,9 @@ https://github.com/ayamir/nvimdots/wiki/Plugins
 https://github.com/ycm-core/ycmd/blob/master/.vimspector.json
 另一个参考 https://puremourning.github.io/vimspector/configuration.html#replacements-and-variables
 
+
+新的
+https://www.cnblogs.com/viiv/p/15729383.html
 ```
 
 ##### 命令
@@ -359,6 +358,49 @@ let fmt = get(g:, 'plug_url_format', 'https://git::@github.com.cnpmjs.org/%s.git
 \ '^https://git::@github.com.cnpmjs\.org', 'https://github.com.cnpmjs.org', '')
 ```
 
+# packer.nvim
+
+> [github](https://github.com/wbthomason/packer.nvim)
+
+##### install
+
+```bash
+$ git clone --depth 1 https://github.com/wbthomason/packer.nvim ~/.local/share/nvim/site/pack/packer/start/packer.nvim
+```
+
+##### setting
+
+创建文件 `/.config/nvim/lua/plugins.lua`
+
+```
+return require('packer').startup(function()
+  -- Packer can manage itself
+  use 'wbthomason/packer.nvim'
+end)
+```
+
+##### 命令
+
+```
+-- Regenerate compiled loader file
+:PackerCompile
+
+-- Remove any disabled or unused plugins
+:PackerClean
+
+-- Clean, then install missing plugins
+:PackerInstall
+
+-- Clean, then update and install plugins
+:PackerUpdate
+
+-- Perform `PackerUpdate` and then `PackerCompile` ( 安装 / 更新)
+:PackerSync
+
+-- Loads opt plugin immediately
+:PackerLoad completion-nvim ale
+```
+
 # 依赖
 
 ##### node.js 支持
@@ -617,10 +659,143 @@ https://github.com/microsoft/pyright/blob/main/docs/configuration.md
 
 # lsp
 
-目录结构
+##### 参考
+
+[学习 Neovim 全配置， 逃离 VSCode](https://zhuanlan.zhihu.com/p/434727338) - [github](https://github.com/nshen/learn-neovim-lua)
+
+
+
+##### nvim-tree.lua
+
+> 文件管理
+>
+> [github](https://github.com/kyazdani42/nvim-tree.lua)
+
+```
+nnoremap <C-n> :NvimTreeToggle<CR>
+nnoremap <leader>r :NvimTreeRefresh<CR>
+nnoremap <leader>n :NvimTreeFindFile<CR>
+```
+
+```
+o 打开关闭文件夹
+a 创建文件
+r 重命名
+x 剪切
+c 拷贝
+p 粘贴
+d 删除
+```
+
+##### bufferline
+
+> [github](https://github.com/akinsho/bufferline.nvim)
 
 ```
 ```
+
+##### which-key.nvim
+
+> [github](https://github.com/folke/which-key.nvim)
+
+```
+```
+
+##### nvim-treesitter
+
+> 语法高亮
+>
+> [github](https://github.com/nvim-treesitter/nvim-treesitter)
+
+```
+python
+java
+json
+yaml
+
+```
+
+##### telescope
+
+> 历史文件搜索
+>
+> [github](https://github.com/nvim-telescope/telescope.nvim)
+
+```
+
+
+
+```
+
+##### Comment.nvim
+
+> 注释
+>
+> [github](https://github.com/numToStr/Comment.nvim)
+
+```
+
+另一个没使用的, 不知道好不好用
+https://github.com/terrortylor/nvim-comment
+
+
+```
+
+##### windwp/nvim-autopairs
+
+> 符号配对 []{}()''""
+>
+> [github](https://github.com/windwp/nvim-autopairs)
+
+```
+```
+
+##### lsp
+
+> [github](https://github.com/williamboman/nvim-lsp-installer#available-lsps)
+>
+> 参考 https://zhuanlan.zhihu.com/p/444836713?utm_source=wechat_session&utm_medium=social&utm_oi=1269928803658530816
+
+命令 
+
+```
+:LspInstallInfo						打开您的语言服务器的图形概览
+:LspInstall [--sync] [server] ...	安装/重新安装语言服务器。如果传递参数，则以阻塞方式运行--sync（仅推荐用于脚本目的）。
+:LspUninstall [--sync] <server> ...	卸载语言服务器。如果传递参数，则以阻塞方式运行--sync（仅推荐用于脚本目的）。
+:LspUninstallAll [--no-confirm]		卸载所有语言服务器
+:LspInstallLog						在新选项卡窗口中打开日志文件
+:LspPrintInstalled					打印所有已安装的语言服务器
+```
+
+```
+安装语言服务器
+
+
+语言对应的语言服务器
+https://github.com/williamboman/nvim-lsp-installer#available-lsps
+
+使用上面的命令安装, 例如 python
+:LspInstall pyright
+```
+
+
+
+##### cmp
+
+
+
+```
+
+https://github.com/nvim-telescope/telescope.nvim
+
+
+
+
+
+
+```
+
+
 
 
 
@@ -1663,7 +1838,15 @@ https://github.com/nvim-treesitter/nvim-treesitter
 
 # lua
 
+##### 快捷键设置
 
+- lua 格式
+
+  ```
+  vim.api.nvim_set_keymap('模式','按键','映射为XX',opt)
+  ```
+
+  
 
 > 参考 https://zhuanlan.zhihu.com/p/434731678
 >
