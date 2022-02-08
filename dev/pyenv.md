@@ -26,6 +26,14 @@ $ dnf install gcc gcc-c++ glibc glibc-devel libffi-devel sqlite-devel bzip2-deve
 $ dnf install zlib zlib-devel
 ```
 
+##### 依赖 - mac
+
+```bash
+# 升级系统python
+$ brew reinstall python
+$ brew install zlib openssl
+```
+
 ##### pyenv
 
 > 用于安装多个版本 python
@@ -120,12 +128,6 @@ pyenv versions
 * 2.7.6 (set by /Users/yyuu/.pyenv/version)
 * 3.3.3 (set by /Users/yyuu/.pyenv/version)
   venv27
-python --version
-Python 3.3.3
-python2.7 --version
-Python 2.7.6
-python3.3 --version
-Python 3.3.3
 ```
 
 ## 离线包安装python
@@ -231,9 +233,65 @@ $ python setup.py install
 $ MACOSX_DEPLOYMENT_TARGET=10.7 python setup.py install
 ```
 
+##### 问题 1
 
+- 描述
 
+  ```
+  执行命令时提示
+  
+  -> % brew update
+  Error:
+    homebrew-core is a shallow clone.
+  To `brew update`, first run:
+    git -C /usr/local/Homebrew/Library/Taps/homebrew/homebrew-core fetch --unshallow
+  This command may take a few minutes to run due to the large size of the repository.
+  This restriction has been made on GitHub's request because updating shallow
+  clones is an extremely expensive operation due to the tree layout and traffic of
+  Homebrew/homebrew-core and Homebrew/homebrew-cask. We don't do this for you
+  automatically to avoid repeatedly performing an expensive unshallow operation in
+  CI systems (which should instead be fixed to not use shallow clones). Sorry for
+  the inconvenience!
+  ```
 
+- 解决办法
 
+  ```
+  $ cd "$(brew --repo)/Library/Taps/homebrew/homebrew-core"
+  $ git -C /usr/local/Homebrew/Library/Taps/homebrew/homebrew-core fetch --unshallow
+  
+  $ cd "$(brew --repo)/Library/Taps/homebrew/homebrew-cask"
+  $ git -C /usr/local/Homebrew/Library/Taps/homebrew/homebrew-cask fetch --unshallow
+  ```
 
+  
+
+##### 问题 2
+
+- 描述
+
+  ```
+  glfadd@gong [10:16:38] [~/.pyenv] [master]
+  -> % git -C /usr/local/Homebrew/Library/Taps/homebrew/homebrew-core fetch --unshallow
+  fatal: dumb http transport does not support shallow capabilities
+  ```
+
+- 原因
+
+  ```
+  换成了阿里源
+  ```
+
+- 解决办法
+
+  ```
+  换回原来的源
+  
+  $ cd "$(brew --repo)/Library/Taps/homebrew/homebrew-core"
+  $ git remote set-url origin https://github.com/Homebrew/homebrew-core.git
+  $ cd "$(brew --repo)/Library/Taps/homebrew/homebrew-cask"
+  $ git remote set-url origin https://github.com/Homebrew/homebrew-cask.git
+  ```
+
+  
 
