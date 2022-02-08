@@ -18,6 +18,13 @@ lsp-status
 
 参考 0207
 https://alpha2phi.medium.com/neovim-lsp-and-dap-using-lua-3fb24610ac9f
+
+
+插件列表
+http://47.112.232.56/github/zh/61928120c295597421382002.html
+
+
+
 ```
 
 ##### 命令
@@ -559,10 +566,14 @@ VISUAL mode
 ```
 ```
 
-##### 命令模糊匹配 : /
+##### symbols-outline.nvim
+
+> 函数对象
+>
+> [github](https://github.com/simrat39/symbols-outline.nvim)
 
 ```
-https://github.com/gelguy/wilder.nvim
+
 ```
 
 
@@ -603,85 +614,41 @@ https://github.com/gelguy/wilder.nvim
 ```
 
 
+:COQdeps
+:COQnow
+```
+
+#####  coq_nvim
+
+> [github](https://github.com/ms-jpq/coq_nvim)
+
+```
+https://www.reddit.com/r/neovim/comments/silikv/debugging_in_neovim/
+
 
 ```
 
-##### fzf 模糊查询
+##### formatter.nvim(未使用)
 
-> [github](https://github.com/junegunn/fzf.vim)
-
-- install
-
-  ```
-  Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
-  Plug 'junegunn/fzf.vim'
-  ```
-
-- use
-
-  ```
-  :Files			当前目录下搜索
-  :Files /opt		指定目录
-  
-  :Buffer			打开 buffer
-  
-  
-  Files 模式下使用 tab 多选文件
-  ```
-  
-- 命令
-
-  参考 https://blog.csdn.net/weixin_33982670/article/details/88742016
-
-  | Command          | List                                                         |
-  | ---------------- | ------------------------------------------------------------ |
-  | `Files [PATH]`   | 普通文件查找 (similar to `:FZF`)                             |
-  | `GFiles [OPTS]`  | git文件查找 (`git ls-files`)                                 |
-  | `GFiles?`        | git文件查找 (`git status`)                                   |
-  | `Buffers`        | buffer文件切换                                               |
-  | `Colors`         | Color schemes                                                |
-  | `Ag [PATTERN]`   | ag search result (`ALT-A` to select all, `ALT-D` to deselect all) |
-  | `Lines [QUERY]`  | 在buffer里的文件中寻找含有某个关键词的行                     |
-  | `BLines [QUERY]` | 在当前buffer里查找包含某关键词的行                           |
-  | `Tags [QUERY]`   | 以Tag查找 (`ctags -R`)                                       |
-  | `BTags [QUERY]`  | Tags in the current buffer                                   |
-  | `Marks`          | Marks                                                        |
-  | `Windows`        | Windows                                                      |
-  | `Locate PATTERN` | `locate` command output                                      |
-  | `History`        | `v:oldfiles` and open buffers                                |
-  | `History:`       | 命令历史查找                                                 |
-  | `History/`       | Search history                                               |
-  | `Snippets`       | Snippets (UltiSnips)                                         |
-  | `Commits`        | Git commits (requires fugitive.vim)                          |
-  | `BCommits`       | Git commits for the current buffer                           |
-  | `Commands`       | Commands                                                     |
-  | `Maps`           | Normal mode mappings                                         |
-  | `Helptags`       | Help tags [1](https://blog.csdn.net/weixin_33982670/article/details/88742016#helptags) |
-  | `Filetypes`      | File types                                                   |
-
-
-
-##### vista.vim 函数和变量查看
-
-> [github](https://github.com/liuchengxu/vista.vim) 
+> 代码格式化
 >
-> [文档](https://github.com/liuchengxu/vista.vim/blob/master/doc/vista.txt)
->
-> 依赖: 需要插件 coc.vim
+> [github](https://github.com/mhartington/formatter.nvim)
 
-- install
+```
 
-  ```
-  Plug 'liuchengxu/vista.vim'
-  ```
 
-- use
+```
 
-  ```
-  Vista 打开
-  Vista! 关闭
-  Vista!! 打开/关闭
-  ```
+#####  neoformat
+
+> [github](https://github.com/sbdchd/neoformat)
+
+```
+:Neoformat! python
+:Neoformat! python yapf
+```
+
+
 
 ##### vim-easy-align 文本对齐
 
