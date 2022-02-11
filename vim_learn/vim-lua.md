@@ -388,7 +388,7 @@ Vim 与系统共用剪切板
 $ aptiotude install xsel
 ```
 
-# lsp
+# normal - lua
 
 ##### alpha-nvim
 
@@ -579,7 +579,7 @@ VISUAL mode
 
 ```
 
-
+# lsp
 
 ##### lsp
 
@@ -651,6 +651,60 @@ https://www.reddit.com/r/neovim/comments/silikv/debugging_in_neovim/
 :Neoformat! python yapf
 ```
 
+# dap
+
+> [Debug-Adapter-installation](https://github.com/mfussenegger/nvim-dap/wiki/Debug-Adapter-installation)
+
+##### 命令
+
+```
+:help dap.txt
+:help dap-adapter
+:help dap-configuration
+:help dap-api
+
+```
+
+
+
+```
+pip install pytest debugpy
+
+
+
+```
+
+
+
+##### nvim-dap
+
+> [github](https://github.com/mfussenegger/nvim-dap)
+
+```
+
+
+
+```
+
+
+
+##### nvim-dap-ui
+
+> [github](https://github.com/rcarriga/nvim-dap-ui)
+
+```
+
+
+
+```
+
+##### nvim-dap-python
+
+> [github](https://github.com/mfussenegger/nvim-dap-python)
+
+```
+```
+
 
 
 ##### vim-easy-align 文本对齐
@@ -703,26 +757,6 @@ https://www.reddit.com/r/neovim/comments/silikv/debugging_in_neovim/
   abc          , 1901
   histort      , 19012021 , C001H2
   PersonAction , 2201     , HHKI!HA
-  ```
-
-
-##### bufexplorer 列表切换 buffer
-
-> [github](https://github.com/jlanzarotta/bufexplorer)
-
-- install
-
-  ```
-  Plug 'jlanzarotta/bufexplorer'
-  ```
-
-- setting
-
-  ```
-  nmap <Leader>bl :BufExplorer<CR> 普通打开
-  <Leader>bt 切换打开/关闭
-  <Leader>bs 强制水平拆分打开
-  <Leader>bv 强制垂直劈开
   ```
 
 ##### vim-translator 词典
@@ -883,7 +917,7 @@ https://blog.csdn.net/weixin_39795268/article/details/111344410
 
 
 
-# 断点调试
+# vimspector - 断点调试
 
 > [github](https://github.com/puremourning/vimspector)
 >

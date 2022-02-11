@@ -261,3 +261,21 @@ scrape_configs:
 | 监控系统 | Collectd Exporter, Graphite Exporter, InfluxDB Exporter, Nagios Exporter, SNMP Exporter等 |
 | 其他     | Blockbox Exporter, JIRA Exporter, Jenkins Exporter， Confluence Exporter等 |
 
+# 使用中问题
+
+##### 问题 1
+
+- 描述
+
+  ```
+  Warning: Error fetching server time: Detected 40.69199991226196 seconds time difference between your browser and the server. Prometheus relies on accurate time and time drift might cause unexpected query results.
+  ```
+
+- 解决办法
+
+  ```bash
+  $ ntpdate time3.aliyun.com
+  ```
+
+##### 问题 2
+
