@@ -27,7 +27,8 @@ dap
 https://alpha2phi.medium.com/neovim-lsp-and-dap-using-lua-3fb24610ac9f
 
 
-
+lsp 图标
+https://github.com/onsails/lspkind-nvim
 ```
 
 ##### 命令
@@ -560,7 +561,7 @@ VISUAL mode
   `gc` - Toggles the region using linewise comment
   `gb` - Toggles the region using blockwise comment
 
-##### windwp/nvim-autopairs
+##### windwp/nvim-autopairs(x)
 
 > 符号配对 []{}()''""
 >
@@ -571,7 +572,7 @@ VISUAL mode
 
 ##### symbols-outline.nvim
 
-> 函数对象
+> 边栏显示函数对象
 >
 > [github](https://github.com/simrat39/symbols-outline.nvim)
 
@@ -579,7 +580,6 @@ VISUAL mode
 
 ```
 
-# lsp
 
 ##### lsp
 
@@ -917,6 +917,7 @@ https://blog.csdn.net/weixin_39795268/article/details/111344410
 
 
 
+<<<<<<< HEAD
 # vimspector - 断点调试
 
 > [github](https://github.com/puremourning/vimspector)
@@ -1361,6 +1362,7 @@ https://github.com/puremourning/vimspector/discussions/482
 原因, 不支持 python 多线程应用调试
 
 ```
+
 
 
 
