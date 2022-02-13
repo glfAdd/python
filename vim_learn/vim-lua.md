@@ -16,10 +16,6 @@ https://github.com/nshen/learn-neovim-lua
 
 lsp-status
 
-参考 0207
-https://alpha2phi.medium.com/neovim-lsp-and-dap-using-lua-3fb24610ac9f
-
-
 插件列表
 http://47.112.232.56/github/zh/61928120c295597421382002.html
 
@@ -29,6 +25,22 @@ https://alpha2phi.medium.com/neovim-lsp-and-dap-using-lua-3fb24610ac9f
 
 lsp 图标
 https://github.com/onsails/lspkind-nvim
+
+
+
+quickfix
+
+
+移动窗口
+https://github.com/sindrets/winshift.nvim
+
+
+
+todo
+https://github.com/saadparwaiz1/cmp_luasnip
+https://github.com/L3MON4D3/LuaSnip
+https://github.com/rafamadriz/friendly-snippets
+
 ```
 
 ##### 命令
@@ -338,6 +350,12 @@ end)
 $ brew install node
 ```
 
+##### lazygit
+
+> git 工具
+>
+> [github](https://github.com/akinsho/toggleterm.nvim)
+
 ##### devicons 字体
 
 > [homepage](https://www.nerdfonts.com/)
@@ -448,6 +466,8 @@ tabs (shows currently available tabs)
 
 ```
 
+
+
 ##### nvim-tree.lua
 
 > 文件管理
@@ -474,17 +494,9 @@ d 删除
 
 > [github](https://github.com/akinsho/bufferline.nvim)
 
-```
-
-```
-
 ##### which-key.nvim
 
 > [github](https://github.com/folke/which-key.nvim)
-
-```
-
-```
 
 ##### nvim-treesitter
 
@@ -513,7 +525,7 @@ d 删除
 
 ##### telescope
 
-> 历史文件搜索
+> 模糊搜索
 >
 > [github](https://github.com/nvim-telescope/telescope.nvim)
 
@@ -551,7 +563,7 @@ VISUAL mode
   `gc` - Toggles the region using linewise comment
   `gb` - Toggles the region using blockwise comment
 
-##### windwp/nvim-autopairs(x)
+##### nvim-autopairs(x)
 
 > 符号配对 []{}()''""
 >
@@ -599,6 +611,15 @@ VISUAL mode
 
 :LspInfo
 ```
+
+#####  lsp_signature.nvim(x)
+
+> [github](https://github.com/ray-x/lsp_signature.nvim)
+
+```
+```
+
+
 
 ##### nvim-cmp
 
@@ -713,15 +734,11 @@ $ pip install pytest debugpy
   PersonAction , 2201     , HHKI!HA
   ```
 
-##### vim-translator 词典
+##### vim-translator
 
-> [github](https://github.com/voldikss/vim-translator):
-
-- install
-
-  ```
-  Plug 'voldikss/vim-translator'
-  ```
+> 词典(功能不全)
+>
+> [github](https://github.com/voldikss/vim-translator)
 
 - 翻译句子
 
@@ -733,27 +750,16 @@ $ pip install pytest debugpy
 
 > [github](https://github.com/plasticboy/vim-markdown)
 
-##### preview - markdown 实时预览
+##### preview - markdown
 
+> 实时预览
+>
 > [github](https://github.com/iamcco/markdown-preview.nvim)
 
-- install
+- 如果要安装必须执行
 
   ```
-  Plug 'iamcco/markdown-preview.nvim', {'do': 'cd app & yarn install'}
-  ```
-
-- use
-
-  ```
-  web:
-  http://127.0.0.1:8151/page/1
-  
-  打开预览
-  :MarkdownPreview
-  
-  停止预览
-  :MarkDownPreviewStop
+  :call mkdp#util#install()
   ```
 
 - 问题 1
@@ -789,44 +795,22 @@ $ pip install pytest debugpy
     打开的文件不是 .md
     ```
 
-##### vim-floaterm 内置终端
+##### vim-floaterm
 
-```
-https://blog.csdn.net/weixin_39795268/article/details/111344410
-```
-
-> [github](https://github.com/voldikss/vim-floaterm)
+> 终端模式
 >
-> [文档](https://github.com/voldikss/vim-floaterm/blob/master/doc/floaterm.txt)
+> [github](https://github.com/voldikss/vim-floaterm)
 
-- install
+use
 
-  ```
-  Plug 'voldikss/vim-floaterm'
-  ```
+```
+:FloatermNew lazygit
+```
 
-- setting
+##### toggleterm.nvim
 
-  ```
-  - g:floaterm_keymap_new 打开
-  - g:floaterm_keymap_prev
-  - g:floaterm_keymap_next
-  - g:floaterm_keymap_first
-  - g:floaterm_keymap_last
-  - g:floaterm_keymap_hide
-  - g:floaterm_keymap_show
-  - g:floaterm_keymap_kill
-  - g:floaterm_keymap_toggle 隐藏/重新打开该窗口
-  ```
-
-- use
-
-  ```
-  
-  ```
-
-##### toggleterm.nvim - 终端
-
+> 终端模式
+>
 > [github](https://github.com/akinsho/toggleterm.nvim)
 
 ```
@@ -839,21 +823,48 @@ https://blog.csdn.net/weixin_39795268/article/details/111344410
 :ToggleTermToggleAll
 
 
+1<C-\>	第 1 个窗口最大化
+2<C-\>	第 2 个窗口最大化
+```
 
+##### winshift.nvim
+
+> 移动窗口
+>
+> [github](https://github.com/sindrets/winshift.nvim)
 
 ```
 
+```
+
+#####  yode-nvim
+
+> window 内的悬浮终端
+>
+> [github](https://github.com/hoschi/yode-nvim)
+
+```
+map <Leader>yc      :YodeCreateSeditorFloating<CR>
+map <Leader>yr :YodeCreateSeditorReplace<CR>
+nmap <Leader>bd :YodeBufferDelete<cr>
+imap <Leader>bd <esc>:YodeBufferDelete<cr>
+" these commands fall back to overwritten keys when cursor is in split window
+map <C-W>r :YodeLayoutShiftWinDown<CR>
+map <C-W>R :YodeLayoutShiftWinUp<CR>
+map <C-W>J :YodeLayoutShiftWinBottom<CR>
+map <C-W>K :YodeLayoutShiftWinTop<CR>
+```
+
+##### nvim-window
+
+> 编号选择 window
+>
+> [github](https://gitlab.com/yorickpeterse/nvim-window)
+
+```
+```
 
 
-#####  undotree
-
-> [github](https://github.com/mbbill/undotree)
-
-- install
-
-  ```
-  Plug 'mbbill/undotree'
-  ```
 
 # 未使用
 
