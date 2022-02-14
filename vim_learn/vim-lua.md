@@ -23,16 +23,8 @@ dap
 https://alpha2phi.medium.com/neovim-lsp-and-dap-using-lua-3fb24610ac9f
 
 
-lsp 图标
-https://github.com/onsails/lspkind-nvim
-
-
 
 quickfix
-
-
-移动窗口
-https://github.com/sindrets/winshift.nvim
 
 
 
@@ -51,6 +43,10 @@ https://github.com/rafamadriz/friendly-snippets
 ```
 
 ##### [neovim map](https://neovim.io/doc/user/map.html)
+
+##### [neovim lua document](https://github.com/glepnir/nvim-lua-guide-zh)
+
+
 
 # 安装 - neovim
 
@@ -408,6 +404,16 @@ $ aptiotude install xsel
 ```
 
 # package
+
+#####  gruvbox.nvim
+
+> 主题配色
+>
+> [github](https://giters.com/ellisonleao/gruvbox.nvim)
+
+```
+
+```
 
 ##### alpha-nvim
 
@@ -888,6 +894,14 @@ map <C-W>K :YodeLayoutShiftWinTop<CR>
 # python
 
 ##### import 管理
+
+```
+https://github.com/PyCQA/isort
+
+
+```
+
+
 
 >  [github](https://github.com/PyCQA/isort)
 >
