@@ -33,6 +33,8 @@ https://github.com/saadparwaiz1/cmp_luasnip
 https://github.com/L3MON4D3/LuaSnip
 https://github.com/rafamadriz/friendly-snippets
 
+
+
 新方案
 https://github.com/NvChad/NvChad/blob/main/lua/plugins/init.lua
 
@@ -40,6 +42,25 @@ https://github.com/NvChad/NvChad/blob/main/lua/plugins/init.lua
 知乎方案: https://zhuanlan.zhihu.com/p/388397656?utm_source=wechat_session&utm_medium=social&utm_oi=1269928803658530816
 
 ```
+
+##### 新方案
+
+```
+插件总结: https://github.com/rockerBOO/awesome-neovim
+
+数据库支持: https://github.com/tpope/vim-dadbod
+
+
+https://zhuanlan.zhihu.com/p/388397656?utm_source=wechat_session&utm_medium=social&utm_oi=1269928803658530816
+https://github.com/hewenjin/config
+新方案用到的插件: https://github.com/HeWenJin/config/blob/main/nvim/lua/plugins/init.lua
+
+
+```
+
+
+
+
 
 ##### 命令
 
@@ -723,6 +744,8 @@ $ pip install pytest debugpy
 
 - 安装 vscode-java-test
 
+  [github](https://github.com/microsoft/vscode-java-test)
+
   ```bash
   $ git clone https://github.com/microsoft/vscode-java-test.git
   $ cd vscode-java-test
@@ -757,7 +780,6 @@ https://github.com/nvim-telescope/telescope-ui-select.nvim
     -configuration
     ```
 
-    
 
    
 
@@ -970,6 +992,10 @@ map <C-W>K :YodeLayoutShiftWinTop<CR>
 ##### [coq](https://github.com/ms-jpq/coq_nvim)
 
 ##### [git]([github](https://github.com/tpope/vim-fugitive))
+
+##### [DAPInstall(python 支持, java 不支持, 暂时不用)](https://github.com/Pocco81/DAPInstall.nvim)
+
+
 
 
 
