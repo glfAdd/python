@@ -43,6 +43,17 @@ https://github.com/NvChad/NvChad/blob/main/lua/plugins/init.lua
 
 ```
 
+##### 新功能
+
+```
+右边的图片: https://github.com/edluffy/hologram.nvim
+
+
+
+```
+
+
+
 ##### 新方案
 
 ```
@@ -781,7 +792,7 @@ https://github.com/nvim-telescope/telescope-ui-select.nvim
     ```
 
 
-   
+
 
 
 
