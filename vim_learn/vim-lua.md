@@ -37,7 +37,7 @@ https://github.com/rafamadriz/friendly-snippets
 https://github.com/NvChad/NvChad/blob/main/lua/plugins/init.lua
 
 
-
+知乎方案: https://zhuanlan.zhihu.com/p/388397656?utm_source=wechat_session&utm_medium=social&utm_oi=1269928803658530816
 
 ```
 
@@ -622,6 +622,7 @@ VISUAL mode
 :LspInstall yamlls				yaml
 :LspInstall lemminx				xml
 
+:LspUninstall jdtls
 
 :LspInfo
 ```
@@ -700,46 +701,78 @@ $ pip install pytest debugpy
 
 > [github](https://github.com/mfussenegger/nvim-jdtls)
 
+- 安装 eclipse.jdt.ls 语言服务器
+
+  [github](https://github.com/eclipse/eclipse.jdt.ls)
+
+  [完整配置示例](https://github.com/mfussenegger/nvim-jdtls/wiki/Sample-Configurations)
+
+  ```bash
+  $ wget https://download.eclipse.org/jdtls/milestones/1.8.0/jdt-language-server-1.8.0-202201261434.tar.gz
+  $ gzip -d  jdt-language-server-1.8.0-202201261434.tar.gz 
+  $ tar xvf jdt-language-server-1.8.0-202201261434.tar
+  ```
+
+- 安装 java-debug
+
+  ```bash
+  $ git clone https://github.com/microsoft/java-debug.git
+  $ cd java-debug
+  $ ./mvnw clean install
+  ```
+
+- 安装 vscode-java-test
+
+  ```bash
+  $ git clone https://github.com/microsoft/vscode-java-test.git
+  $ cd vscode-java-test
+  $ npm install
+  $ npm run build-plugin
+  ```
+
+  
+
 ```bash
 依赖都安装到 /opt/neovim-dap 目录下
 
 视频
 https://www.youtube.com/watch?v=E-MvQC04Cbo&ab_channel=RishabhDwivedi
 
-安装 eclipse.jdt.ls
-https://github.com/eclipse/eclipse.jdt.ls#installation
-$ wget https://download.eclipse.org/jdtls/milestones/1.8.0/jdt-language-server-1.8.0-202201261434.tar.gz
-$ gzip -d  jdt-language-server-1.8.0-202201261434.tar.gz 
-$ tar xvf jdt-language-server-1.8.0-202201261434.tar
-
-
-
-
-安装 java-debug
-$ git clone https://github.com/microsoft/java-debug.git
-$ cd java-debug
-$ ./mvnw clean install
-
-
-安装 vscode-java-test
-$ git clone https://github.com/microsoft/vscode-java-test.git
-$ cd vscode-java-test
-$ npm install
-$ npm run build-plugin
-
-
-
-https://github.com/mfussenegger/nvim-jdtls
 https://github.com/nvim-telescope/telescope-ui-select.nvim
 
+```
 
-https://github.com/eclipse/eclipse.jdt.ls#installation
-https://github.com/mfussenegger/nvim-jdtls
+- 问题1
+
+  - 描述
+
+    ```
+    client 1 quit with exit code 1 and signal 0
+    ```
+
+  - 解决问题
+
+    ```
+    -jar
+    -configuration
+    ```
+
+    
+
+   
 
 
 
-nnoremap <leader>df <Cmd>lua require'jdtls'.test_class()<CR>
-nnoremap <leader>dn <Cmd>lua require'jdtls'.test_nearest_method()<CR>
+```
+
+
+
+```
+
+```
+wget https://download.eclipse.org/jdtls/snapshots/jdt-language-server-latest.tar.gz
+
+
 ```
 
 
