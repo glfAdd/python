@@ -39,9 +39,20 @@ https://github.com/rafamadriz/friendly-snippets
 https://github.com/NvChad/NvChad/blob/main/lua/plugins/init.lua
 
 
-知乎方案: https://zhuanlan.zhihu.com/p/388397656?utm_source=wechat_session&utm_medium=social&utm_oi=1269928803658530816
+知乎方案: 
+https://zhuanlan.zhihu.com/p/388397656?utm_source=wechat_session&utm_medium=social&utm_oi=1269928803658530816
+https://github.com/HeWenJin/config/blob/main/nvim/lua/plugins/init.lua
+```
+
+##### 新包
 
 ```
+
+```
+
+
+
+
 
 ##### 新功能
 
@@ -992,7 +1003,75 @@ map <C-W>K :YodeLayoutShiftWinTop<CR>
 ```
 ```
 
+##### rnvimr
 
+> neovim ranger
+>
+> [github](https://github.com/kevinhwang91/rnvimr)
+
+- Install Ranger
+
+  ```bash
+  $ brew install ranger
+  $ aptitude install ranger
+  ```
+
+- install Ueberzug
+
+  ```bash
+  # ArchLinux install all requirements is extremely convenient
+  yay -S ranger python-pynvim ueberzug
+  
+  # pip
+  # macOS users please install ranger by `pip3 ranger-fm` instead of `brew install ranger`
+  # There're some issues about installation, such as https://github.com/ranger/ranger/issues/1214
+  # Please refer to the issues of ranger for more details
+  pip3 install ranger-fm pynvim
+  
+  # ueberzug is not supported in macOS because it depends on X11
+  pip3 install ueberzug
+  ```
+
+- 查看是否成功
+
+  ```
+  :checkhealth
+  
+  看 Ranger 和 Ueberzug
+  ```
+
+  
+
+```
+打开文件后设置窗口尺寸
+tnoremap <silent> <M-i> <C-\><C-n>:RnvimrResize<CR>
+
+
+nnoremap <silent> <M-o> :RnvimrToggle<CR>
+tnoremap <silent> <M-o> <C-\><C-n>:RnvimrToggle<CR>
+
+```
+
+
+
+- 问题 1:
+
+  - 描述
+
+    ```
+    pip3 install ueberzug 安装失败
+    ```
+
+  - 解决办法
+
+    ```
+    安装依赖
+    
+    ubuntu
+    $ sudo aptitude install libx11-dev libxext-dev python-dev python3-dev
+    ```
+
+    
 
 # 未使用
 
