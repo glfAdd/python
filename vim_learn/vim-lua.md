@@ -442,6 +442,8 @@ $ aptitude install nodejs npm
   $ npm install devicons
   ```
 
+
+
 ##### clipboard 支持
 
 Vim 与系统共用剪切板
@@ -554,14 +556,6 @@ d 删除
 
 # 显示/隐藏 高亮
 :TSBufToggle highlight
-```
-
-##### telescope [模糊搜索]
-
-> [github](https://github.com/nvim-telescope/telescope.nvim)
-
-```
-
 ```
 
 ##### Comment.nvim [注释]
@@ -880,22 +874,16 @@ tnoremap <silent> <M-o> <C-\><C-n>:RnvimrToggle<CR>
 命令 
 
 ```
-:LspInstallInfo						打开您的语言服务器的图形概览
-:LspInstall [--sync] [server] ...	安装/重新安装语言服务器。如果传递参数，则以阻塞方式运行--sync（仅推荐用于脚本目的）。
-:LspUninstall [--sync] <server> ...	卸载语言服务器。如果传递参数，则以阻塞方式运行--sync（仅推荐用于脚本目的）。
-:LspUninstallAll [--no-confirm]		卸载所有语言服务器
-:LspInstallLog						在新选项卡窗口中打开日志文件
-:LspPrintInstalled					打印所有已安装的语言服务器
-
-
+:LspInstallInfo
+:LspUninstallAll	卸载所有语言服务器
+:LspInstallLog		在新选项卡窗口中打开日志文件
+:LspPrintInstalled	打印所有已安装的语言服务器
 :LspInstall pyright				python
-:LspInstall jdtls					java
+:LspInstall jdtls				java
 :LspInstall jsonls				json
 :LspInstall yamlls				yaml
 :LspInstall lemminx				xml
-
 :LspUninstall jdtls
-
 :LspInfo
 ```
 
@@ -906,8 +894,6 @@ tnoremap <silent> <M-o> <C-\><C-n>:RnvimrToggle<CR>
 ```
 
 ```
-
-
 
 
 
@@ -959,7 +945,7 @@ $ pip install pytest debugpy
   [完整配置示例](https://github.com/mfussenegger/nvim-jdtls/wiki/Sample-Configurations)
 
   ```bash
-  $ wget https://download.eclipse.org/jdtls/milestones/1.8.0/jdt-language-server-1.8.0-202201261434.tar.gz
+  $ wget https://download.eclipse.org/jdtls/snapshots/jdt-language-server-1.9.0-202202210521.tar.gz
   $ gzip -d  jdt-language-server-1.8.0-202201261434.tar.gz 
   $ tar xvf jdt-language-server-1.8.0-202201261434.tar
   ```
@@ -983,16 +969,6 @@ $ pip install pytest debugpy
   $ npm run build-plugin
   ```
 
-  
-
-```bash
-
-视频
-https://www.youtube.com/watch?v=E-MvQC04Cbo&ab_channel=RishabhDwivedi
-
-https://github.com/nvim-telescope/telescope-ui-select.nvim
-
-```
 
 - 问题1
 
@@ -1022,7 +998,19 @@ https://github.com/nvim-telescope/telescope-ui-select.nvim
 :COQnow
 ```
 
+# telescope
 
+> [github](https://github.com/nvim-telescope/telescope.nvim)
+
+```
+
+```
+
+
+
+
+
+##### 
 
 # 未使用
 
