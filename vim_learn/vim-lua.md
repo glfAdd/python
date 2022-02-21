@@ -58,9 +58,6 @@ https://github.com/HeWenJin/config/blob/main/nvim/lua/plugins/init.lua
 
 ```
 右边的图片: https://github.com/edluffy/hologram.nvim
-
-
-
 ```
 
 
@@ -389,12 +386,26 @@ end)
 
 # 依赖
 
+##### pip3
+
+```
+aptitude install python3-pip
+```
+
+
+
+##### java
+
+> lsp 需要
+
 ##### node
 
 > lsp 需要
 
 ```bash
 $ brew install node
+
+$ aptitude install nodejs npm
 ```
 
 ##### lazygit
@@ -422,21 +433,14 @@ $ brew install node
 - ubuntu
 
   ```
+  $ npm install devicons
   ```
 
 - Centos / fedora
 
   ```
-  
+  $ npm install devicons
   ```
-
-```
-https://github.com/webinstall/webi-installers/tree/main/nerdfont
-
-
-https://webinstall.dev/nerdfont/
-
-```
 
 ##### clipboard 支持
 
@@ -456,30 +460,18 @@ $ aptiotude install xsel
 
 # package
 
-#####  gruvbox.nvim
+#####  gruvbox.nvim [主题配色]
 
-> 主题配色
->
 > [github](https://giters.com/ellisonleao/gruvbox.nvim)
 
-```
-
-```
-
-##### alpha-nvim
+##### alpha-nvim [启动画面]
 
 > [github](https://github.com/goolord/alpha-nvim)
 >
 > [开始画面顶部图片](https://github.com/glepnir/dashboard-nvim/wiki/Ascii-Header-Text)
 
-```
+#####  lualine.nvim [状态栏]
 
-```
-
-#####  lualine.nvim
-
-> 状态栏
->
 > [github](https://github.com/nvim-lualine/lualine.nvim)
 
 ```
@@ -505,30 +497,16 @@ progress (%progress in file)
 tabs (shows currently available tabs)
 ```
 
-##### trouble.nvim
+##### trouble.nvim [语法错误列表]
 
-> 错误列表
->
 > [github](https://github.com/folke/trouble.nvim)
-
-```
-
-```
 
 ##### git
 
 > [github](https://github.com/lewis6991/gitsigns.nvim)
 
-```
+##### nvim-tree.lua [文件管理]
 
-```
-
-
-
-##### nvim-tree.lua
-
-> 文件管理
->
 > [github](https://github.com/kyazdani42/nvim-tree.lua)
 
 ```
@@ -555,10 +533,8 @@ d 删除
 
 > [github](https://github.com/folke/which-key.nvim)
 
-##### nvim-treesitter
+##### nvim-treesitter [语法高亮]
 
-> 语法高亮
->
 > [github](https://github.com/nvim-treesitter/nvim-treesitter)
 
 ```bash
@@ -580,20 +556,16 @@ d 删除
 :TSBufToggle highlight
 ```
 
-##### telescope
+##### telescope [模糊搜索]
 
-> 模糊搜索
->
 > [github](https://github.com/nvim-telescope/telescope.nvim)
 
 ```
 
 ```
 
-##### Comment.nvim
+##### Comment.nvim [注释]
 
-> 注释
->
 > [github](https://github.com/numToStr/Comment.nvim)
 
 ```
@@ -629,63 +601,12 @@ VISUAL mode
 ```
 ```
 
-##### symbols-outline.nvim
+##### symbols-outline.nvim[ 边栏显示函数对象]
 
-> 边栏显示函数对象
->
 > [github](https://github.com/simrat39/symbols-outline.nvim)
 
 ```
 
-```
-
-
-##### lsp
-
-> [github](https://github.com/williamboman/nvim-lsp-installer#available-lsps)
->
-> 参考 https://zhuanlan.zhihu.com/p/444836713?utm_source=wechat_session&utm_medium=social&utm_oi=1269928803658530816
->
-> [语言对应的语言服务器](https://github.com/williamboman/nvim-lsp-installer#available-lsps)
-
-命令 
-
-```
-:LspInstallInfo						打开您的语言服务器的图形概览
-:LspInstall [--sync] [server] ...	安装/重新安装语言服务器。如果传递参数，则以阻塞方式运行--sync（仅推荐用于脚本目的）。
-:LspUninstall [--sync] <server> ...	卸载语言服务器。如果传递参数，则以阻塞方式运行--sync（仅推荐用于脚本目的）。
-:LspUninstallAll [--no-confirm]		卸载所有语言服务器
-:LspInstallLog						在新选项卡窗口中打开日志文件
-:LspPrintInstalled					打印所有已安装的语言服务器
-
-
-:LspInstall pyright				python
-:LspInstall jdtls					java
-:LspInstall jsonls				json
-:LspInstall yamlls				yaml
-:LspInstall lemminx				xml
-
-:LspUninstall jdtls
-
-:LspInfo
-```
-
-#####  lsp_signature.nvim(x)
-
-> [github](https://github.com/ray-x/lsp_signature.nvim)
-
-```
-```
-
-
-
-##### nvim-cmp
-
-> [github](https://github.com/hrsh7th/nvim-cmp)
-
-```
-:COQdeps
-:COQnow
 ```
 
 ##### formatter.nvim(未使用)
@@ -707,121 +628,9 @@ VISUAL mode
 :Neoformat! python yapf
 ```
 
-##### nvim-dap
-
-> [github](https://github.com/mfussenegger/nvim-dap)
->
-> [Debug-Adapter-installation](https://github.com/mfussenegger/nvim-dap/wiki/Debug-Adapter-installation)
-
-help
-
-```
-:help dap.txt
-:help dap-adapter
-:help dap-configuration
-:help dap-api
-```
-
-##### nvim-dap-ui
-
-> [github](https://github.com/rcarriga/nvim-dap-ui)
-
-```
-
-```
-
-##### nvim-dap-python
-
-> [github](https://github.com/mfussenegger/nvim-dap-python)
-
-require
-
-```bash
-$ pip install pytest debugpy
-```
-
-##### nvim-dap-java
-
-> [github](https://github.com/mfussenegger/nvim-jdtls)
-
-- 安装 eclipse.jdt.ls 语言服务器
-
-  [github](https://github.com/eclipse/eclipse.jdt.ls)
-
-  [完整配置示例](https://github.com/mfussenegger/nvim-jdtls/wiki/Sample-Configurations)
-
-  ```bash
-  $ wget https://download.eclipse.org/jdtls/milestones/1.8.0/jdt-language-server-1.8.0-202201261434.tar.gz
-  $ gzip -d  jdt-language-server-1.8.0-202201261434.tar.gz 
-  $ tar xvf jdt-language-server-1.8.0-202201261434.tar
-  ```
-
-- 安装 java-debug
-
-  ```bash
-  $ git clone https://github.com/microsoft/java-debug.git
-  $ cd java-debug
-  $ ./mvnw clean install
-  ```
-
-- 安装 vscode-java-test
-
-  [github](https://github.com/microsoft/vscode-java-test)
-
-  ```bash
-  $ git clone https://github.com/microsoft/vscode-java-test.git
-  $ cd vscode-java-test
-  $ npm install
-  $ npm run build-plugin
-  ```
-
-  
-
-```bash
-依赖都安装到 /opt/neovim-dap 目录下
-
-视频
-https://www.youtube.com/watch?v=E-MvQC04Cbo&ab_channel=RishabhDwivedi
-
-https://github.com/nvim-telescope/telescope-ui-select.nvim
-
-```
-
-- 问题1
-
-  - 描述
-
-    ```
-    client 1 quit with exit code 1 and signal 0
-    ```
-
-  - 解决问题
-
-    ```
-    -jar
-    -configuration
-    ```
 
 
-
-
-
-
-```
-
-
-
-```
-
-```
-wget https://download.eclipse.org/jdtls/snapshots/jdt-language-server-latest.tar.gz
-
-
-```
-
-
-
-##### vim-easy-align 文本对齐
+##### vim-easy-align [文本对齐]
 
 > [github](https://github.com/junegunn/vim-easy-align)
 
@@ -873,10 +682,8 @@ wget https://download.eclipse.org/jdtls/snapshots/jdt-language-server-latest.tar
   PersonAction , 2201     , HHKI!HA
   ```
 
-##### vim-translator
+##### vim-translator 词典(功能不全)
 
-> 词典(功能不全)
->
 > [github](https://github.com/voldikss/vim-translator)
 
 - 翻译句子
@@ -889,10 +696,8 @@ wget https://download.eclipse.org/jdtls/snapshots/jdt-language-server-latest.tar
 
 > [github](https://github.com/plasticboy/vim-markdown)
 
-##### preview - markdown
+##### preview - markdown [实时预览]
 
-> 实时预览
->
 > [github](https://github.com/iamcco/markdown-preview.nvim)
 
 - 如果要安装必须执行
@@ -934,10 +739,8 @@ wget https://download.eclipse.org/jdtls/snapshots/jdt-language-server-latest.tar
     打开的文件不是 .md
     ```
 
-##### vim-floaterm
+##### vim-floaterm [终端模式]
 
-> 终端模式
->
 > [github](https://github.com/voldikss/vim-floaterm)
 
 use
@@ -946,15 +749,12 @@ use
 :FloatermNew lazygit
 ```
 
-##### toggleterm.nvim
+##### toggleterm.nvim [终端模式]
 
-> 终端模式
->
 > [github](https://github.com/akinsho/toggleterm.nvim)
 
 ```
 :ToggleTerm size=40 dir=~/Desktop direction=horizontal
-
 :ToggleTerm direction=float
 
 
@@ -966,20 +766,12 @@ use
 2<C-\>	第 2 个窗口最大化
 ```
 
-##### winshift.nvim
+##### winshift.nvim [移动窗口]
 
-> 移动窗口
->
 > [github](https://github.com/sindrets/winshift.nvim)
 
-```
+#####  yode-nvim [window内的悬浮终端]
 
-```
-
-#####  yode-nvim
-
-> window 内的悬浮终端
->
 > [github](https://github.com/hoschi/yode-nvim)
 
 ```
@@ -994,19 +786,15 @@ map <C-W>J :YodeLayoutShiftWinBottom<CR>
 map <C-W>K :YodeLayoutShiftWinTop<CR>
 ```
 
-##### nvim-window
+##### nvim-window [编号选择 window]
 
-> 编号选择 window
->
 > [github](https://gitlab.com/yorickpeterse/nvim-window)
 
 ```
 ```
 
-##### rnvimr
+##### rnvimr [neovim ranger]
 
-> neovim ranger
->
 > [github](https://github.com/kevinhwang91/rnvimr)
 
 - Install Ranger
@@ -1029,7 +817,7 @@ map <C-W>K :YodeLayoutShiftWinTop<CR>
   pip3 install ranger-fm pynvim
   
   # ueberzug is not supported in macOS because it depends on X11
-  pip3 install ueberzug
+  python3 -m pip install ueberzug
   ```
 
 - 查看是否成功
@@ -1071,7 +859,170 @@ tnoremap <silent> <M-o> <C-\><C-n>:RnvimrToggle<CR>
     $ sudo aptitude install libx11-dev libxext-dev python-dev python3-dev
     ```
 
-    
+# terminal
+
+
+
+
+
+
+
+# lsp
+
+##### lsp
+
+> [github](https://github.com/williamboman/nvim-lsp-installer#available-lsps)
+>
+> 参考 https://zhuanlan.zhihu.com/p/444836713?utm_source=wechat_session&utm_medium=social&utm_oi=1269928803658530816
+>
+> [语言对应的语言服务器](https://github.com/williamboman/nvim-lsp-installer#available-lsps)
+
+命令 
+
+```
+:LspInstallInfo						打开您的语言服务器的图形概览
+:LspInstall [--sync] [server] ...	安装/重新安装语言服务器。如果传递参数，则以阻塞方式运行--sync（仅推荐用于脚本目的）。
+:LspUninstall [--sync] <server> ...	卸载语言服务器。如果传递参数，则以阻塞方式运行--sync（仅推荐用于脚本目的）。
+:LspUninstallAll [--no-confirm]		卸载所有语言服务器
+:LspInstallLog						在新选项卡窗口中打开日志文件
+:LspPrintInstalled					打印所有已安装的语言服务器
+
+
+:LspInstall pyright				python
+:LspInstall jdtls					java
+:LspInstall jsonls				json
+:LspInstall yamlls				yaml
+:LspInstall lemminx				xml
+
+:LspUninstall jdtls
+
+:LspInfo
+```
+
+#####  lsp_signature.nvim(x)
+
+> [github](https://github.com/ray-x/lsp_signature.nvim)
+
+```
+
+```
+
+
+
+
+
+# dap
+
+##### nvim-dap
+
+> [github](https://github.com/mfussenegger/nvim-dap)
+>
+> [Debug-Adapter-installation](https://github.com/mfussenegger/nvim-dap/wiki/Debug-Adapter-installation)
+
+help
+
+```
+:help dap.txt
+:help dap-adapter
+:help dap-configuration
+:help dap-api
+```
+
+##### nvim-dap-ui
+
+> [github](https://github.com/rcarriga/nvim-dap-ui)
+
+```
+
+```
+
+##### nvim-dap-python
+
+> [github](https://github.com/mfussenegger/nvim-dap-python)
+
+require
+
+```bash
+$ pip install pytest debugpy
+```
+
+##### nvim-dap-java
+
+> [github](https://github.com/mfussenegger/nvim-jdtls)
+>
+> 安装到 `/opt/neovim-dap` 目录下
+
+- 安装 eclipse.jdt.ls 语言服务器
+
+  [github](https://github.com/eclipse/eclipse.jdt.ls)
+
+  [完整配置示例](https://github.com/mfussenegger/nvim-jdtls/wiki/Sample-Configurations)
+
+  ```bash
+  $ wget https://download.eclipse.org/jdtls/milestones/1.8.0/jdt-language-server-1.8.0-202201261434.tar.gz
+  $ gzip -d  jdt-language-server-1.8.0-202201261434.tar.gz 
+  $ tar xvf jdt-language-server-1.8.0-202201261434.tar
+  ```
+
+- 安装 java-debug
+
+  ```bash
+  $ git clone https://github.com/microsoft/java-debug.git
+  $ cd java-debug
+  $ ./mvnw clean install
+  ```
+
+- 安装 vscode-java-test
+
+  [github](https://github.com/microsoft/vscode-java-test)
+
+  ```bash
+  $ git clone https://github.com/microsoft/vscode-java-test.git
+  $ cd vscode-java-test
+  $ npm install
+  $ npm run build-plugin
+  ```
+
+  
+
+```bash
+
+视频
+https://www.youtube.com/watch?v=E-MvQC04Cbo&ab_channel=RishabhDwivedi
+
+https://github.com/nvim-telescope/telescope-ui-select.nvim
+
+```
+
+- 问题1
+
+  - 描述
+
+    ```
+    client 1 quit with exit code 1 and signal 0
+    ```
+
+  - 解决问题
+
+    ```
+    -jar
+    -configuration
+    ```
+
+
+
+# cpm
+
+##### nvim-cmp
+
+> [github](https://github.com/hrsh7th/nvim-cmp)
+
+```
+:COQdeps
+:COQnow
+```
+
+
 
 # 未使用
 
