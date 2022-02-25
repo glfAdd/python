@@ -945,6 +945,8 @@ $ pip install pytest debugpy
   [完整配置示例](https://github.com/mfussenegger/nvim-jdtls/wiki/Sample-Configurations)
 
   ```bash
+  $ wget https://download.eclipse.org/jdtls/milestones/1.8.0/jdt-language-server-1.8.0-202201261434.tar.gz
+  
   $ wget https://download.eclipse.org/jdtls/snapshots/jdt-language-server-1.9.0-202202210521.tar.gz
   $ gzip -d  jdt-language-server-1.8.0-202201261434.tar.gz 
   $ tar xvf jdt-language-server-1.8.0-202201261434.tar
@@ -975,15 +977,38 @@ $ pip install pytest debugpy
   - 描述
 
     ```
-    client 1 quit with exit code 1 and signal 0
+    Client 1 quit with exit code 1 and signal 0
     ```
-
+    
   - 解决问题
 
     ```
-    -jar
-    -configuration
+    查看缓存的目录
+    :lua print(vim.fn.stdpath('cache'))
+    
+    
+    查看 lsp.log 文件
     ```
+
+```
+
+日志文件
+~/.cache/nvim
+```
+
+```
+No LSP client found that supports vscode.java.resolveMainClass
+```
+
+
+
+# dap2
+
+[github](https://github.com/puremourning/vimspector)
+
+```
+
+```
 
 
 
