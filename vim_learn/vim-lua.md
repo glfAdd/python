@@ -412,7 +412,16 @@ $ aptitude install nodejs npm
 
 > git 工具
 >
-> [github](https://github.com/akinsho/toggleterm.nvim)
+> [github](https://github.com/jesseduffield/lazygit)
+
+```
+$ sudo dnf copr enable atim/lazygit
+$ sudo dnf install lazygit 
+
+
+```
+
+
 
 ##### devicons 字体
 
@@ -502,6 +511,10 @@ tabs (shows currently available tabs)
 ##### trouble.nvim [语法错误列表]
 
 > [github](https://github.com/folke/trouble.nvim)
+
+##### lazygit
+
+> [github](https://github.com/kdheepak/lazygit.nvim)
 
 ##### git
 
