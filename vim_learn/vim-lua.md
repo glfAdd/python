@@ -6,25 +6,19 @@
 Tmux + vim
 https://kxcblog.com/post/terminal/2.tmux-tutorial/
 
-plugin
+知乎方案 1
 https://zhuanlan.zhihu.com/p/382092667
 https://github.com/ayamir/nvimdots/wiki/Plugins
 
+知乎方案 2
 https://zhuanlan.zhihu.com/p/434727338?utm_source=wechat_session&utm_medium=social&s_r=0
 https://github.com/nshen/learn-neovim-lua
 
+知乎方案 3
+https://zhuanlan.zhihu.com/p/388397656?utm_source=wechat_session&utm_medium=social&utm_oi=1269928803658530816
+https://github.com/HeWenJin/config/blob/main/nvim/lua/plugins/init.lua
 
-lsp-status
-
-插件列表
-http://47.112.232.56/github/zh/61928120c295597421382002.html
-
-dap
-https://alpha2phi.medium.com/neovim-lsp-and-dap-using-lua-3fb24610ac9f
-
-
-
-quickfix
+新方案用到的插件 : https://github.com/HeWenJin/config/blob/main/nvim/lua/plugins/init.lua
 
 
 todo
@@ -38,25 +32,10 @@ https://github.com/rafamadriz/friendly-snippets
 https://github.com/NvChad/NvChad/blob/main/lua/plugins/init.lua
 
 
-知乎方案: 
-https://zhuanlan.zhihu.com/p/388397656?utm_source=wechat_session&utm_medium=social&utm_oi=1269928803658530816
-https://github.com/HeWenJin/config/blob/main/nvim/lua/plugins/init.lua
 
-
-右边的图片: https://github.com/edluffy/hologram.nvim
-```
-
-##### 新方案
-
-```
-插件总结: https://github.com/rockerBOO/awesome-neovim
-
+(不好用)右边的图片: https://github.com/edluffy/hologram.nvim
+quickfix
 数据库支持: https://github.com/tpope/vim-dadbod
-
-
-https://zhuanlan.zhihu.com/p/388397656?utm_source=wechat_session&utm_medium=social&utm_oi=1269928803658530816
-https://github.com/hewenjin/config
-新方案用到的插件: https://github.com/HeWenJin/config/blob/main/nvim/lua/plugins/init.lua
 
 ```
 
