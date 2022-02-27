@@ -27,7 +27,6 @@ https://alpha2phi.medium.com/neovim-lsp-and-dap-using-lua-3fb24610ac9f
 quickfix
 
 
-
 todo
 https://github.com/saadparwaiz1/cmp_luasnip
 https://github.com/L3MON4D3/LuaSnip
@@ -42,25 +41,10 @@ https://github.com/NvChad/NvChad/blob/main/lua/plugins/init.lua
 知乎方案: 
 https://zhuanlan.zhihu.com/p/388397656?utm_source=wechat_session&utm_medium=social&utm_oi=1269928803658530816
 https://github.com/HeWenJin/config/blob/main/nvim/lua/plugins/init.lua
-```
-
-##### 新包
-
-```
-
-```
 
 
-
-
-
-##### 新功能
-
-```
 右边的图片: https://github.com/edluffy/hologram.nvim
 ```
-
-
 
 ##### 新方案
 
@@ -74,12 +58,7 @@ https://zhuanlan.zhihu.com/p/388397656?utm_source=wechat_session&utm_medium=soci
 https://github.com/hewenjin/config
 新方案用到的插件: https://github.com/HeWenJin/config/blob/main/nvim/lua/plugins/init.lua
 
-
 ```
-
-
-
-
 
 ##### 命令
 
@@ -92,7 +71,19 @@ https://github.com/hewenjin/config
 
 ##### [neovim lua document](https://github.com/glepnir/nvim-lua-guide-zh)
 
+# 命令
 
+##### neovim 日志目录
+
+```
+:lua print(vim.fn.stdpath('cache'))
+```
+
+##### neovim 命令行显示的消息
+
+```
+:messages
+```
 
 # 安装 - neovim
 
@@ -471,18 +462,24 @@ $ aptiotude install xsel
 
 # package
 
-#####  gruvbox.nvim [主题配色]
+#####  gruvbox.nvim
 
+> 主题配色
+>
 > [github](https://giters.com/ellisonleao/gruvbox.nvim)
 
-##### alpha-nvim [启动画面]
+##### alpha-nvim
 
+> 启动画面
+>
 > [github](https://github.com/goolord/alpha-nvim)
 >
 > [开始画面顶部图片](https://github.com/glepnir/dashboard-nvim/wiki/Ascii-Header-Text)
 
-#####  lualine.nvim [状态栏]
+#####  lualine.nvim
 
+> 状态栏
+>
 > [github](https://github.com/nvim-lualine/lualine.nvim)
 
 ```
@@ -508,8 +505,10 @@ progress (%progress in file)
 tabs (shows currently available tabs)
 ```
 
-##### trouble.nvim [语法错误列表]
+##### trouble.nvim
 
+> 语法错误列表
+>
 > [github](https://github.com/folke/trouble.nvim)
 
 ##### lazygit
@@ -520,8 +519,10 @@ tabs (shows currently available tabs)
 
 > [github](https://github.com/lewis6991/gitsigns.nvim)
 
-##### nvim-tree.lua [文件管理]
+##### nvim-tree.lua
 
+> 文件管理
+>
 > [github](https://github.com/kyazdani42/nvim-tree.lua)
 
 ```
@@ -548,8 +549,10 @@ d 删除
 
 > [github](https://github.com/folke/which-key.nvim)
 
-##### nvim-treesitter [语法高亮]
+##### nvim-treesitter
 
+> 语法高亮
+>
 > [github](https://github.com/nvim-treesitter/nvim-treesitter)
 
 ```bash
@@ -571,8 +574,10 @@ d 删除
 :TSBufToggle highlight
 ```
 
-##### Comment.nvim [注释]
+##### Comment.nvim
 
+> 注释
+>
 > [github](https://github.com/numToStr/Comment.nvim)
 
 ```
@@ -608,8 +613,10 @@ VISUAL mode
 ```
 ```
 
-##### symbols-outline.nvim[ 边栏显示函数对象]
+##### symbols-outline.nvim
 
+> 边栏显示函数对象
+>
 > [github](https://github.com/simrat39/symbols-outline.nvim)
 
 ```
@@ -637,8 +644,10 @@ VISUAL mode
 
 
 
-##### vim-easy-align [文本对齐]
+##### vim-easy-align
 
+> 文本对齐
+>
 > [github](https://github.com/junegunn/vim-easy-align)
 
 - install
@@ -689,8 +698,10 @@ VISUAL mode
   PersonAction , 2201     , HHKI!HA
   ```
 
-##### vim-translator 词典(功能不全)
+##### vim-translator
 
+> 词典(功能不全)
+>
 > [github](https://github.com/voldikss/vim-translator)
 
 - 翻译句子
@@ -703,8 +714,10 @@ VISUAL mode
 
 > [github](https://github.com/plasticboy/vim-markdown)
 
-##### preview - markdown [实时预览]
+##### preview - markdown
 
+> 实时预览
+>
 > [github](https://github.com/iamcco/markdown-preview.nvim)
 
 - 如果要安装必须执行
@@ -746,8 +759,10 @@ VISUAL mode
     打开的文件不是 .md
     ```
 
-##### vim-floaterm [终端模式]
+##### vim-floaterm
 
+> 终端模式
+>
 > [github](https://github.com/voldikss/vim-floaterm)
 
 use
@@ -756,8 +771,10 @@ use
 :FloatermNew lazygit
 ```
 
-##### toggleterm.nvim [终端模式]
+##### toggleterm.nvim
 
+> 终端模式
+>
 > [github](https://github.com/akinsho/toggleterm.nvim)
 
 ```
@@ -773,12 +790,16 @@ use
 2<C-\>	第 2 个窗口最大化
 ```
 
-##### winshift.nvim [移动窗口]
+##### winshift.nvim
 
+> 移动窗口
+>
 > [github](https://github.com/sindrets/winshift.nvim)
 
-#####  yode-nvim [window内的悬浮终端]
+#####  yode-nvim
 
+> window内的悬浮终端
+>
 > [github](https://github.com/hoschi/yode-nvim)
 
 ```
@@ -793,15 +814,19 @@ map <C-W>J :YodeLayoutShiftWinBottom<CR>
 map <C-W>K :YodeLayoutShiftWinTop<CR>
 ```
 
-##### nvim-window [编号选择 window]
+##### nvim-window
 
+> 编号选择 window
+>
 > [github](https://gitlab.com/yorickpeterse/nvim-window)
 
 ```
 ```
 
-##### rnvimr [neovim ranger]
+##### rnvimr
 
+> neovim ranger
+>
 > [github](https://github.com/kevinhwang91/rnvimr)
 
 - Install Ranger
@@ -866,14 +891,6 @@ tnoremap <silent> <M-o> <C-\><C-n>:RnvimrToggle<CR>
     $ sudo aptitude install libx11-dev libxext-dev python-dev python3-dev
     ```
 
-# terminal
-
-
-
-
-
-
-
 # lsp
 
 ##### lsp
@@ -907,8 +924,6 @@ tnoremap <silent> <M-o> <C-\><C-n>:RnvimrToggle<CR>
 ```
 
 ```
-
-
 
 # dap
 
@@ -950,6 +965,8 @@ $ pip install pytest debugpy
 > [github](https://github.com/mfussenegger/nvim-jdtls)
 >
 > 安装到 `/opt/neovim-dap` 目录下
+>
+> 每次启动后先执行 `JdtRefreshDebugConfigs`
 
 - 安装 eclipse.jdt.ls 语言服务器
 
@@ -984,47 +1001,6 @@ $ pip install pytest debugpy
   $ npm run build-plugin
   ```
 
-
-- 问题1
-
-  - 描述
-
-    ```
-    Client 1 quit with exit code 1 and signal 0
-    ```
-    
-  - 解决问题
-
-    ```
-    查看缓存的目录
-    :lua print(vim.fn.stdpath('cache'))
-    
-    
-    查看 lsp.log 文件
-    ```
-
-```
-
-日志文件
-~/.cache/nvim
-```
-
-```
-No LSP client found that supports vscode.java.resolveMainClass
-```
-
-
-
-# dap2
-
-[github](https://github.com/puremourning/vimspector)
-
-```
-
-```
-
-
-
 # cpm
 
 ##### nvim-cmp
@@ -1046,10 +1022,6 @@ No LSP client found that supports vscode.java.resolveMainClass
 
 
 
-
-
-##### 
-
 # 未使用
 
 ##### [代码运行](https://github.com/skywind3000/asyncrun.vim)
@@ -1061,14 +1033,6 @@ No LSP client found that supports vscode.java.resolveMainClass
 ##### [git]([github](https://github.com/tpope/vim-fugitive))
 
 ##### [DAPInstall(python 支持, java 不支持, 暂时不用)](https://github.com/Pocco81/DAPInstall.nvim)
-
-
-
-
-
-
-
-
 
 
 
