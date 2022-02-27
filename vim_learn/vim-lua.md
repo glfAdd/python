@@ -975,13 +975,11 @@ $ pip install pytest debugpy
   [完整配置示例](https://github.com/mfussenegger/nvim-jdtls/wiki/Sample-Configurations)
 
   ```bash
-  $ wget https://download.eclipse.org/jdtls/milestones/1.8.0/jdt-language-server-1.8.0-202201261434.tar.gz
-  
   $ wget https://download.eclipse.org/jdtls/snapshots/jdt-language-server-1.9.0-202202210521.tar.gz
   $ gzip -d  jdt-language-server-1.8.0-202201261434.tar.gz 
   $ tar xvf jdt-language-server-1.8.0-202201261434.tar
   ```
-
+  
 - 安装 java-debug
 
   ```bash
