@@ -466,11 +466,11 @@ $ dnf install fd-find
 >
 > [github](https://giters.com/ellisonleao/gruvbox.nvim)
 
-##### alpha-nvim
+##### vim-startify
 
 > 启动画面
 >
-> [github](https://github.com/goolord/alpha-nvim)
+> [github](https://github.com/mhinz/vim-startify)
 >
 > [开始画面顶部图片](https://github.com/glepnir/dashboard-nvim/wiki/Ascii-Header-Text)
 
@@ -479,29 +479,6 @@ $ dnf install fd-find
 > 状态栏
 >
 > [github](https://github.com/nvim-lualine/lualine.nvim)
-
-```
-+-------------------------------------------------+
-| A | B | C                             X | Y | Z |
-+-------------------------------------------------+
-```
-
-```
-branch (git branch)
-buffers (shows currently available buffers)
-diagnostics (diagnostics count from your preferred source)
-diff (git diff status)
-encoding (file encoding)
-fileformat (file format)
-filename
-filesize
-filetype
-hostname
-location (location in file in line:column format)
-mode (vim mode)
-progress (%progress in file)
-tabs (shows currently available tabs)
-```
 
 ##### trouble.nvim
 
@@ -592,9 +569,6 @@ d 删除
 >
 > [github](https://github.com/windwp/nvim-autopairs)
 
-```
-```
-
 ##### symbols-outline.nvim
 
 > 边栏显示函数对象
@@ -622,8 +596,6 @@ d 删除
 
 ```
 https://github.com/vim-autoformat/vim-autoformat 2k
-
-
 
 
 ```
