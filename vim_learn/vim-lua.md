@@ -18,8 +18,11 @@ https://github.com/nshen/learn-neovim-lua
 https://zhuanlan.zhihu.com/p/388397656?utm_source=wechat_session&utm_medium=social&utm_oi=1269928803658530816
 https://github.com/HeWenJin/config/blob/main/nvim/lua/plugins/init.lua
 
-新方案用到的插件 : https://github.com/HeWenJin/config/blob/main/nvim/lua/plugins/init.lua
+新方案用到的插件1 : 
+https://github.com/HeWenJin/config/blob/main/nvim/lua/plugins/init.lua
 
+新方案用到的插件2
+https://github.com/JavaHello/nvim/tree/nvim-lsp
 
 todo
 https://github.com/saadparwaiz1/cmp_luasnip
@@ -89,6 +92,7 @@ $ ln -s /opt/nvim-osx64/bin/nvim /usr/local/bin/nvim
 
 ```
 ~/.config/nvim/init.vim
+~/.config/nvim/init.lua
 ```
 
 ##### 支持 python2 / 3
@@ -356,13 +360,20 @@ end)
 
 # 依赖
 
-##### pip3
+##### python 环境
+
+```bash
+$ pyenv virtualenv 3.9.2 p-3.9.2-neovim
+$ pyenv activate p-3.9.2-neovim
+$ pip install --upgrade pip
+$ pip install neovim pynvim pytest debugpy isort ueberzug ranger-fm
+```
+
+##### pip3(非必备)
 
 ```
 aptitude install python3-pip
 ```
-
-
 
 ##### java
 
@@ -387,11 +398,7 @@ $ aptitude install nodejs npm
 ```
 $ sudo dnf copr enable atim/lazygit
 $ sudo dnf install lazygit 
-
-
 ```
-
-
 
 ##### devicons 字体
 
@@ -421,8 +428,6 @@ $ sudo dnf install lazygit
   $ npm install devicons
   ```
 
-
-
 ##### clipboard 支持
 
 Vim 与系统共用剪切板
@@ -437,6 +442,20 @@ Vim 与系统共用剪切板
 
 ```bash
 $ aptiotude install xsel
+```
+
+##### rg
+
+```bash
+$ aptitude install ripgrep
+$ dnf insteall ripgrep
+```
+
+##### fd
+
+```bash
+$ aptitude install fd-find
+$ dnf install fd-find
 ```
 
 # package
@@ -505,12 +524,6 @@ tabs (shows currently available tabs)
 > [github](https://github.com/kyazdani42/nvim-tree.lua)
 
 ```
-nnoremap <C-n> :NvimTreeToggle<CR>
-nnoremap <leader>r :NvimTreeRefresh<CR>
-nnoremap <leader>n :NvimTreeFindFile<CR>
-```
-
-```
 o 打开关闭文件夹
 a 创建文件
 r 重命名
@@ -559,16 +572,6 @@ d 删除
 >
 > [github](https://github.com/numToStr/Comment.nvim)
 
-```
-另一个没使用的, 不知道好不好用
-https://github.com/terrortylor/nvim-comment
-
-VISUAL mode
-`gc` - Toggles the region using linewise comment
-`gb` - Toggles the region using blockwise comment
-
-```
-
 - normal
 
   `gcc` - Toggles the current line using linewise comment
@@ -598,19 +601,13 @@ VISUAL mode
 >
 > [github](https://github.com/simrat39/symbols-outline.nvim)
 
-```
-
-```
-
 ##### formatter.nvim(未使用)
 
 > 代码格式化
 >
 > [github](https://github.com/mhartington/formatter.nvim)
-
-```
-
-```
+>
+> [config](https://github.com/mhartington/formatter.nvim/blob/master/CONFIG.md)
 
 #####  neoformat
 
@@ -619,6 +616,16 @@ VISUAL mode
 ```
 :Neoformat! python
 :Neoformat! python yapf
+```
+
+
+
+```
+https://github.com/vim-autoformat/vim-autoformat 2k
+
+
+
+
 ```
 
 
@@ -769,6 +776,19 @@ use
 2<C-\>	第 2 个窗口最大化
 ```
 
+##### telescope-media-files.nvim
+
+> [github](https://github.com/nvim-telescope/telescope-media-files.nvim)
+
+```bash
+$ pip3 install ueberzug
+
+
+$ pip3 install Pillow
+```
+
+
+
 ##### winshift.nvim
 
 > 移动窗口
@@ -798,9 +818,6 @@ map <C-W>K :YodeLayoutShiftWinTop<CR>
 > 编号选择 window
 >
 > [github](https://gitlab.com/yorickpeterse/nvim-window)
-
-```
-```
 
 ##### rnvimr
 
@@ -851,8 +868,6 @@ tnoremap <silent> <M-o> <C-\><C-n>:RnvimrToggle<CR>
 
 ```
 
-
-
 - 问题 1:
 
   - 描述
@@ -896,13 +911,9 @@ tnoremap <silent> <M-o> <C-\><C-n>:RnvimrToggle<CR>
 :LspInfo
 ```
 
-#####  lsp_signature.nvim(x)
+#####  lsp_signature.nvim
 
 > [github](https://github.com/ray-x/lsp_signature.nvim)
-
-```
-
-```
 
 # dap
 
