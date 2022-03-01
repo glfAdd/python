@@ -802,6 +802,7 @@ map <C-W>K :YodeLayoutShiftWinTop<CR>
   ```bash
   $ brew install ranger
   $ aptitude install ranger
+  $ dnf install ranger
   ```
 
 - install Ueberzug
