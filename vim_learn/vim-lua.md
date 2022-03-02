@@ -981,7 +981,11 @@ $ pip install pytest debugpy
 
 ```
 
+##### telescope-frecency.nvim
 
+> 搜索结果排序优化
+>
+> [github](https://github.com/nvim-telescope/telescope-frecency.nvim)
 
 # 未使用
 
