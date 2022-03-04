@@ -458,6 +458,14 @@ $ aptitude install fd-find
 $ dnf install fd-find
 ```
 
+##### tmux
+
+```bash
+$ aptitude install tmux
+```
+
+
+
 # package
 
 #####  gruvbox.nvim
