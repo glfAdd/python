@@ -21,9 +21,6 @@ https://github.com/HeWenJin/config/blob/main/nvim/lua/plugins/init.lua
 新方案用到的插件1 : 
 https://github.com/HeWenJin/config/blob/main/nvim/lua/plugins/init.lua
 
-新方案用到的插件2
-https://github.com/JavaHello/nvim/tree/nvim-lsp
-
 todo
 https://github.com/saadparwaiz1/cmp_luasnip
 https://github.com/L3MON4D3/LuaSnip
@@ -313,6 +310,23 @@ e       ：  忽略执行过程中的错误。
     q: 查看命令行历史
 ```
 
+##### powerline fonts
+
+> [github](https://github.com/powerline/fonts)
+
+```bash
+$ apt-get install fonts-powerline
+$ dnf install powerline-fonts
+
+
+# source
+$ git clone https://github.com/powerline/fonts.git --depth=1
+$ cd fonts
+$ ./install.sh
+```
+
+
+
 # packer.nvim
 
 > [github](https://github.com/wbthomason/packer.nvim)
@@ -498,7 +512,7 @@ $ aptitude install tmux
 
 > [github](https://github.com/kdheepak/lazygit.nvim)
 
-##### git
+##### gitsigns.nvim
 
 > [github](https://github.com/lewis6991/gitsigns.nvim)
 
@@ -680,7 +694,7 @@ https://github.com/vim-autoformat/vim-autoformat 2k
 
 > [github](https://github.com/plasticboy/vim-markdown)
 
-##### preview - markdown
+##### preview-markdown
 
 > 实时预览
 >
@@ -798,6 +812,21 @@ map <C-W>K :YodeLayoutShiftWinTop<CR>
 > 编号选择 window
 >
 > [github](https://gitlab.com/yorickpeterse/nvim-window)
+
+##### hop.nvim
+
+> 单词跳转
+>
+> [github](https://github.com/phaazon/hop.nvim#installation)
+
+```
+:HopWord：通过突出显示单词来跳。
+:HopPattern: 通过匹配一个模式来跳转（如/）。
+:HopChar1：键入一个键并跳到文档中该键的任何出现处。
+:HopChar2：输入一个二元组（两个键）并跳到文档中该二元组的任何出现处。
+:HopLine: 跳转到缓冲区中的任何可见行。
+:HopLineStart: 跳转到缓冲区中每一行的任何可见的第一个非空白字符。:q
+```
 
 ##### rnvimr
 
@@ -918,6 +947,23 @@ help
 > [github](https://github.com/rcarriga/nvim-dap-ui)
 
 ```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 ```
 
