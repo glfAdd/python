@@ -7,14 +7,16 @@ https://newsupport.lenovo.com.cn/driveList.html?fromsource=driveList&selname=%E6
 
 ##### windows 系统包管理工具
 
-```
-参考: https://www.jianshu.com/p/50993df76b1c
-命令安装在: C:\Users\lg\scoop\apps
+> 命令安装在: C:\Users\lg\scoop\apps
 
-0. 打开windows powershell
+```bash
+0. 管理员方式启动 powershell
 
 1. 在 PowerShell 中输入下面内容，保证允许本地脚本的执行, 选择"全部"
 set-executionpolicy remotesigned -scope currentuser
+
+3
+iwr https://chocolatey.org/install.ps1 -UseBasicParsing | iex
 
 2. 执行下面的命令安装 Scoop：
 iwr -useb get.scoop.sh | iex
@@ -270,6 +272,24 @@ C:\windows\system32\ICACLS %DIRECTORY_NAME% /grant administrators:F /t
 PAUSE
 
 ```
+
+## development
+
+##### pyenv
+
+[github](https://github.com/pyenv-win/pyenv-win#get-pyenv-win)
+
+```
+choco install pyenv-win
+```
+
+
+
+
+
+
+
+
 
 ## 效率软件
 
