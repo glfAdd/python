@@ -15,6 +15,46 @@ $CWD/etc/supervisord.conf
 ../supervisord.conf (Relative to the executable)
 ```
 
+##### 问题 1: 安装后无法启动
+
+- 启动时报错
+
+  ```
+  Traceback (most recent call last):
+    File "/usr/bin/supervisorctl", line 5, in <module>
+      from pkg_resources import load_entry_point
+    File "/usr/local/python38/lib/python3.8/site-packages/pkg_resources/__init__.py", line 3267, in <module>
+      def _initialize_master_working_set():
+    File "/usr/local/python38/lib/python3.8/site-packages/pkg_resources/__init__.py", line 3241, in _call_aside
+      f(*args, **kwargs)
+    File "/usr/local/python38/lib/python3.8/site-packages/pkg_resources/__init__.py", line 3279, in _initialize_master_working_set
+      working_set = WorkingSet._build_master()
+    File "/usr/local/python38/lib/python3.8/site-packages/pkg_resources/__init__.py", line 573, in _build_master
+      ws.require(__requires__)
+    File "/usr/local/python38/lib/python3.8/site-packages/pkg_resources/__init__.py", line 891, in require
+      needed = self.resolve(parse_requirements(requirements))
+    File "/usr/local/python38/lib/python3.8/site-packages/pkg_resources/__init__.py", line 777, in resolve
+      raise DistributionNotFound(req, requirers)
+  pkg_resources.DistributionNotFound: The 'supervisor==3.4.0' distribution was not found and is required by the application
+  ```
+
+- 原因
+
+  ```
+  supervisor 只支持 python2, python3 会造成启动失败
+  ```
+
+- 解决办法: 指定 supervisor 使用的python 版本
+
+  ```
+  修改 /usr/bin/supervisord 和 /usr/bin/supervisorctl 
+  
+  将 
+  #!/usr/bin/python
+  改为
+  #!/usr/bin/python2
+  ```
+
 ##### 命令
 
 ```
