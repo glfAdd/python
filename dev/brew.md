@@ -1,13 +1,13 @@
 ##### 切换国内源
 
 ```
-1.获取install文件把官网给的脚本拿下来 
+1.获取install文件把官网给的脚本拿下来
 curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install >> brew_install
 
 2.替换
-BREW_REPO = “https://github.com/Homebrew/brew“.freeze 
-CORE_TAP_REPO = “https://github.com/Homebrew/homebrew-core“.freeze 
-更改为 
+BREW_REPO = “https://github.com/Homebrew/brew“.freeze
+CORE_TAP_REPO = “https://github.com/Homebrew/homebrew-core“.freeze
+更改为
 BREW_REPO = "https://mirrors.ustc.edu.cn/brew.git".freeze
 CORE_TAP_REPO = "https://mirrors.ustc.edu.cn/homebrew-core.git".freeze
 
@@ -53,17 +53,3 @@ source ~/.bash_profile
 # 然后，删除 HOMEBREW_BOTTLE_DOMAIN 这一行配置 
 source ~/.bash_profile
 ```
-
-##### 安装
-
-```
-```
-
-
-
-##### 命令
-
-```
-```
-
-##### 
