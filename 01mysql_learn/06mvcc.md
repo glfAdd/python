@@ -1,11 +1,23 @@
-## 并发
+##### 参考
+
+[8.0 mvcc 源码解析](https://blog.csdn.net/v123411739/article/details/108379583)
+
+https://segmentfault.com/a/1190000037557620
+
+https://blog.csdn.net/Waves___/article/details/105295060
+
+
+
+## 事务
+
+> 当每个事务开启时，都会被分配一个唯一的ID, 这个ID是递增的，所以最新的事务，ID值越大
 
 ##### 并发场景
 
 ```
 读-读：不存在任何问题，也不需要并发控制 
 读-写：有线程安全问题，可能会造成事务隔离性问题，可能遇到脏读，幻读，不可重复读 
-写-写：有线程安全问题，可能会存在更新丢失问题，比如第一类更新丢失
+写-写：有线程安全问题，可能会存在更新丢失问题
 ```
 
 ##### 并发问题
@@ -13,13 +25,14 @@
 - 脏读
 
   ```
-  Dirty Read: 事务 1 更新了一份数据, 此时事务 2 读取了这份数据, 事务 1 rollback 了操作, 导致事务 2 读取的数据是不正确的.  
+  Dirty Read: 
+  当前事务未提交的数据被其他事务读取了, 如果当前事务回滚或修改了数据, 会导致其他事务数据不正确.
   ```
 
 - 幻读
 
   ```
-  Phantom Read: 在一个事务内，同一 SELECT 多次读取范围内数据, 得到结果集不同. 侧重数据增加或减少.
+  Phantom Read: 在事务内, 同一 SELECT 多次读取范围内数据, 得到结果集不同. 侧重数据增加或减少.
   
   例如: 事务 1 查询了所有的数据, 此时事务 2 插入了新的数据, 事务 1 再次查询所有数据, 发现数据多了.
   ```
@@ -37,95 +50,260 @@
 - 不可重复读
 
   ```
-  Nonerepeatable Read: 在一个事务内, 同一 select 多次读取同一条数据, 得到结果不同. 侧重数据被修改.
+  Nonerepeatable Read: 在一个事务中两次读取同一个数据时，由于在两次读取之间，另一个事务修改了该数据，所以出现两次读取的结果不一致. 侧重数据被修改.
   
   例如: 事务 1 查询一条数据, 得到结果为 100, 此时事务 2 修改了这条数据为 200, 此时事务 1 再次读取时变为了200
   ```
+
+##### 事务特性 ???
+
+```
+所有操作要么都成功, 要么什么都不做
+事务具有四个特征：ACID
+    原子性（ Atomicity ）: 所有操作要么都成功, 要么什么都不做
+    一致性（ Consistency ）: 
+    隔离性（ Isolation ）: 一个事务执行不能干扰其它事务
+    持续性（ Durability）: 事务一旦提交, 对数据库中的数据的改变就应该是永久性的
+```
+
+##### 事务隔离级别
+
+> 查看事务隔离级别: show variables like 'transaction_isolation';
+>
+> InnoDB 的可重复读不存在幻读. 对于快照读，InnoDB 使用 MVCC 解决幻读，对于当前读，InnoDB 通过 gap locks 或 next-key locks 解决幻读
+
+```
+1. Read Uncommitted(读未提交)
+最低隔离级别, 会读到其他事务未提交的内容, 查询语句不会加锁
+
+2. Read Committed(读提交)
+读取其他事务已提交的内容
+
+3. Repeatable Read(可重复读)
+同一事务多次读取同一个范围内的数据, 只返回第一次快照的结果集
+
+4. Serializerable(串行化)
+最高隔离级别, 顺序执行事务
+```
+
+|          | 脏读 | 不可重复读 | 幻读 |
+| -------- | ---- | ---------- | ---- |
+| 读未提交 | Y    | Y          | Y    |
+| 读提交   | N    | Y          | Y    |
+| 可重复读 | N    | N          | Y    |
+| 串行化   | N    | N          | N    |
+
+##### 快照读
+
+- 快照读(SnapShot Read): 事务查询到的数据都是事务开始前已存在或事务自身写的数据.
+
+- 快照读的前提是隔离级别不是串行级别，串行级别下的快照读会退化成当前读
+
+- 快照读的实现是基于多版本并发控制
+
+  ```sql
+  -- 不加锁的简单的 SELECT 都属于快照读
+  SELECT * FROM t WHERE id=1;
+  ```
+
+##### 当前读
+
+- 当前读: 查询最新版本的记录，读取时还要保证其他并发事务不能修改当前记录，会对读取的记录进行加锁
+
+  ```sql
+  -- 加锁的 SELECT 就属于当前读
+  SELECT * FROM t WHERE id=1 LOCK IN SHARE MODE;
+  SELECT * FROM t WHERE id=1 FOR UPDATE;
+  ```
+
+```
+InnoDB的事务日志主要分为:
+redo log是重做日志，提供前滚操作
+undo log是回滚日志，提供回滚操作
+
+1.redo log 通常是物理日志，记录的是数据页的物理修改，而不是某一行或某几行修改成怎样怎样，它用来恢复提交后的物理数据页(恢复数据页，且只能恢复到最后一次提交的位置)。redo log包括两部分：一是内存中的日志缓冲(redo log buffer)，该部分日志是易失性的；二是磁盘上的重做日志文件(redo log file)，该部分日志是持久的。
+2.undo log 是用来回滚行记录到某个版本。undo log一般是逻辑日志，根据每行记录进行记录。
+
+
+redo log: 记录的是新数据的备份, 在事务提交前, 只将redo log持久化, 不将数据持久化
+当系统崩溃时, 虽然数据没有持久化, 但redo log已经持久化, 根据redo log的内容将数据恢复到最新状态
+
+
+
+undo log: 提供事务的回滚和多个行版本控制（MVCC-非锁定读）。undo log是逻辑日志，如执行一条delete操作时，undo log将它的反向操作记录下来，undo log也会产生redo日志。当事务失败需要回滚时，就可以从undo log中的逻辑记录进行回滚到修改前的样子。
+
+
+```
+
+
+
+##### 
+
+
+
+
+
+##### select 语句分类
+
+```
+首先我们的 SELECT 查询分为快照读和实时读，快照读通过 MVCC（并发多版本控制）来解决幻读问题，实时读通过行锁来解决幻读问题。
+```
+
+
 
 
 
 ## 隐藏字段
 
-每行记录除了我们自定义的字段外，数据库隐式定义一些字段
+为了实现 MVCC，InnoDB 向每行记录增加三个字段
 
 |             | 大小 byte |                                                              |
 | ----------- | --------- | ------------------------------------------------------------ |
-| DB_ROW_ID   | 6         | 隐含的自增ID（隐藏主键）, 如果数据表没有主键，InnoDB会自动以DB_ROW_ID产生一个聚簇索引 |
-| DB_TRX_ID   | 6         | 最近修改(修改/插入)事务ID：记录创建这条记录/最后一次修改该记录的事务ID |
-| DB_ROLL_PTR | 7         | 回滚指针，指向这条记录的上一个版本（存储于rollback segment里） |
+| DB_ROW_ID   | 6         | 自增ID（隐藏主键）, 如果数据表没有主键，InnoDB 会自动用该列产生一个聚簇索引 |
+| DB_TRX_ID   | 6         | 记录插入或更新该行的最后一个事务的事务 ID                    |
+| DB_ROLL_PTR | 7         | 回滚指针，指向 undo log                                      |
 | DELETED_BIT | 1         | 记录被更新或删除并不代表真的删除，而是删除flag变了           |
+| . . .       | . . .     | . . .                                                        |
 
 ## undo log
 
+##### 是什么
+
+- innoDB 为了回滚而记录的日志数据, 在事务没提交之前，MySQL 会先记录更新前的数据到 undo log日志文件里面，当事务回滚时用 undo log 将数据恢复到事务开始之前的状态
+- 最新的旧数据作为链表的表头，插在该行记录的 undo log 最前面
+- SELECT 不会修改任何用户记录, 查询时不需要记录相应的undo log
+- 分类
+  - Insert undo log: 插入记录时, 把这条记录主键值记下来，回滚时把这个主键值对应的记录删除
+  - Update undo log: 修改记录时, 把修改这条记录前的旧值都记录下来，回滚时把这条记录更新为旧值
+  - Delete undo log: 删除记录时, 把这条记录中的内容都记下来，回滚时把由这些内容组成的记录插入到表中. 删除操作都只是设置记录的DELETED_BIT，并不真正将过时的记录删除。 为了节省磁盘空间，InnoDB 有专门的 purge 线程来清理 DELETED_BIT 为 true 的记录。为了不影响MVCC的正常工作，purge线程自己也维护了一个read view, 如果某个记录的DELETED_BIT为true，并且DB_TRX_ID相对于purge线程的read view可见，那么这条记录一定是可以被安全清除的。
+
 ```
-undo log: innoDB 为了回滚而记录的东西
-SELECT 不会修改任何用户记录, 查询时不需要记录相应的undo log
-
-
-Insert undo log: 插入条记录时, 至少把这条记录主键值记下来，回滚时把这个主键值对应的记录删除
-Update undo log：修改条记录时, 至少把修改这条记录前的旧值都记录下来，回滚时把这条记录更新为旧值
-Delete undo log: 删除条记录时, 至少要把这条记录中的内容都记下来，回滚时把由这些内容组成的记录插入到表中
-删除操作都只是设置一下老记录的DELETED_BIT，并不真正将过时的记录删除。 为了节省磁盘空间，InnoDB有专门的purge线程来清理DELETED_BIT为true的记录。为了不影响MVCC的正常工作，purge线程自己也维护了一个read view（这个read view相当于系统中最老活跃事务的read view）;如果某个记录的DELETED_BIT为true，并且DB_TRX_ID相对于purge线程的read view可见，那么这条记录一定是可以被安全清除的。
-
-
-对MVCC有帮助的实质是update undo log ，undo log实际上就是存在rollback segment中旧记录链，
-
-
-最新的数据在链表的表头
+undo log实际上就是存在rollback segment中旧记录链，
 ```
 
-##### 执行过程
+##### 创建数据
 
-- 插一条新记录
+新增一条记录, DB_TRX_ID 使用当前的事务 ID, 同样会有 undo log 和 redo log
 
 <img src=".\image\过程1.png" alt="过程1" style="zoom:85%;" />
 
+##### 更新数据
+
 - 事务 1 修改 name 为 Tom 
-  - 事务 1 修改该行数据时, 数据库先对该行加排他锁 
+  1. 事务 1 修改该行数据时, 数据库先对该行加排他锁 
+
   2. 把该行数据拷贝到 undo log 作为旧记录
-  3. 修改该行 name 为 Tom, 修改隐藏字段的事务 ID 为当前事务 1 的 ID, 回滚指针指向拷贝到 undo log 的副本记录
+  3. 更新行记录, 修改该行 name 为 Tom, DB_ROW_ID  为当前事务 1 的 ID, DB_ROLL_PTR 指向拷贝到 undo log 的副本记录
   4. 事务提交后释放锁
 
 <img src=".\image\过程2.png" alt="过程2" style="zoom:80%;" />
 
 - 事务 2 修改该记录 age 为 30
-  - 在事务 2 修改该行数据时，数据库先对该行加排他锁 
-  2. 把该行数据拷贝到 undo log 作为旧记录, 发现该行记录已经有 undo log, 那么最新的旧数据作为链表的表头，插在该行记录的undo log最前面
-  3. 修改该行 age 为 30, 修改隐藏字段的事务 ID 为当前事务 2 的 ID, 回滚指针指向刚刚拷贝到 undo log 的副本记录
+  1. 在事务 2 修改该行数据时，数据库先对该行加排他锁 
+
+  2. 把该行数据拷贝到 undo log 作为旧记录, 发现该行记录已经有 undo log, 那么最新的旧数据作为链表的表头，插在该行记录的 undo log 最前面
+  3. 修改该行 age 为 30, DB_ROW_ID 为当前事务 2 的 ID, DB_ROLL_PTR 指向刚拷贝到 undo log 的副本记录
   4. 事务提交，释放锁
 
 <img src=".\image\过程3.png" alt="过程3" style="zoom:80%;" />
 
-
-
-InnoDB 将行记录快照保存在了 Undo Log 里
-
-
-
-<img src=".\image\undolog.png" alt="undolog" style="zoom:80%;" />
+##### 删除数据
 
 ```
-回滚指针将数据行的所有快照记录都通过链表的结构串联了起来，每个快照的记录都保存了当时的 db_trx_id, 可以通过遍历回滚指针的方式进行查找
+删除在底层实现中使用更新. 
+
+1. 写 undo log 中, 会通过 type_cmpl 来标识是删除还是更新, 并且不记录列的旧值
+2. 这边不会直接删除，只会给行记录的 info_bits 打上删除标识（REC_INFO_DELETED_FLAG）, 之后会由专门的 purge 线程来执行真正的删除操作
 ```
 
-## read view(读视图)
+## read view
 
 ##### 是什么
 
+- 保存事务 ID 的列表, 记录当前事务执行时, 系统中启动了但还没提交的事务
+  - RC在每次执行读时都会创建一个 read view
+  - RR只在事务启动时创建一个 read view
+
+- 用来判断当前事务能够看到数据的版本
+- 属性
+  - m_ids: 创建 ReadView 时, 系统当前所有未提交事务 ID 列表. 升序排列
+  - m_up_limit_id: m_ids 中最小事务 ID
+  - m_low_limit_id: m_ids 中最大事务 ID
+  - m_creator_trx_id：创建该 ReadView 的事务的 ID
+
+##### 比较算法
+
+1. 如果行记录的 trx_id 与 m_creator_trx_id 相同, 表示记录是当前事务自己修改的
+2. 如果行记录的 trx_id 小于 m_up_limit_id, 表示行记录在生成 read view 前已经提交, 可以被当前事务访问
+3. 如果行记录的 trx_id 大于等于 m_low_limit_id, 表示行记录在 read view 后才提交, 不能被当前事务访问.
+4. 如果行记录的 trx_id 在 m_up_limit_id 和 m_low_limit_id 之间, 需要判断 trx_id 是否在 m_ids 列表中. 使用二分查找.
+   1. 如果在, 说明创建 read view 时, 生成该版本的事务还未提交, 当前事务无法访问
+   2. 如果不在, 说明创建 read view 时, 生成该版本的事务已经提交, 当前事务可以访问该版本
+
 ```
-事务进行快照读时生产 Read View, 用来做可见性判断. 在事务执行快照读的那一刻会生成数据库当前的一个快照，记录并维护系统当前活跃事务 ID
-    trx_list: 未提交事务 ID 列表
-    up_limit_id: trx_list 中最小事务 ID
-    low_limit_id: 下一个事务ID, 当前 ID + 1
+在进行判断时，首先会拿记录的最新版本来比较，如果该版本无法被当前事务看到，则通过记录的 DB_ROLL_PTR 找到上一个版本，重新进行比较，直到找到一个能被当前事务看到的版本。
 ```
 
-##### 可见算法
 
-```
-将被修改数据最新的 DB_TRX_ID 取出来, 与系统当前其他活跃的事务 ID 对比. 如果不符合可见性，那就通过 DB_ROLL_PTR 回滚指针去取出 Undo Log 中的 DB_TRX_ID 遍历比较, 直到找到满足特定条件的 DB_TRX_ID, 那么这个 DB_TRX_ID 所在的旧记录就是当前事务能看见的最新版本
-```
+
+
 
 ## mvcc
+
+##### 源代码(部分片段)
+
+trx_sys_t: 整个事务的管理系统
+
+```c
+struct trx_sys_t {
+    MVCC *mvcc;
+    volatile trx_id_t max_trx_id;           /* 下一个事务被分配的ID */
+    std::atomic<trx_id_t> min_active_id;    /* 最小的活跃事务ID */
+    trx_id_t rw_max_trx_id;                 /* 最大的活跃事务ID */
+    Rsegs rsegs;                            /* 回滚段 */
+}
+```
+
+MVCC：MVCC 读取视图管理器
+
+```c
+class MVCC {
+    public:
+    /** 创建一个视图 */
+    void view_open(ReadView *&view, trx_t *trx);
+    /** 关闭一个视图 */
+    void view_close(ReadView *&view, bool own_mutex);
+    /** 释放一个视图 */
+    void view_release(ReadView *&view);
+    /** 判断视图是否处于活动和有效状态 */
+    static bool is_view_active(ReadView *view) {
+        ut_a(view != reinterpret_cast<ReadView *>(0x1));
+        return (view != NULL && !(intptr_t(view) & 0x1));
+    }
+    private:
+    typedef UT_LIST_BASE_NODE_T(ReadView) view_list_t;
+    /** 空闲可以被重用的视图*/
+    view_list_t m_free;
+    /**  活跃或者已经关闭的 Read View 的链表 */
+    view_list_t m_views;
+};
+```
+
+ReadView
+
+```c
+class ReadView {
+    private:
+    trx_id_t m_low_limit_id;      /* 大于这个 ID 的事务均不可见 */
+    trx_id_t m_up_limit_id;       /* 小于这个 ID 的事务均可见 */
+    trx_id_t m_creator_trx_id;    /* 创建该 Read View 的事务ID */
+    trx_id_t m_low_limit_no;      /* 事务 Number, 小于该 Number 的 Undo Logs 均可以被 Purge */
+    ids_t m_ids;                  /* 创建 Read View 时的活跃事务列表 */
+    m_closed;                     /* 标记 Read View 是否 close */
+}
+```
+
+
 
 ##### 解决并发问题方式
 
@@ -140,43 +318,23 @@ InnoDB 将行记录快照保存在了 Undo Log 里
 ##### 是什么
 
 ```
-1. 多版本并发控制 Multiversion Concurrency Control, 简称 MVCC. 提高数据库并发性能
-2. 解决读写冲突的无锁并发控制, 读操作只读该事务开始前的数据库的快照
-3. 降低了死锁的概率. InnoDB 的 MVCC 采用了乐观锁的方式，读取数据时并不需要加锁，对于写操作，也只锁定必要的行
-4. 解决一致性读的问题, 当我们查询数据库在某个时间点的快照时，只能看到这个时间点之前事务提交更新的结果，而不能看到这个时间点之后事务提交的更新结果
-5. MySQL, Oracle, PostgreSQL等其他数据库系统也都实现了MVCC，但各自的实现机制不同
-
-对正在事务内处理的数据做多版本的管理，用来避免由于写操作的堵塞，而引发读操作失败的并发问题。
-
-
-MVCC就是为了实现读-写冲突不加锁，而这个读指的就是快照读, 而非当前读，当前读实际上是一种加锁的操作，是悲观锁的实现
-
-
-是通过保存数据在某个时间点的快照来实现并发控制的. 不管事务执行多长时间，事务内部看到的数据是不受其它事务影响的，根据事务开始的时间不同，每个事务对同一张表，同一时刻看到的数据可能是不一样的。
-
-
-
-乐观（optimistic）并发控制和悲观（pessimistic）并发控制
-
-
-MVCC 在一定程度上实现了读写并发，它只在 可重复读（REPEATABLE READ） 和 提交读（READ COMMITTED） 两个隔离级别下工作。其他两个隔离级别都和 MVCC 不兼容，因为 未提交读（READ UNCOMMITTED），总是读取最新的数据行，而不是符合当前事务版本的数据行。而 可串行化（SERIALIZABLE） 则会对所有读取的行都加锁。
-
-行锁，并发，事务回滚等多种特性都和MVCC相关。
-
+1. 多版本并发控制 Multiversion Concurrency Control, 简称 MVCC. 解决读-写冲突的无锁并发控制, 读指的是快照读, 而非当前读. 通过 3 个隐藏字段, undo log 和 read view 实现 mvcc
+2. 通过保存数据在某个时间点的快照实现的.
+2. 不管事务执行多长时间，事务内部看到的数据是不受其它事务影响. 根据事务开始的时间不同, 每个事务对同一张表, 同一时刻看到的数据可能是不一样
+3. 解决脏读，幻读，不可重复读等事务隔离问题，但不能解决更新丢失问题
+4. 只在可重复读和提交读两个隔离级别下工作, 其他两个隔离级别都和 MVCC 不兼容, 因为未提交读总是读取最新的数据行, 不符合当前事务版本的数据行. 串行化会对所有读取的行都加锁
 ```
 
 ```
 MVCC + 悲观锁: MVCC解决读写冲突，悲观锁解决写写冲突
 MVCC + 乐观锁: MVCC解决读写冲突，乐观锁解决写写冲突
+
+乐观（optimistic）并发控制和悲观（pessimistic）并发控制
 ```
 
-##### 整体流程
+##### 示例
 
-```
-1. 事务 2 对某行数据执行快照读, 数据库为该行数据生成一个 Read View 读视图, 假设当前事务 ID 为 2
-2. 此时还有事务 1 和 3 在活跃中, 事务 4 在事务 2 快照读前一刻提交更新了. 
-3. 所以 Read View 记录了系统当前活跃事务 ID 是 1 和 3的ID
-```
+- 有 4 个事务
 
 | 事务 1   | 事务 2   | 事务 3   | 事务 4       |
 | -------- | -------- | -------- | ------------ |
@@ -184,21 +342,26 @@ MVCC + 乐观锁: MVCC解决读写冲突，乐观锁解决写写冲突
 |          |          |          | 修改且已提交 |
 | 进行中   | 快照读   | 进行中   |              |
 
+```
+1. 事务 2 对某行数据执行快照读, 数据库为该行数据生成一个 Read View 读视图, 假设当前事务 ID 为 2
+2. 此时还有事务 1 和 3 在活跃中, 事务 4 在事务 2 快照读前一刻提交更新了. 
+3. 所以 Read View 记录了系统当前活跃事务 ID 是 1 和 3的ID
+```
+
 <img src=".\image\readview1.png" alt="readview1" style="zoom:80%;" />
 
 ```
 事务 2 在快照读该行记录时, 会拿该行记录的 DB_TRX_ID 去跟 up_limit_id, low_limit_id 和 trx_list 比较, 判断事务 2 能看到该记录的版本
-```
-
-<img src=".\image\readview2.png" alt="readview2" style="zoom:80%;" />
-
-```
-1. 用该记录 DB_TRX_ID ID(4) 和 up_limit_id(1) 比较, 4 小于 up_limit_id(1), 不符合条件
+	1. 用该记录 DB_TRX_ID ID(4) 和 up_limit_id(1) 比较, 4 小于 up_limit_id(1), 不符合条件
 2. 4 是否大于等于 low_limit_id(5)，也不符合条件，最后判断4是否处于trx_list中的活跃事务, 最后发现事务ID为4的事务不在当前活跃事务列表中, 符合可见性条件，所以事务4修改后提交的最新结果对事务2快照读时是可见的，所以事务2能读到的最新数据记录是事务4所提交的版本，而事务4提交的版本也是全局角度上最新的版本
 
 
 
 ```
+
+<img src=".\image\readview2.png" alt="readview2" style="zoom:80%;" />
+
+
 
 
 
@@ -257,164 +420,6 @@ mvcc 快照读和当前读
 
 
 
-## 事务
-
-> 当每个事务开启时，都会被分配一个ID, 这个ID是递增的，所以最新的事务，ID值越大
-
-##### 事务特性
-
-```
-所有操作要么都成功, 要么什么都不做
-
-事务具有四个特征：ACID
-原子性（ Atomicity ）: 所有操作要么都成功, 要么什么都不做
-一致性（ Consistency ）: 
-隔离性（ Isolation ）: 一个事务执行不能干扰其它事务
-持续性（ Durability）: 事务一旦提交, 对数据库中的数据的改变就应该是永久性的
-```
-
-##### 查询事务隔离级别
-
-```sql
-show variables like 'transaction_isolation';
-```
-
-##### 事务隔离级别
-
-```
-1. Read Uncommitted(读未提交)
-可以读取未提交的内容
-
-2. Read Committed(读提交)
-只能读取已经提交的内容, 采用快照读
-
-3. Repeatable Read(可重复读)
-mysql默认的隔离级别, 确保同一事务的多个实例在并发读取数据时看到同样的数据行，会导致幻读
-
-4. Serializerable(串行化)
-最高隔离级别, 顺序执行事务.
-```
-
-|          | 脏读 | 不可重复读 | 幻读 |
-| -------- | ---- | ---------- | ---- |
-| 读未提交 | Y    | Y          | Y    |
-| 读提交   | N    | Y          | Y    |
-| 可重复读 | N    | N          | Y    |
-| 串行化   | N    | N          | N    |
-
-##### 快照读
-
-- 快照读(SnapShot Read): 事务查询到的数据都是事务开始前已存在或事务自身写的数据.
-
-- 快照读的前提是隔离级别不是串行级别，串行级别下的快照读会退化成当前读
-
-- 快照读的实现是基于多版本并发控制
-
-  ```sql
-  -- 不加锁的简单的 SELECT 都属于快照读
-  SELECT * FROM t WHERE id=1;
-  ```
-
-##### 当前读
-
-- 当前读: 查询最新版本的记录，读取时还要保证其他并发事务不能修改当前记录，会对读取的记录进行加锁
-
-  ```sql
-  -- 加锁的 SELECT 就属于当前读
-  SELECT * FROM t WHERE id=1 LOCK IN SHARE MODE;
-  SELECT * FROM t WHERE id=1 FOR UPDATE;
-  ```
-
-```
-InnoDB的事务日志主要分为:
-redo log是重做日志，提供前滚操作
-undo log是回滚日志，提供回滚操作
-
-1.redo log 通常是物理日志，记录的是数据页的物理修改，而不是某一行或某几行修改成怎样怎样，它用来恢复提交后的物理数据页(恢复数据页，且只能恢复到最后一次提交的位置)。redo log包括两部分：一是内存中的日志缓冲(redo log buffer)，该部分日志是易失性的；二是磁盘上的重做日志文件(redo log file)，该部分日志是持久的。
-2.undo log 是用来回滚行记录到某个版本。undo log一般是逻辑日志，根据每行记录进行记录。
-
-
-redo log: 记录的是新数据的备份, 在事务提交前, 只将redo log持久化, 不将数据持久化
-当系统崩溃时, 虽然数据没有持久化, 但redo log已经持久化, 根据redo log的内容将数据恢复到最新状态
-
-
-
-undo log: 提供事务的回滚和多个行版本控制（MVCC-非锁定读）。undo log是逻辑日志，如执行一条delete操作时，undo log将它的反向操作记录下来，undo log也会产生redo日志。当事务失败需要回滚时，就可以从undo log中的逻辑记录进行回滚到修改前的样子。
-
-
-```
-
-
-
-```
-"""
-https://www.cnblogs.com/f-ck-need-u/archive/2018/05/08/9010872.html#auto_id_0
-
-
-每一个操作在真正写入数据数据库之前,先写入到日志文件中
-如要删除一行数据会先在日志文件中将此行标记为删除,但是数据库中的数据文件并没有发生变化.
-只有在(包含多个sql语句)整个事务提交后,再把整个事务中的sql语句批量同步到磁盘上的数据库文件.
-
-
-
-事务的隔离性是通过锁实现，
-事务的原子性、一致性和持久性则是通过事务日志实现
-
-
-innodb事务日志包括redo log和undo log
-redo log: 重做日志，提供前滚操作
-undo log: 回滚日志，提供回滚操作
-
-
-
-"""
-
-""" redo log
-事务开启时, 事务中的操作, 都会先写入存储引擎的日志缓冲中, 在事务提交之前, 这些缓冲的日志都需要提前刷新到磁盘上持久化, 这就是"日志先行"(Write-Ahead Logging)
-当事务提交之后, 在Buffer Pool中映射的数据文件才会慢慢刷新到磁盘. 
-此时如果数据库崩溃或者宕机, 那么当系统重启进行恢复时, 就可以根据redo log中记录的日志，把数据库恢复到崩溃前的一个状态。未完成的事务，可以继续提交，也可以选择回滚，这基于恢复的策略而定。
-
-
-redo log包括两部分
-    - 内存中的日志缓冲(redo log buffer)，该部分日志是易失性的
-    - 磁盘上的重做日志文件(redo log file)，该部分日志是持久的
-
-innodb通过force log at commit机制实现事务的持久性，即在事务提交的时候，必须先将该事务的所有事务日志写入到磁盘上的redo log file和undo log file中进行持久化。
-
-为了确保每次日志都能写入到事务日志文件中，在每次将log buffer中的日志写入日志文件的过程中都会调用一次操作系统的fsync操作(即fsync()系统调用)。
-因为MariaDB/MySQL是工作在用户空间的，MariaDB/MySQL的log buffer处于用户空间的内存中。要写入到磁盘上的log file中(redo:ib_logfileN文件,undo:share tablespace或.ibd文件)，中间还要经过操作系统内核空间的os buffer，调用fsync()的作用就是将OS buffer中的日志刷到磁盘上的log file中。
-
-
-undo log
-记录了数据在每个操作前的状态，如果事务执行过程中需要回滚，就可以根据undo log进行回滚操作
-
-
-
-
-```
-
-
-
-
-
-
-
-https://segmentfault.com/a/1190000037557620
-
-https://blog.csdn.net/Waves___/article/details/105295060
-
-
-
-##### select 语句分类
-
-```
-首先我们的 SELECT 查询分为快照读和实时读，快照读通过 MVCC（并发多版本控制）来解决幻读问题，实时读通过行锁来解决幻读问题。
-```
-
-
-
-
-
 ## innodb
 
 ##### select
@@ -424,4 +429,6 @@ https://blog.csdn.net/Waves___/article/details/105295060
 ##### delete
 
 ##### update
+
+## redo log
 
