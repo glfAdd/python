@@ -68,9 +68,11 @@ https://blog.csdn.net/Waves___/article/details/105295060
 
 ##### 事务隔离级别
 
-> 查看事务隔离级别: show variables like 'transaction_isolation';
+> 1. 查看事务隔离级别命令: 
 >
-> InnoDB 的可重复读不存在幻读. 对于快照读，InnoDB 使用 MVCC 解决幻读，对于当前读，InnoDB 通过 gap locks 或 next-key locks 解决幻读
+> ​	show variables like 'transaction_isolation';
+>
+> 2. SQL 标准中规定的 RR 并不能消除幻读，但是 MySQL InnoDB 的 RR 可以，靠的就 Gap 锁。在 RR 级别下，Gap 锁是默认开启的，而在 RC 级别下，Gap 锁是关闭的
 
 ```
 1. Read Uncommitted(读未提交)
@@ -116,43 +118,6 @@ https://blog.csdn.net/Waves___/article/details/105295060
   SELECT * FROM t WHERE id=1 FOR UPDATE;
   ```
 
-```
-InnoDB的事务日志主要分为:
-redo log是重做日志，提供前滚操作
-undo log是回滚日志，提供回滚操作
-
-1.redo log 通常是物理日志，记录的是数据页的物理修改，而不是某一行或某几行修改成怎样怎样，它用来恢复提交后的物理数据页(恢复数据页，且只能恢复到最后一次提交的位置)。redo log包括两部分：一是内存中的日志缓冲(redo log buffer)，该部分日志是易失性的；二是磁盘上的重做日志文件(redo log file)，该部分日志是持久的。
-2.undo log 是用来回滚行记录到某个版本。undo log一般是逻辑日志，根据每行记录进行记录。
-
-
-redo log: 记录的是新数据的备份, 在事务提交前, 只将redo log持久化, 不将数据持久化
-当系统崩溃时, 虽然数据没有持久化, 但redo log已经持久化, 根据redo log的内容将数据恢复到最新状态
-
-
-
-undo log: 提供事务的回滚和多个行版本控制（MVCC-非锁定读）。undo log是逻辑日志，如执行一条delete操作时，undo log将它的反向操作记录下来，undo log也会产生redo日志。当事务失败需要回滚时，就可以从undo log中的逻辑记录进行回滚到修改前的样子。
-
-
-```
-
-
-
-##### 
-
-
-
-
-
-##### select 语句分类
-
-```
-首先我们的 SELECT 查询分为快照读和实时读，快照读通过 MVCC（并发多版本控制）来解决幻读问题，实时读通过行锁来解决幻读问题。
-```
-
-
-
-
-
 ## 隐藏字段
 
 为了实现 MVCC，InnoDB 向每行记录增加三个字段
@@ -167,9 +132,29 @@ undo log: 提供事务的回滚和多个行版本控制（MVCC-非锁定读）�
 
 ## undo log
 
+### 文件结构
+
+##### Undo Tablespace
+
+> 详细参考 https://zhuanlan.zhihu.com/p/453169285
+
+```
+
+mysql 有独立的表空间存储 undo log
+8.0 版本 InnoDB 默认有 2 个 undo tablespace, 也可以使用 CREATE UNDO TABLESPACE 语句动态添加, 最大128个
+每个 undo tablespace 至多有 TRX_SYS_N_RSEGS(128) 个回滚段
+```
+
+```
+有 4 undo log 链表:
+普通表 
+```
+
+### 基础
+
 ##### 是什么
 
-- innoDB 为了回滚而记录的日志数据, 在事务没提交之前，MySQL 会先记录更新前的数据到 undo log日志文件里面，当事务回滚时用 undo log 将数据恢复到事务开始之前的状态
+- innoDB 记录每次修改之前的历史值, 用于事务回滚数据和mvcc. 在事务没提交之前，MySQL 会先记录更新前的数据到 undo log日志文件里面，当事务回滚时用 undo log 将数据恢复到事务开始之前的状态
 - 最新的旧数据作为链表的表头，插在该行记录的 undo log 最前面
 - SELECT 不会修改任何用户记录, 查询时不需要记录相应的undo log
 - 分类
@@ -214,17 +199,28 @@ undo log实际上就是存在rollback segment中旧记录链，
 
 1. 写 undo log 中, 会通过 type_cmpl 来标识是删除还是更新, 并且不记录列的旧值
 2. 这边不会直接删除，只会给行记录的 info_bits 打上删除标识（REC_INFO_DELETED_FLAG）, 之后会由专门的 purge 线程来执行真正的删除操作
+
+
+???????
+InnoDB 在 info_bits 中用一个标记位 delete_flag 标识是否删除。当我们在进行判断时，会检查下 delete_flag 是否被标记，如果是，则会根据情况进行处理：
+1）如果索引是聚簇索引，并且具有唯一特性则返回 DB_RECORD_NOT_FOUND；
+2）否则，会寻找下一条记录继续流程。
 ```
 
 ## read view
 
 ##### 是什么
 
-- 保存事务 ID 的列表, 记录当前事务执行时, 系统中启动了但还没提交的事务
-  - RC在每次执行读时都会创建一个 read view
-  - RR只在事务启动时创建一个 read view
-
-- 用来判断当前事务能够看到数据的版本
+- 保存事务 ID 的列表, 记录当前事务执行时, 系统中启动了但还没提交的事务. 用来判断当前事务能够看到数据的版本
+  
+  - RC在每次执行 select 时都会创建一个 read view
+  
+- RR 只在事务第一个 select 的时候创建一个 read view, 提交前一直使用该 ReadView，而不是事务开始的时候
+  
+    <img src=".\image\RR与RC区别.png" alt="RR与RC区别" style="zoom:80%;" />
+  
+    <img src=".\image\RR.png" alt="RR" style="zoom:80%;" />
+  
 - 属性
   - m_ids: 创建 ReadView 时, 系统当前所有未提交事务 ID 列表. 升序排列
   - m_up_limit_id: m_ids 中最小事务 ID
@@ -232,6 +228,8 @@ undo log实际上就是存在rollback segment中旧记录链，
   - m_creator_trx_id：创建该 ReadView 的事务的 ID
 
 ##### 比较算法
+
+> 在进行判断时, 先拿记录的最新版本来比较, 如果无法被当前事务看到, 则通过记录的 DB_ROLL_PTR 找到上一个版本重新进行比较, 直到找到一个能被当前事务看到的版.
 
 1. 如果行记录的 trx_id 与 m_creator_trx_id 相同, 表示记录是当前事务自己修改的
 2. 如果行记录的 trx_id 小于 m_up_limit_id, 表示行记录在生成 read view 前已经提交, 可以被当前事务访问
@@ -241,7 +239,7 @@ undo log实际上就是存在rollback segment中旧记录链，
    2. 如果不在, 说明创建 read view 时, 生成该版本的事务已经提交, 当前事务可以访问该版本
 
 ```
-在进行判断时，首先会拿记录的最新版本来比较，如果该版本无法被当前事务看到，则通过记录的 DB_ROLL_PTR 找到上一个版本，重新进行比较，直到找到一个能被当前事务看到的版本。
+
 ```
 
 
@@ -361,16 +359,6 @@ MVCC + 乐观锁: MVCC解决读写冲突，乐观锁解决写写冲突
 
 <img src=".\image\readview2.png" alt="readview2" style="zoom:80%;" />
 
-
-
-
-
-
-
-
-
-
-
 ##### 可重复读隔离级别 InnoDB 的 MVCC 是如何工作
 
 ```
@@ -393,15 +381,6 @@ InnoDB为删除的每一行保存当前系统版本号作为行删除标识。
 InnoDB为插入一行新记录，保存当前系统版本号作为行版本号，同时保存当前系统版本号到原来的行作为行删除标识。
 ```
 
-
-
-```
-mvcc 快照读和当前读
-
-
-
-```
-
 ##### mvcc 问题
 
 ```
@@ -416,10 +395,6 @@ mvcc 快照读和当前读
 事务 2 插入 id 为 100 的数据, 提示失败
 ```
 
-
-
-
-
 ## innodb
 
 ##### select
@@ -430,5 +405,14 @@ mvcc 快照读和当前读
 
 ##### update
 
-## redo log
+# 问题
+
+```
+mvcc 删除操作
+
+mysql innodb 的 RR 为什么没有幻读
+
+
+
+```
 
