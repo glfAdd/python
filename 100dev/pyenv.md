@@ -191,7 +191,7 @@ trusted-host = https://mirrors.aliyun.com
 
   ```bash
   # 安装时使用 -v 查看详细信息, 缺少哪个依赖安装哪个
-  $ pyenv install -v 3.9.2
+  $ pyenv install -v 3.9.2~~~~
   ```
 
 ##### 安装 psycopg2 失败
