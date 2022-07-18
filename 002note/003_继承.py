@@ -1,14 +1,3 @@
-"""
-
-
-
-
-
-"""
-
-
-# 多继承时如果方法有重名的，执行先继承的。避免出现方法重名的情况
-# __mro__ 查看调用方法的时候搜索的顺序，找到就停止搜索
 class A:
     def test(self):
         print("a")
@@ -28,6 +17,9 @@ class C(A, B):
         print("run")
 
 
-aa = C()
-aa.test()
-print(C.__mro__)
+if __name__ == '__main__':
+    aa = C()
+    aa.test()
+    # __mro__ 或 mro() 查看调用方法的时候搜索的顺序，找到就停止搜索
+    print(C.__mro__)
+    print(C.mro())

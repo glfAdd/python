@@ -44,5 +44,3 @@ class Person(object):
 
     def __run(self):
         print("正在跑")
-
-
